@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export const Technologies = () => {
+export const Technologies: React.FC = () => {
     return (
         <ul>
             <ListItem>HTML</ListItem>
