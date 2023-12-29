@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
-const Profile = styled.section`
-  padding: 60px;
-`;
+// const Profile = styled.section``;
 
 const Cover = styled.img`
   width: 100%;
@@ -16,4 +14,4 @@ const AvaPost = styled.img`
 const LikesCount = styled.span`
   margin-left: 10px;
 `;
-export const S = { Profile, Cover, AvaPost, LikesCount };
+export const S = { Cover, AvaPost, LikesCount };

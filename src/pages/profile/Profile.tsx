@@ -6,11 +6,11 @@ import { MyPosts } from "./myPosts/MyPosts";
 
 export const Profile: React.FC = () => {
   return (
-    <S.Profile>
+    <section>
       <Container>
         <S.Cover src={cover} />
         <MyPosts />
       </Container>
-    </S.Profile>
+    </section>
   );
 };
