@@ -1,9 +1,9 @@
 import styled from "styled-components";
-
-// const Profile = styled.section``;
+import { FlexWrapper } from "../../FlexWrapper";
 
 const Cover = styled.img`
   width: 100%;
+  border-radius: 8px;
 `;
 
 const AvaPost = styled.img`
@@ -14,4 +14,27 @@ const AvaPost = styled.img`
 const LikesCount = styled.span`
   margin-left: 10px;
 `;
-export const S = { Cover, AvaPost, LikesCount };
+
+const AvaDescription = styled.span`
+  display: inline-block;
+  margin: 15px 0;
+`;
+
+const PostsHeader = styled.h3`
+  margin: 10px 0;
+`;
+
+const MyPosts = styled.div`
+  ${FlexWrapper} {
+    margin: 10px 0;
+  }
+`;
+
+export const S = {
+  Cover,
+  AvaPost,
+  LikesCount,
+  AvaDescription,
+  PostsHeader,
+  MyPosts,
+};

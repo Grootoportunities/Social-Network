@@ -2,11 +2,12 @@ import React from "react";
 import { Post } from "./post/Post";
 import { Button } from "../../../components/Button";
 import { FlexWrapper } from "../../../FlexWrapper";
+import { S } from "../Profile_Styles";
 
 export const MyPosts: React.FC = () => {
   return (
-    <div>
-      <h3>My Posts</h3>
+    <S.MyPosts>
+      <S.PostsHeader>My Posts</S.PostsHeader>
 
       <FlexWrapper alignItems={"center"} gap={"20px;"}>
         <textarea></textarea>
@@ -21,6 +22,6 @@ export const MyPosts: React.FC = () => {
         postMessage={"You are seeing this page in the final result"}
         likesCount={20}
       />
-    </div>
+    </S.MyPosts>
   );
 };
