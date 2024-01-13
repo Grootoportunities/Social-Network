@@ -1,10 +1,19 @@
 import React from "react";
 import { Post } from "./post/Post";
 import { Button } from "../../../components/Button";
-import { FlexWrapper } from "../../../FlexWrapper";
+import { FlexWrapper } from "../../../components/FlexWrapper";
 import { S } from "../Profile_Styles";
+import { PostType } from "../../../index";
 
-export const MyPosts: React.FC = () => {
+type MyPostsProps = {
+  posts: PostType[];
+};
+
+export const MyPosts: React.FC<MyPostsProps> = ({ posts }) => {
+  const mappedPosts = posts.map((p) => (
+    <Post key={p.id} postMessage={p.postMessage} likesCount={p.likes} />
+  ));
+
   return (
     <S.MyPosts>
       <S.PostsHeader>My Posts</S.PostsHeader>
@@ -14,14 +23,7 @@ export const MyPosts: React.FC = () => {
         <Button>Add Post</Button>
       </FlexWrapper>
 
-      <Post
-        postMessage={"Hello, i'm developing this social network right now"}
-        likesCount={15}
-      />
-      <Post
-        postMessage={"You are seeing this page in the final result"}
-        likesCount={20}
-      />
+      {mappedPosts}
     </S.MyPosts>
   );
 };

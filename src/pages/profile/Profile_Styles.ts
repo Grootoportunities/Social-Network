@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FlexWrapper } from "../../FlexWrapper";
+import { FlexWrapper } from "../../components/FlexWrapper";
 
 const Cover = styled.img`
   width: 100%;

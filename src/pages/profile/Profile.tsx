@@ -1,14 +1,19 @@
 import React from "react";
-import { Container } from "../../Container";
+import { Container } from "../../components/Container";
 import { MyPosts } from "./myPosts/MyPosts";
 import { ProfileInfo } from "./profileInfo/ProfileInfo";
+import { PostType } from "../../index";
 
-export const Profile: React.FC = () => {
+type ProfileProps = {
+  posts: PostType[];
+};
+
+export const Profile: React.FC<ProfileProps> = ({ posts }) => {
   return (
     <section>
       <Container>
         <ProfileInfo />
-        <MyPosts />
+        <MyPosts posts={posts} />
       </Container>
     </section>
   );
