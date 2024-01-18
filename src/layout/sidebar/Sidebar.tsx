@@ -26,7 +26,6 @@ export const Sidebar = () => {
           </ul>
         </nav>
       </S.Sidebar>
-      ;
     </div>
   );
 };
