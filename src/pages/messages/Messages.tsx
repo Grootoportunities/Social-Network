@@ -9,9 +9,15 @@ import { FlexWrapper } from "../../components/FlexWrapper";
 import { Route } from "react-router-dom";
 import { Button } from "../../components/Button";
 
-type MessagesProps = { state: MessagesPageType };
+type MessagesProps = {
+  state: MessagesPageType;
+  addMessageCallback: (newMessage: string) => void;
+};
 
-export const Messages: React.FC<MessagesProps> = ({ state }) => {
+export const Messages: React.FC<MessagesProps> = ({
+  state,
+  addMessageCallback,
+}) => {
   const mappedDialogs = state.dialogs.map((d) => (
     <FlexWrapper key={d.id} alignItems={"center"}>
       <S.DialogAva src={dialogAva} />
@@ -32,7 +38,7 @@ export const Messages: React.FC<MessagesProps> = ({ state }) => {
   const newMessage = useRef<HTMLTextAreaElement>(null);
 
   const onSendMessage = () => {
-    if (newMessage.current) alert(newMessage.current.value);
+    if (newMessage.current) addMessageCallback(newMessage.current.value);
   };
 
   return (

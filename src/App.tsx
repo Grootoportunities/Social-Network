@@ -14,9 +14,10 @@ import { StateType } from "./redux/State";
 type AppProps = {
   state: StateType;
   addPostCallback: (newPostMessage: string) => void;
+  addMessageCallback: (newMessage: string) => void;
 };
 
-function App({ state, addPostCallback }: AppProps) {
+function App({ state, addPostCallback, addMessageCallback }: AppProps) {
   return (
     <>
       <Header />
@@ -34,7 +35,12 @@ function App({ state, addPostCallback }: AppProps) {
           />
           <Route
             path={"/messages"}
-            render={() => <Messages state={state.messagesPage} />}
+            render={() => (
+              <Messages
+                state={state.messagesPage}
+                addMessageCallback={addMessageCallback}
+              />
+            )}
           />
           <Route path={"/news"} render={() => <News />} />
           <Route path={"/music"} render={() => <Music />} />
