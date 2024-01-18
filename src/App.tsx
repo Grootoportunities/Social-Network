@@ -8,26 +8,25 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { News } from "./pages/news/News";
 import { Music } from "./pages/music/Music";
 import { Settings } from "./pages/settings/Settings";
-import { DialogsType, MessagesType, PostType } from "./index";
 import styled from "styled-components";
+import { StateType } from "./redux/State";
 
-type AppProps = {
-  posts: PostType[];
-  dialogs: DialogsType[];
-  messages: MessagesType[];
-};
+type AppProps = { state: StateType };
 
-function App({ posts, dialogs, messages }: AppProps) {
+function App({ state }: AppProps) {
   return (
     <BrowserRouter>
       <Header />
       <FlexWrapper>
-        <Sidebar />
+        <Sidebar state={state.sidebar} />
         <Content>
-          <Route path={"/profile"} render={() => <Profile posts={posts} />} />
+          <Route
+            path={"/profile"}
+            render={() => <Profile state={state.profilePage} />}
+          />
           <Route
             path={"/messages"}
-            render={() => <Messages dialogs={dialogs} messages={messages} />}
+            render={() => <Messages state={state.messagesPage} />}
           />
           <Route path={"/news"} render={() => <News />} />
           <Route path={"/music"} render={() => <Music />} />

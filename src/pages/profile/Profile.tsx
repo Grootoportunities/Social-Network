@@ -2,18 +2,16 @@ import React from "react";
 import { Container } from "../../components/Container";
 import { MyPosts } from "./myPosts/MyPosts";
 import { ProfileInfo } from "./profileInfo/ProfileInfo";
-import { PostType } from "../../index";
+import { ProfilePageType } from "../../redux/State";
 
-type ProfileProps = {
-  posts: PostType[];
-};
+type ProfileProps = { state: ProfilePageType };
 
-export const Profile: React.FC<ProfileProps> = ({ posts }) => {
+export const Profile: React.FC<ProfileProps> = ({ state }) => {
   return (
     <section>
       <Container>
         <ProfileInfo />
-        <MyPosts posts={posts} />
+        <MyPosts posts={state.posts} />
       </Container>
     </section>
   );

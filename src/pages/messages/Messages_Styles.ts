@@ -21,4 +21,8 @@ const DialogsMessages = styled.div`
   gap: 15px;
 `;
 
-export const S = { Messages, Dialogs, DialogsMessages };
+const DialogAva = styled.img`
+  width: 40px;
+`;
+
+export const S = { Messages, Dialogs, DialogsMessages, DialogAva };

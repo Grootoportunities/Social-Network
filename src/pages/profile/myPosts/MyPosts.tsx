@@ -3,7 +3,7 @@ import { Post } from "./post/Post";
 import { Button } from "../../../components/Button";
 import { FlexWrapper } from "../../../components/FlexWrapper";
 import { S } from "../Profile_Styles";
-import { PostType } from "../../../index";
+import { PostType } from "../../../redux/State";
 
 type MyPostsProps = {
   posts: PostType[];
