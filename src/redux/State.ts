@@ -84,8 +84,6 @@ export const addPost = (newPostMessage: string) => {
 };
 
 export const addMessage = (newMessage: string) => {
-  debugger;
-
   const newMessageElement = { id: 6, message: newMessage };
 
   return {

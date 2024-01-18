@@ -27,7 +27,7 @@ export const MyPosts: React.FC<MyPostsProps> = ({ posts, addPostCallback }) => {
 
       <FlexWrapper alignItems={"center"} gap={"20px;"}>
         <textarea ref={newPost} />
-        <Button onClick={onClickAddPost}>Add Post</Button>
+        <Button name={"Add Post"} onClick={onClickAddPost} />
       </FlexWrapper>
 
       {mappedPosts}

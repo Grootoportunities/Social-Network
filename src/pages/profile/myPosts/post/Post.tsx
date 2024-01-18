@@ -16,7 +16,7 @@ export const Post: React.FC<PostPropsType> = (props: PostPropsType) => {
         <S.AvaPost src={postAva} />
         <span>{props.postMessage}</span>
       </FlexWrapper>
-      <Button>Like</Button>
+      <Button name={"Like"} />
       <S.LikesCount>{props.likesCount} likes</S.LikesCount>
     </div>
   );
