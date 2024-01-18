@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Post } from "./post/Post";
 import { Button } from "../../../components/Button";
 import { FlexWrapper } from "../../../components/FlexWrapper";
@@ -10,17 +10,23 @@ type MyPostsProps = {
 };
 
 export const MyPosts: React.FC<MyPostsProps> = ({ posts }) => {
+  const newPost = useRef<HTMLTextAreaElement>(null);
+
   const mappedPosts = posts.map((p) => (
     <Post key={p.id} postMessage={p.postMessage} likesCount={p.likes} />
   ));
+
+  const onClickAddPost = () => {
+    if (newPost.current !== null) alert(newPost.current.value);
+  };
 
   return (
     <S.MyPosts>
       <S.PostsHeader>My Posts</S.PostsHeader>
 
       <FlexWrapper alignItems={"center"} gap={"20px;"}>
-        <textarea></textarea>
-        <Button>Add Post</Button>
+        <textarea ref={newPost} />
+        <Button onClick={onClickAddPost}>Add Post</Button>
       </FlexWrapper>
 
       {mappedPosts}
