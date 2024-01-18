@@ -4,7 +4,7 @@ import { Header } from "./layout/header/Header";
 import { Sidebar } from "./layout/sidebar/Sidebar";
 import { Profile } from "./pages/profile/Profile";
 import { Messages } from "./pages/messages/Messages";
-import { BrowserRouter, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { News } from "./pages/news/News";
 import { Music } from "./pages/music/Music";
 import { Settings } from "./pages/settings/Settings";
@@ -15,7 +15,7 @@ type AppProps = { state: StateType };
 
 function App({ state }: AppProps) {
   return (
-    <BrowserRouter>
+    <>
       <Header />
       <FlexWrapper>
         <Sidebar state={state.sidebar} />
@@ -33,7 +33,7 @@ function App({ state }: AppProps) {
           <Route path={"/settings"} render={() => <Settings />} />
         </Content>
       </FlexWrapper>
-    </BrowserRouter>
+    </>
   );
 }
 
