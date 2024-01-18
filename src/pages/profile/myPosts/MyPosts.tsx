@@ -7,9 +7,10 @@ import { PostType } from "../../../redux/State";
 
 type MyPostsProps = {
   posts: PostType[];
+  addPostCallback: (newPostMessage: string) => void;
 };
 
-export const MyPosts: React.FC<MyPostsProps> = ({ posts }) => {
+export const MyPosts: React.FC<MyPostsProps> = ({ posts, addPostCallback }) => {
   const newPost = useRef<HTMLTextAreaElement>(null);
 
   const mappedPosts = posts.map((p) => (
@@ -17,7 +18,7 @@ export const MyPosts: React.FC<MyPostsProps> = ({ posts }) => {
   ));
 
   const onClickAddPost = () => {
-    if (newPost.current !== null) alert(newPost.current.value);
+    if (newPost.current !== null) addPostCallback(newPost.current.value);
   };
 
   return (

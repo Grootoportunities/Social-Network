@@ -11,9 +11,12 @@ import { Settings } from "./pages/settings/Settings";
 import styled from "styled-components";
 import { StateType } from "./redux/State";
 
-type AppProps = { state: StateType };
+type AppProps = {
+  state: StateType;
+  addPostCallback: (newPostMessage: string) => void;
+};
 
-function App({ state }: AppProps) {
+function App({ state, addPostCallback }: AppProps) {
   return (
     <>
       <Header />
@@ -22,7 +25,12 @@ function App({ state }: AppProps) {
         <Content>
           <Route
             path={"/profile"}
-            render={() => <Profile state={state.profilePage} />}
+            render={() => (
+              <Profile
+                state={state.profilePage}
+                addPostCallback={addPostCallback}
+              />
+            )}
           />
           <Route
             path={"/messages"}

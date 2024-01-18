@@ -70,3 +70,19 @@ export const state: StateType = {
     ],
   },
 };
+
+export const addPost = (newPostMessage: string) => {
+  debugger;
+
+  const newPost: PostType = { id: v1(), postMessage: newPostMessage, likes: 0 };
+
+  state.profilePage.posts.push(newPost);
+
+  // return {
+  //   ...state,
+  //   profilePage: {
+  //     ...state.profilePage,
+  //     posts: [newPost, ...state.profilePage.posts],
+  //   },
+  // };
+};
