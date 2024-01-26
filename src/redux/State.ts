@@ -1,4 +1,5 @@
 import { v1 } from "uuid";
+import { rerenderEntireTree } from "../render";
 
 export type DialogType = { id: number; name: string };
 export type MessageType = { id: number; message: string };
@@ -74,13 +75,17 @@ export const state: StateType = {
 export const addPost = (newPostMessage: string) => {
   const newPost: PostType = { id: v1(), postMessage: newPostMessage, likes: 0 };
 
-  return {
-    ...state,
-    profilePage: {
-      ...state.profilePage,
-      posts: [newPost, ...state.profilePage.posts],
-    },
-  };
+  // return {
+  //   ...state,
+  //   profilePage: {
+  //     ...state.profilePage,
+  //     posts: [newPost, ...state.profilePage.posts],
+  //   },
+  // };
+
+  state.profilePage.posts.push(newPost);
+
+  rerenderEntireTree(state);
 };
 
 export const addMessage = (newMessage: string) => {

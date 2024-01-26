@@ -18,7 +18,12 @@ export const MyPosts: React.FC<MyPostsProps> = ({ posts, addPostCallback }) => {
   ));
 
   const onClickAddPost = () => {
-    if (newPost.current !== null) addPostCallback(newPost.current.value);
+    if (newPost.current !== null) {
+      if (newPost.current.value.trim() !== "") {
+        addPostCallback(newPost.current.value);
+        newPost.current.value = "";
+      }
+    }
   };
 
   return (
