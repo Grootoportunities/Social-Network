@@ -7,7 +7,7 @@ export type PostType = { id: string; postMessage: string; likes: number };
 export type SidebarElementType = { id: string; title: string; link: string };
 export type FriendOnlineType = { id: string; name: string };
 
-export type ProfilePageType = { posts: PostType[] };
+export type ProfilePageType = { posts: PostType[]; postValue: string };
 export type SidebarType = {
   elements: SidebarElementType[];
   friendsOnline: FriendOnlineType[];
@@ -15,6 +15,7 @@ export type SidebarType = {
 export type MessagesPageType = {
   dialogs: DialogType[];
   messages: MessageType[];
+  messageValue: string;
 };
 
 export type StateType = {
@@ -37,6 +38,7 @@ export const state: StateType = {
         likes: 20,
       },
     ],
+    postValue: "",
   },
   messagesPage: {
     dialogs: [
@@ -53,6 +55,7 @@ export const state: StateType = {
       { id: 4, message: "I'm Semen" },
       { id: 5, message: "And i'm Max" },
     ],
+    messageValue: "",
   },
 
   sidebar: {
@@ -72,8 +75,12 @@ export const state: StateType = {
   },
 };
 
-export const addPost = (newPostMessage: string) => {
-  const newPost: PostType = { id: v1(), postMessage: newPostMessage, likes: 0 };
+export const addPost = () => {
+  const newPost: PostType = {
+    id: v1(),
+    postMessage: state.profilePage.postValue,
+    likes: 0,
+  };
 
   // return {
   //   ...state,
@@ -84,18 +91,35 @@ export const addPost = (newPostMessage: string) => {
   // };
 
   state.profilePage.posts.push(newPost);
+  state.profilePage.postValue = "";
+  rerenderEntireTree(state);
+};
+
+export const addMessage = () => {
+  const newMessageElement = { id: 6, message: state.messagesPage.messageValue };
+
+  // return {
+  //   ...state,
+  //   messagesPage: {
+  //     ...state.messagesPage,
+  //     messages: [newMessageElement, ...state.messagesPage.messages],
+  //   },
+  // };
+
+  state.messagesPage.messages.push(newMessageElement);
+  state.messagesPage.messageValue = "";
 
   rerenderEntireTree(state);
 };
 
-export const addMessage = (newMessage: string) => {
-  const newMessageElement = { id: 6, message: newMessage };
+export const setPostValue = (value: string) => {
+  state.profilePage.postValue = value;
 
-  return {
-    ...state,
-    messagesPage: {
-      ...state.messagesPage,
-      messages: [newMessageElement, ...state.messagesPage.messages],
-    },
-  };
+  rerenderEntireTree(state);
+};
+
+export const setMessageValue = (value: string) => {
+  state.messagesPage.messageValue = value;
+
+  rerenderEntireTree(state);
 };

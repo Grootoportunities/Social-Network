@@ -10,22 +10,27 @@ import { Route } from "react-router-dom";
 import { Button } from "../../components/Button";
 
 type MessagesProps = {
-  state: MessagesPageType;
-  addMessageCallback: (newMessage: string) => void;
+  messageValue: string;
+  messagesPageState: MessagesPageType;
+
+  addMessageCallback: () => void;
+  setMessageValueCallback: (value: string) => void;
 };
 
 export const Messages: React.FC<MessagesProps> = ({
-  state,
+  messagesPageState,
   addMessageCallback,
+  messageValue,
+  setMessageValueCallback,
 }) => {
-  const mappedDialogs = state.dialogs.map((d) => (
+  const mappedDialogs = messagesPageState.dialogs.map((d) => (
     <FlexWrapper key={d.id} alignItems={"center"}>
       <S.DialogAva src={dialogAva} />
       <Dialog key={d.id} id={d.id} name={d.name} />
     </FlexWrapper>
   ));
 
-  const mappedMessages = state.messages.map((m) => (
+  const mappedMessages = messagesPageState.messages.map((m) => (
     <FlexWrapper gap={"10px"} alignItems={"center"}>
       <Message key={m.id} message={m.message} />
       <Route
@@ -38,7 +43,11 @@ export const Messages: React.FC<MessagesProps> = ({
   const newMessage = useRef<HTMLTextAreaElement>(null);
 
   const onSendMessage = () => {
-    if (newMessage.current) addMessageCallback(newMessage.current.value);
+    if (messagesPageState.messageValue.trim() !== "") addMessageCallback();
+  };
+
+  const onChangeHandler = () => {
+    if (newMessage.current) setMessageValueCallback(newMessage.current.value);
   };
 
   return (
@@ -48,7 +57,11 @@ export const Messages: React.FC<MessagesProps> = ({
         <S.DialogsMessages>{mappedMessages}</S.DialogsMessages>
       </Container>
       <FlexWrapper alignItems={"center"} justifyContent={"space-evenly"}>
-        <S.MessageArea ref={newMessage} />
+        <S.MessageArea
+          ref={newMessage}
+          value={messageValue}
+          onChange={onChangeHandler}
+        />
         <Button name={"Send"} onClick={onSendMessage} />
       </FlexWrapper>
     </S.Messages>

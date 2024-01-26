@@ -13,11 +13,19 @@ import { StateType } from "./redux/State";
 
 type AppProps = {
   state: StateType;
-  addPostCallback: (newPostMessage: string) => void;
-  addMessageCallback: (newMessage: string) => void;
+  addPostCallback: () => void;
+  addMessageCallback: () => void;
+  setPostValueCallback: (value: string) => void;
+  setMessageValueCallback: (value: string) => void;
 };
 
-function App({ state, addPostCallback, addMessageCallback }: AppProps) {
+function App({
+  state,
+  addPostCallback,
+  addMessageCallback,
+  setPostValueCallback,
+  setMessageValueCallback,
+}: AppProps) {
   return (
     <>
       <Header />
@@ -28,8 +36,9 @@ function App({ state, addPostCallback, addMessageCallback }: AppProps) {
             path={"/profile"}
             render={() => (
               <Profile
-                state={state.profilePage}
+                profilePageState={state.profilePage}
                 addPostCallback={addPostCallback}
+                setPostValueCallback={setPostValueCallback}
               />
             )}
           />
@@ -37,8 +46,10 @@ function App({ state, addPostCallback, addMessageCallback }: AppProps) {
             path={"/messages"}
             render={() => (
               <Messages
-                state={state.messagesPage}
+                messagesPageState={state.messagesPage}
                 addMessageCallback={addMessageCallback}
+                messageValue={state.messagesPage.messageValue}
+                setMessageValueCallback={setMessageValueCallback}
               />
             )}
           />

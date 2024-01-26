@@ -5,16 +5,26 @@ import { ProfileInfo } from "./profileInfo/ProfileInfo";
 import { ProfilePageType } from "../../redux/State";
 
 type ProfileProps = {
-  state: ProfilePageType;
-  addPostCallback: (newPostMessage: string) => void;
+  profilePageState: ProfilePageType;
+  addPostCallback: () => void;
+  setPostValueCallback: (value: string) => void;
 };
 
-export const Profile: React.FC<ProfileProps> = ({ state, addPostCallback }) => {
+export const Profile: React.FC<ProfileProps> = ({
+  profilePageState,
+  addPostCallback,
+  setPostValueCallback,
+}) => {
   return (
     <section>
       <Container>
         <ProfileInfo />
-        <MyPosts posts={state.posts} addPostCallback={addPostCallback} />
+        <MyPosts
+          postValue={profilePageState.postValue}
+          posts={profilePageState.posts}
+          addPostCallback={addPostCallback}
+          setPostValueCallback={setPostValueCallback}
+        />
       </Container>
     </section>
   );

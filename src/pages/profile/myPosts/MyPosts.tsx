@@ -6,11 +6,18 @@ import { S } from "../Profile_Styles";
 import { PostType } from "../../../redux/State";
 
 type MyPostsProps = {
+  postValue: string;
   posts: PostType[];
-  addPostCallback: (newPostMessage: string) => void;
+  addPostCallback: () => void;
+  setPostValueCallback: (value: string) => void;
 };
 
-export const MyPosts: React.FC<MyPostsProps> = ({ posts, addPostCallback }) => {
+export const MyPosts: React.FC<MyPostsProps> = ({
+  posts,
+  addPostCallback,
+  postValue,
+  setPostValueCallback,
+}) => {
   const newPost = useRef<HTMLTextAreaElement>(null);
 
   const mappedPosts = posts.map((p) => (
@@ -18,12 +25,11 @@ export const MyPosts: React.FC<MyPostsProps> = ({ posts, addPostCallback }) => {
   ));
 
   const onClickAddPost = () => {
-    if (newPost.current !== null) {
-      if (newPost.current.value.trim() !== "") {
-        addPostCallback(newPost.current.value);
-        newPost.current.value = "";
-      }
-    }
+    if (postValue.trim() !== "") addPostCallback();
+  };
+
+  const onChangeHandler = () => {
+    if (newPost.current !== null) setPostValueCallback(newPost.current.value);
   };
 
   return (
@@ -31,7 +37,7 @@ export const MyPosts: React.FC<MyPostsProps> = ({ posts, addPostCallback }) => {
       <S.PostsHeader>My Posts</S.PostsHeader>
 
       <FlexWrapper alignItems={"center"} gap={"20px;"}>
-        <textarea ref={newPost} />
+        <textarea ref={newPost} onChange={onChangeHandler} value={postValue} />
         <Button name={"Add Post"} onClick={onClickAddPost} />
       </FlexWrapper>
 
