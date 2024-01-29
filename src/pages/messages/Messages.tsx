@@ -10,7 +10,6 @@ import { Route } from "react-router-dom";
 import { Button } from "../../components/Button";
 
 type MessagesProps = {
-  messageValue: string;
   messagesPageState: MessagesPageType;
 
   addMessageCallback: () => void;
@@ -20,7 +19,6 @@ type MessagesProps = {
 export const Messages: React.FC<MessagesProps> = ({
   messagesPageState,
   addMessageCallback,
-  messageValue,
   setMessageValueCallback,
 }) => {
   const mappedDialogs = messagesPageState.dialogs.map((d) => (
@@ -54,7 +52,10 @@ export const Messages: React.FC<MessagesProps> = ({
         <S.DialogsMessages>{mappedMessages}</S.DialogsMessages>
       </Container>
       <FlexWrapper alignItems={"center"} justifyContent={"space-evenly"}>
-        <S.MessageArea value={messageValue} onChange={onChangeHandler} />
+        <S.MessageArea
+          value={messagesPageState.messageValue}
+          onChange={onChangeHandler}
+        />
         <Button name={"Send"} onClick={onSendMessage} />
       </FlexWrapper>
     </S.Messages>

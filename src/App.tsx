@@ -9,36 +9,26 @@ import { News } from "./pages/news/News";
 import { Music } from "./pages/music/Music";
 import { Settings } from "./pages/settings/Settings";
 import styled from "styled-components";
-import { StateType } from "./redux/State";
+import { StoreType } from "./redux/State";
 
 type AppProps = {
-  state: StateType;
-  addPostCallback: () => void;
-  addMessageCallback: () => void;
-  setPostValueCallback: (value: string) => void;
-  setMessageValueCallback: (value: string) => void;
+  store: StoreType;
 };
 
-function App({
-  state,
-  addPostCallback,
-  addMessageCallback,
-  setPostValueCallback,
-  setMessageValueCallback,
-}: AppProps) {
+function App({ store }: AppProps) {
   return (
     <>
       <Header />
       <FlexWrapper>
-        <Sidebar state={state.sidebar} />
+        <Sidebar sidebarState={store.getState().sidebar} />
         <Content>
           <Route
             path={"/profile"}
             render={() => (
               <Profile
-                profilePageState={state.profilePage}
-                addPostCallback={addPostCallback}
-                setPostValueCallback={setPostValueCallback}
+                profilePageState={store.getState().profilePage}
+                addPostCallback={store.addPost.bind(store)}
+                setPostValueCallback={store.setPostValue.bind(store)}
               />
             )}
           />
@@ -46,10 +36,9 @@ function App({
             path={"/messages"}
             render={() => (
               <Messages
-                messagesPageState={state.messagesPage}
-                addMessageCallback={addMessageCallback}
-                messageValue={state.messagesPage.messageValue}
-                setMessageValueCallback={setMessageValueCallback}
+                messagesPageState={store.getState().messagesPage}
+                addMessageCallback={store.addMessage.bind(store)}
+                setMessageValueCallback={store.setMessageValue.bind(store)}
               />
             )}
           />

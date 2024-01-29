@@ -5,7 +5,6 @@ export type MessageType = { id: number; message: string };
 export type PostType = { id: string; postMessage: string; likes: number };
 export type SidebarElementType = { id: string; title: string; link: string };
 export type FriendOnlineType = { id: string; name: string };
-
 export type ProfilePageType = { posts: PostType[]; postValue: string };
 export type SidebarType = {
   elements: SidebarElementType[];
@@ -23,96 +22,111 @@ export type StateType = {
   sidebar: SidebarType;
 };
 
-let rerenderEntireTree = (state: StateType) =>
-  console.log("State has been changed");
+export type StoreType = {
+  _state: StateType;
 
-export const state: StateType = {
-  profilePage: {
-    posts: [
-      {
-        id: v1(),
-        postMessage: "You are seeing this page in the final result",
-        likes: 15,
-      },
-      {
-        id: v1(),
-        postMessage: "Hello, i'm developing this social network right now",
-        likes: 20,
-      },
-    ],
-    postValue: "",
+  getState: () => StateType;
+  addPost: () => void;
+  addMessage: () => void;
+
+  setPostValue: (value: string) => void;
+  setMessageValue: (value: string) => void;
+
+  _callSubscriber: (store: StoreType) => void;
+
+  subscribe: (observer: (store: StoreType) => void) => void;
+};
+
+export const store: StoreType = {
+  _state: {
+    profilePage: {
+      posts: [
+        {
+          id: v1(),
+          postMessage: "You are seeing this page in the final result",
+          likes: 15,
+        },
+        {
+          id: v1(),
+          postMessage: "Hello, i'm developing this social network right now",
+          likes: 20,
+        },
+      ],
+      postValue: "",
+    },
+    messagesPage: {
+      dialogs: [
+        { id: 1, name: "Daniil" },
+        { id: 2, name: "Anastasia" },
+        { id: 3, name: "Danik" },
+        { id: 4, name: "Semen" },
+        { id: 5, name: "Max" },
+      ],
+      messages: [
+        { id: 1, message: "Hi!" },
+        { id: 2, message: "How are you doing?" },
+        { id: 3, message: "Bye" },
+        { id: 4, message: "I'm Semen" },
+        { id: 5, message: "And i'm Max" },
+      ],
+      messageValue: "",
+    },
+
+    sidebar: {
+      elements: [
+        { id: v1(), title: "Profile", link: "/profile" },
+        { id: v1(), title: "Messages", link: "/messages" },
+        { id: v1(), title: "News", link: "/news" },
+        { id: v1(), title: "Music", link: "/music" },
+        { id: v1(), title: "Settings", link: "/settings" },
+      ],
+
+      friendsOnline: [
+        { id: v1(), name: "Sviatoslav" },
+        { id: v1(), name: "Maria" },
+        { id: v1(), name: "Andrey" },
+      ],
+    },
   },
-  messagesPage: {
-    dialogs: [
-      { id: 1, name: "Daniil" },
-      { id: 2, name: "Anastasia" },
-      { id: 3, name: "Danik" },
-      { id: 4, name: "Semen" },
-      { id: 5, name: "Max" },
-    ],
-    messages: [
-      { id: 1, message: "Hi!" },
-      { id: 2, message: "How are you doing?" },
-      { id: 3, message: "Bye" },
-      { id: 4, message: "I'm Semen" },
-      { id: 5, message: "And i'm Max" },
-    ],
-    messageValue: "",
+  getState() {
+    return this._state;
   },
-
-  sidebar: {
-    elements: [
-      { id: v1(), title: "Profile", link: "/profile" },
-      { id: v1(), title: "Messages", link: "/messages" },
-      { id: v1(), title: "News", link: "/news" },
-      { id: v1(), title: "Music", link: "/music" },
-      { id: v1(), title: "Settings", link: "/settings" },
-    ],
-
-    friendsOnline: [
-      { id: v1(), name: "Sviatoslav" },
-      { id: v1(), name: "Maria" },
-      { id: v1(), name: "Andrey" },
-    ],
+  _callSubscriber(store: StoreType) {
+    console.log("State has been changed");
   },
-};
+  addPost() {
+    const newPost: PostType = {
+      id: v1(),
+      postMessage: this._state.profilePage.postValue,
+      likes: 0,
+    };
 
-export const addPost = () => {
-  const newPost: PostType = {
-    id: v1(),
-    postMessage: state.profilePage.postValue,
-    likes: 0,
-  };
+    this._state.profilePage.posts.push(newPost);
+    this._state.profilePage.postValue = "";
+    this._callSubscriber(store);
+  },
+  addMessage() {
+    const newMessageElement: MessageType = {
+      id: 6,
+      message: this._state.messagesPage.messageValue,
+    };
 
-  state.profilePage.posts.push(newPost);
-  state.profilePage.postValue = "";
-  rerenderEntireTree(state);
-};
+    this._state.messagesPage.messages.push(newMessageElement);
+    this._state.messagesPage.messageValue = "";
 
-export const addMessage = () => {
-  const newMessageElement: MessageType = {
-    id: 6,
-    message: state.messagesPage.messageValue,
-  };
+    this._callSubscriber(store);
+  },
+  setPostValue(value: string) {
+    this._state.profilePage.postValue = value;
 
-  state.messagesPage.messages.push(newMessageElement);
-  state.messagesPage.messageValue = "";
+    this._callSubscriber(store);
+  },
+  setMessageValue(value: string) {
+    this._state.messagesPage.messageValue = value;
 
-  rerenderEntireTree(state);
-};
-
-export const setPostValue = (value: string) => {
-  state.profilePage.postValue = value;
-
-  rerenderEntireTree(state);
-};
-
-export const setMessageValue = (value: string) => {
-  state.messagesPage.messageValue = value;
-
-  rerenderEntireTree(state);
-};
-
-export const subscribe = (observer: (state: StateType) => void) => {
-  rerenderEntireTree = observer;
+    this._callSubscriber(store);
+  },
+  subscribe(observer: (store: StoreType) => void) {
+    this._callSubscriber = observer;
+  },
 };

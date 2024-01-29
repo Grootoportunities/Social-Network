@@ -5,16 +5,16 @@ import { SidebarType } from "../../redux/State";
 import onlineAva from "../../assets/png-transparent-computer-icons-online-chat-thought-avatar-emoticon-svg-miscellaneous-computer-wallpaper-smiley.png";
 import { FlexWrapper } from "../../components/FlexWrapper";
 
-type SidebarProps = { state: SidebarType };
+type SidebarProps = { sidebarState: SidebarType };
 
-export const Sidebar: React.FC<SidebarProps> = ({ state }) => {
-  const mappedMenuItems = state.elements.map((el) => (
+export const Sidebar: React.FC<SidebarProps> = ({ sidebarState }) => {
+  const mappedMenuItems = sidebarState.elements.map((el) => (
     <S.MenuItem key={el.id}>
       <NavLink to={el.link}>{el.title}</NavLink>
     </S.MenuItem>
   ));
 
-  const mappedOnlineFriends = state.friendsOnline.map((fo) => (
+  const mappedOnlineFriends = sidebarState.friendsOnline.map((fo) => (
     <FlexWrapper key={fo.id} direction={"column"} alignItems={"center"}>
       <S.OnlineAva src={onlineAva} />
       <span>{fo.name}</span>
