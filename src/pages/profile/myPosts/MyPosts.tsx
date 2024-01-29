@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { ChangeEvent } from "react";
 import { Post } from "./post/Post";
 import { Button } from "../../../components/Button";
 import { FlexWrapper } from "../../../components/FlexWrapper";
@@ -18,8 +18,6 @@ export const MyPosts: React.FC<MyPostsProps> = ({
   postValue,
   setPostValueCallback,
 }) => {
-  const newPost = useRef<HTMLTextAreaElement>(null);
-
   const mappedPosts = posts.map((p) => (
     <Post key={p.id} postMessage={p.postMessage} likesCount={p.likes} />
   ));
@@ -28,16 +26,15 @@ export const MyPosts: React.FC<MyPostsProps> = ({
     if (postValue.trim() !== "") addPostCallback();
   };
 
-  const onChangeHandler = () => {
-    if (newPost.current !== null) setPostValueCallback(newPost.current.value);
-  };
+  const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) =>
+    setPostValueCallback(e.currentTarget.value);
 
   return (
     <S.MyPosts>
       <S.PostsHeader>My Posts</S.PostsHeader>
 
       <FlexWrapper alignItems={"center"} gap={"20px;"}>
-        <textarea ref={newPost} onChange={onChangeHandler} value={postValue} />
+        <textarea onChange={onChangeHandler} value={postValue} />
         <Button name={"Add Post"} onClick={onClickAddPost} />
       </FlexWrapper>
 

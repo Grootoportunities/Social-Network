@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { ChangeEvent } from "react";
 import { Container } from "../../components/Container";
 import { Dialog } from "./dialog/Dialog";
 import { Message } from "./message/Message";
@@ -40,15 +40,12 @@ export const Messages: React.FC<MessagesProps> = ({
     </FlexWrapper>
   ));
 
-  const newMessage = useRef<HTMLTextAreaElement>(null);
-
   const onSendMessage = () => {
     if (messagesPageState.messageValue.trim() !== "") addMessageCallback();
   };
 
-  const onChangeHandler = () => {
-    if (newMessage.current) setMessageValueCallback(newMessage.current.value);
-  };
+  const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) =>
+    setMessageValueCallback(e.currentTarget.value);
 
   return (
     <S.Messages>
@@ -57,11 +54,7 @@ export const Messages: React.FC<MessagesProps> = ({
         <S.DialogsMessages>{mappedMessages}</S.DialogsMessages>
       </Container>
       <FlexWrapper alignItems={"center"} justifyContent={"space-evenly"}>
-        <S.MessageArea
-          ref={newMessage}
-          value={messageValue}
-          onChange={onChangeHandler}
-        />
+        <S.MessageArea value={messageValue} onChange={onChangeHandler} />
         <Button name={"Send"} onClick={onSendMessage} />
       </FlexWrapper>
     </S.Messages>

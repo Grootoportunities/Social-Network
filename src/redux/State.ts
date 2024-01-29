@@ -96,7 +96,10 @@ export const addPost = () => {
 };
 
 export const addMessage = () => {
-  const newMessageElement = { id: 6, message: state.messagesPage.messageValue };
+  const newMessageElement: MessageType = {
+    id: 6,
+    message: state.messagesPage.messageValue,
+  };
 
   // return {
   //   ...state,
