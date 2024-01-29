@@ -1,5 +1,4 @@
 import { v1 } from "uuid";
-import { rerenderEntireTree } from "../render";
 
 export type DialogType = { id: number; name: string };
 export type MessageType = { id: number; message: string };
@@ -23,6 +22,9 @@ export type StateType = {
   messagesPage: MessagesPageType;
   sidebar: SidebarType;
 };
+
+let rerenderEntireTree = (state: StateType) =>
+  console.log("State has been changed");
 
 export const state: StateType = {
   profilePage: {
@@ -82,14 +84,6 @@ export const addPost = () => {
     likes: 0,
   };
 
-  // return {
-  //   ...state,
-  //   profilePage: {
-  //     ...state.profilePage,
-  //     posts: [newPost, ...state.profilePage.posts],
-  //   },
-  // };
-
   state.profilePage.posts.push(newPost);
   state.profilePage.postValue = "";
   rerenderEntireTree(state);
@@ -100,14 +94,6 @@ export const addMessage = () => {
     id: 6,
     message: state.messagesPage.messageValue,
   };
-
-  // return {
-  //   ...state,
-  //   messagesPage: {
-  //     ...state.messagesPage,
-  //     messages: [newMessageElement, ...state.messagesPage.messages],
-  //   },
-  // };
 
   state.messagesPage.messages.push(newMessageElement);
   state.messagesPage.messageValue = "";
@@ -125,4 +111,8 @@ export const setMessageValue = (value: string) => {
   state.messagesPage.messageValue = value;
 
   rerenderEntireTree(state);
+};
+
+export const subscribe = (observer: (state: StateType) => void) => {
+  rerenderEntireTree = observer;
 };
