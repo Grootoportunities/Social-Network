@@ -2,18 +2,16 @@ import React from "react";
 import { Container } from "../../components/Container";
 import { MyPosts } from "./myPosts/MyPosts";
 import { ProfileInfo } from "./profileInfo/ProfileInfo";
-import { ProfilePageType } from "../../redux/State";
+import { ActionsType, ProfilePageType } from "../../redux/State";
 
 type ProfileProps = {
   profilePageState: ProfilePageType;
-  addPostCallback: () => void;
-  setPostValueCallback: (value: string) => void;
+  dispatch: (action: ActionsType) => void;
 };
 
 export const Profile: React.FC<ProfileProps> = ({
   profilePageState,
-  addPostCallback,
-  setPostValueCallback,
+  dispatch,
 }) => {
   return (
     <section>
@@ -22,8 +20,7 @@ export const Profile: React.FC<ProfileProps> = ({
         <MyPosts
           postValue={profilePageState.postValue}
           posts={profilePageState.posts}
-          addPostCallback={addPostCallback}
-          setPostValueCallback={setPostValueCallback}
+          dispatch={dispatch}
         />
       </Container>
     </section>

@@ -27,8 +27,7 @@ function App({ store }: AppProps) {
             render={() => (
               <Profile
                 profilePageState={store.getState().profilePage}
-                addPostCallback={store.addPost.bind(store)}
-                setPostValueCallback={store.setPostValue.bind(store)}
+                dispatch={store.dispatch.bind(store)}
               />
             )}
           />
@@ -37,8 +36,7 @@ function App({ store }: AppProps) {
             render={() => (
               <Messages
                 messagesPageState={store.getState().messagesPage}
-                addMessageCallback={store.addMessage.bind(store)}
-                setMessageValueCallback={store.setMessageValue.bind(store)}
+                dispatch={store.dispatch.bind(store)}
               />
             )}
           />

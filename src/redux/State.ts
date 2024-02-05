@@ -1,4 +1,15 @@
 import { v1 } from "uuid";
+import {
+  AddPostAT,
+  profileReducer,
+  SetPostValueAT,
+} from "./reducers/profileReducer";
+import {
+  AddMessageAT,
+  messagesReducer,
+  SetMessageValueAT,
+} from "./reducers/messagesReducer";
+import { sidebarReducer } from "./reducers/sidebarReducer";
 
 export type DialogType = { id: number; name: string };
 export type MessageType = { id: number; message: string };
@@ -22,19 +33,20 @@ export type StateType = {
   sidebar: SidebarType;
 };
 
+export type ActionsType =
+  | AddPostAT
+  | AddMessageAT
+  | SetPostValueAT
+  | SetMessageValueAT;
+
 export type StoreType = {
   _state: StateType;
-
-  getState: () => StateType;
-  addPost: () => void;
-  addMessage: () => void;
-
-  setPostValue: (value: string) => void;
-  setMessageValue: (value: string) => void;
-
   _callSubscriber: (store: StoreType) => void;
 
+  getState: () => StateType;
   subscribe: (observer: (store: StoreType) => void) => void;
+
+  dispatch: (action: ActionsType) => void;
 };
 
 export const store: StoreType = {
@@ -88,45 +100,23 @@ export const store: StoreType = {
       ],
     },
   },
-  getState() {
-    return this._state;
-  },
+
   _callSubscriber(store: StoreType) {
     console.log("State has been changed");
   },
-  addPost() {
-    const newPost: PostType = {
-      id: v1(),
-      postMessage: this._state.profilePage.postValue,
-      likes: 0,
-    };
 
-    this._state.profilePage.posts.push(newPost);
-    this._state.profilePage.postValue = "";
-    this._callSubscriber(store);
-  },
-  addMessage() {
-    const newMessageElement: MessageType = {
-      id: 6,
-      message: this._state.messagesPage.messageValue,
-    };
-
-    this._state.messagesPage.messages.push(newMessageElement);
-    this._state.messagesPage.messageValue = "";
-
-    this._callSubscriber(store);
-  },
-  setPostValue(value: string) {
-    this._state.profilePage.postValue = value;
-
-    this._callSubscriber(store);
-  },
-  setMessageValue(value: string) {
-    this._state.messagesPage.messageValue = value;
-
-    this._callSubscriber(store);
+  getState() {
+    return this._state;
   },
   subscribe(observer: (store: StoreType) => void) {
     this._callSubscriber = observer;
+  },
+
+  dispatch(action: ActionsType) {
+    profileReducer(this._state.profilePage, action);
+    messagesReducer(this._state.messagesPage, action);
+    sidebarReducer(this._state.sidebar, action);
+
+    this._callSubscriber(store);
   },
 };
