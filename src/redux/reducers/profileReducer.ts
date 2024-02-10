@@ -4,7 +4,7 @@ import { v1 } from "uuid";
 export type AddPostAT = { type: "ADD-POST" };
 export type SetPostValueAT = { type: "SET-POST-VALUE"; value: string };
 
-const initialState = {
+const initialState: ProfilePageType = {
   posts: [
     {
       id: v1(),
@@ -23,7 +23,7 @@ const initialState = {
 export const profileReducer = (
   state: ProfilePageType = initialState,
   action: ActionsType,
-) => {
+): ProfilePageType => {
   switch (action.type) {
     case "ADD-POST": {
       const newPost: PostType = {

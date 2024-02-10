@@ -3,7 +3,7 @@ import { ActionsType, MessagesPageType, MessageType } from "../Store";
 export type AddMessageAT = { type: "ADD-MESSAGE" };
 export type SetMessageValueAT = { type: "SET-MESSAGE-VALUE"; value: string };
 
-const initialState = {
+const initialState: MessagesPageType = {
   dialogs: [
     { id: 1, name: "Daniil" },
     { id: 2, name: "Anastasia" },
@@ -24,7 +24,7 @@ const initialState = {
 export const messagesReducer = (
   state: MessagesPageType = initialState,
   action: ActionsType,
-) => {
+): MessagesPageType => {
   switch (action.type) {
     case "ADD-MESSAGE": {
       const newMessageElement: MessageType = {

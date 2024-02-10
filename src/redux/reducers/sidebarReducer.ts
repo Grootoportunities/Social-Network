@@ -3,7 +3,7 @@ import { v1 } from "uuid";
 
 type ActionsType = any;
 
-const initialState = {
+const initialState: SidebarType = {
   elements: [
     { id: v1(), title: "Profile", link: "/profile" },
     { id: v1(), title: "Messages", link: "/messages" },
@@ -22,7 +22,7 @@ const initialState = {
 export const sidebarReducer = (
   state: SidebarType = initialState,
   action: ActionsType,
-) => {
+): SidebarType => {
   switch (action.type) {
     default:
       return state;
