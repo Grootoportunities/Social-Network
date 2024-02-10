@@ -1,10 +1,28 @@
-import { ActionsType, MessagesPageType, MessageType } from "../State";
+import { ActionsType, MessagesPageType, MessageType } from "../Store";
 
 export type AddMessageAT = { type: "ADD-MESSAGE" };
 export type SetMessageValueAT = { type: "SET-MESSAGE-VALUE"; value: string };
 
+const initialState = {
+  dialogs: [
+    { id: 1, name: "Daniil" },
+    { id: 2, name: "Anastasia" },
+    { id: 3, name: "Danik" },
+    { id: 4, name: "Semen" },
+    { id: 5, name: "Max" },
+  ],
+  messages: [
+    { id: 1, message: "Hi!" },
+    { id: 2, message: "How are you doing?" },
+    { id: 3, message: "Bye" },
+    { id: 4, message: "I'm Semen" },
+    { id: 5, message: "And i'm Max" },
+  ],
+  messageValue: "",
+};
+
 export const messagesReducer = (
-  state: MessagesPageType,
+  state: MessagesPageType = initialState,
   action: ActionsType,
 ) => {
   switch (action.type) {

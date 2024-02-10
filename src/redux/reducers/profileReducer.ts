@@ -1,10 +1,29 @@
-import { ActionsType, PostType, ProfilePageType } from "../State";
+import { ActionsType, PostType, ProfilePageType } from "../Store";
 import { v1 } from "uuid";
 
 export type AddPostAT = { type: "ADD-POST" };
 export type SetPostValueAT = { type: "SET-POST-VALUE"; value: string };
 
-export const profileReducer = (state: ProfilePageType, action: ActionsType) => {
+const initialState = {
+  posts: [
+    {
+      id: v1(),
+      postMessage: "You are seeing this page in the final result",
+      likes: 15,
+    },
+    {
+      id: v1(),
+      postMessage: "Hello, i'm developing this social network right now",
+      likes: 20,
+    },
+  ],
+  postValue: "",
+};
+
+export const profileReducer = (
+  state: ProfilePageType = initialState,
+  action: ActionsType,
+) => {
   switch (action.type) {
     case "ADD-POST": {
       const newPost: PostType = {

@@ -3,7 +3,7 @@ import { Post } from "./post/Post";
 import { Button } from "../../../components/Button";
 import { FlexWrapper } from "../../../components/FlexWrapper";
 import { S } from "../Profile_Styles";
-import { ActionsType, PostType } from "../../../redux/State";
+import { ActionsType, PostType } from "../../../redux/Store";
 import {
   addPostAC,
   setPostValueAC,

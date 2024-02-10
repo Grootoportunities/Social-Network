@@ -1,7 +1,7 @@
 import React from "react";
 import { S } from "./Sidebar_Styles";
 import { NavLink } from "react-router-dom";
-import { SidebarType } from "../../redux/State";
+import { SidebarType } from "../../redux/Store";
 import onlineAva from "../../assets/png-transparent-computer-icons-online-chat-thought-avatar-emoticon-svg-miscellaneous-computer-wallpaper-smiley.png";
 import { FlexWrapper } from "../../components/FlexWrapper";
 

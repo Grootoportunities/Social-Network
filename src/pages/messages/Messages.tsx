@@ -3,7 +3,7 @@ import { Container } from "../../components/Container";
 import { Dialog } from "./dialog/Dialog";
 import { Message } from "./message/Message";
 import { S } from "./Messages_Styles";
-import { ActionsType, MessagesPageType } from "../../redux/State";
+import { ActionsType, MessagesPageType } from "../../redux/Store";
 import dialogAva from "../../assets/3906412.png";
 import { FlexWrapper } from "../../components/FlexWrapper";
 import { Route } from "react-router-dom";

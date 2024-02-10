@@ -9,7 +9,7 @@ import { News } from "./pages/news/News";
 import { Music } from "./pages/music/Music";
 import { Settings } from "./pages/settings/Settings";
 import styled from "styled-components";
-import { StoreType } from "./redux/State";
+import { StoreType } from "./redux/Store";
 
 type AppProps = {
   store: StoreType;
