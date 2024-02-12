@@ -5,7 +5,7 @@ import App from "./App";
 import { GlobalStyle } from "./styles/Global.styled";
 import { HashRouter } from "react-router-dom";
 import { RootStoreType, store } from "./redux/redux-store";
-import { Provider } from "./StoreContext";
+import { Provider } from "react-redux";
 
 const rerenderEntireTree = (store: RootStoreType) => {
   ReactDOM.render(

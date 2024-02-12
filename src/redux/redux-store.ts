@@ -12,4 +12,5 @@ const rootReducer = combineReducers({
 export const store = createStore(rootReducer);
 
 export type RootStoreType = typeof store;
-// export type RootStateType = ReturnType<typeof rootReducer> для типизации state
+export type RootStateType = ReturnType<typeof rootReducer>; //для типизации state
+export type RootDispatchType = ReturnType<typeof store.dispatch>;

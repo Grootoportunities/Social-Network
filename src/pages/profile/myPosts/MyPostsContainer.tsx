@@ -1,33 +1,24 @@
-import React from "react";
 import {
   addPostAC,
   setPostValueAC,
 } from "../../../redux/reducers/profileReducer";
 import { MyPosts } from "./MyPosts";
-import { StoreContext } from "../../../StoreContext";
+import { connect } from "react-redux";
+import { RootDispatchType, RootStateType } from "../../../redux/redux-store";
 
-export const MyPostsContainer: React.FC = () => {
-  return (
-    <StoreContext.Consumer>
-      {(store) => {
-        const state = store.getState().profilePage;
+const profilePageState = (state: RootStateType) => ({
+  posts: state.profilePage.posts,
+  postValue: state.profilePage.postValue,
+});
+const profileDispatch = (dispatch: RootDispatchType) => ({
+  onValueChange: (value: string) => dispatch(setPostValueAC(value)),
+  addPost: () => {
+    // if (state.profilePage.postValue.trim() !== "")
+    dispatch(addPostAC());
+  },
+});
 
-        const addPostCallback = () => {
-          if (state.postValue.trim() !== "") store.dispatch(addPostAC());
-        };
-
-        const onValueChangeCallback = (value: string) =>
-          store.dispatch(setPostValueAC(value));
-
-        return (
-          <MyPosts
-            onValueChange={onValueChangeCallback}
-            addPost={addPostCallback}
-            posts={state.posts}
-            postValue={state.postValue}
-          />
-        );
-      }}
-    </StoreContext.Consumer>
-  );
-};
+export const MyPostsContaier = connect(
+  profilePageState,
+  profileDispatch,
+)(MyPosts);
