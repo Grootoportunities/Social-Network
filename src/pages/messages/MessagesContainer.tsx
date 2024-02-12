@@ -1,29 +1,20 @@
-import React from "react";
 import {
   addMessageAC,
   setMessageValueAC,
 } from "../../redux/reducers/messagesReducer";
 import { Messages } from "./Messages";
-import { StoreContext } from "../../StoreContext";
+import { connect } from "react-redux";
+import { RootDispatchType, RootStateType } from "../../redux/redux-store";
 
-export const MessagesContainer: React.FC = () => {
-  return (
-    <StoreContext.Consumer>
-      {(store) => {
-        const state = store.getState().messagesPage;
+const messagesPageState = (state: RootStateType) => ({
+  state: state.messagesPage,
+});
+const messagesDispatch = (dispatch: RootDispatchType) => ({
+  sendMessage: () => dispatch(addMessageAC()),
+  setValue: (value: string) => dispatch(setMessageValueAC(value)),
+});
 
-        const sendMessageCallback = () => store.dispatch(addMessageAC());
-        const setValueCallback = (value: string) =>
-          store.dispatch(setMessageValueAC(value));
-
-        return (
-          <Messages
-            sendMessage={sendMessageCallback}
-            setValue={setValueCallback}
-            state={state}
-          />
-        );
-      }}
-    </StoreContext.Consumer>
-  );
-};
+export const MessagesContainer = connect(
+  messagesPageState,
+  messagesDispatch,
+)(Messages);
