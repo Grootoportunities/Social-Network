@@ -3,25 +3,27 @@ import {
   addMessageAC,
   setMessageValueAC,
 } from "../../redux/reducers/messagesReducer";
-import { RootStoreType } from "../../redux/redux-store";
 import { Messages } from "./Messages";
+import { StoreContext } from "../../StoreContext";
 
-type MessagesProps = {
-  store: RootStoreType;
-};
-
-export const MessagesContainer: React.FC<MessagesProps> = ({ store }) => {
-  const state = store.getState().messagesPage;
-
-  const sendMessageCallback = () => store.dispatch(addMessageAC());
-  const setValueCallback = (value: string) =>
-    store.dispatch(setMessageValueAC(value));
-
+export const MessagesContainer: React.FC = () => {
   return (
-    <Messages
-      sendMessage={sendMessageCallback}
-      setValue={setValueCallback}
-      state={state}
-    />
+    <StoreContext.Consumer>
+      {(store) => {
+        const state = store.getState().messagesPage;
+
+        const sendMessageCallback = () => store.dispatch(addMessageAC());
+        const setValueCallback = (value: string) =>
+          store.dispatch(setMessageValueAC(value));
+
+        return (
+          <Messages
+            sendMessage={sendMessageCallback}
+            setValue={setValueCallback}
+            state={state}
+          />
+        );
+      }}
+    </StoreContext.Consumer>
   );
 };

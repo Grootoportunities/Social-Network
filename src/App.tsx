@@ -8,25 +8,17 @@ import { News } from "./pages/news/News";
 import { Music } from "./pages/music/Music";
 import { Settings } from "./pages/settings/Settings";
 import styled from "styled-components";
-import { RootStoreType } from "./redux/redux-store";
 import { MessagesContainer } from "./pages/messages/MessagesContainer";
 
-type AppProps = {
-  store: RootStoreType;
-};
-
-function App({ store }: AppProps) {
+function App() {
   return (
     <>
       <Header />
       <FlexWrapper>
-        <Sidebar sidebarState={store.getState().sidebar} />
+        <Sidebar />
         <Content>
-          <Route path={"/profile"} render={() => <Profile store={store} />} />
-          <Route
-            path={"/messages"}
-            render={() => <MessagesContainer store={store} />}
-          />
+          <Route path={"/profile"} render={() => <Profile />} />
+          <Route path={"/messages"} render={() => <MessagesContainer />} />
           <Route path={"/news"} render={() => <News />} />
           <Route path={"/music"} render={() => <Music />} />
           <Route path={"/settings"} render={() => <Settings />} />

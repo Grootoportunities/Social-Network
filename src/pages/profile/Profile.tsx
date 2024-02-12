@@ -2,18 +2,13 @@ import React from "react";
 import { Container } from "../../components/Container";
 import { ProfileInfo } from "./profileInfo/ProfileInfo";
 import { MyPostsContainer } from "./myPosts/MyPostsContainer";
-import { RootStoreType } from "../../redux/redux-store";
 
-type ProfileProps = {
-  store: RootStoreType;
-};
-
-export const Profile: React.FC<ProfileProps> = ({ store }) => {
+export const Profile: React.FC = () => {
   return (
     <section>
       <Container>
         <ProfileInfo />
-        <MyPostsContainer store={store} />
+        <MyPostsContainer />
       </Container>
     </section>
   );

@@ -4,30 +4,30 @@ import {
   setPostValueAC,
 } from "../../../redux/reducers/profileReducer";
 import { MyPosts } from "./MyPosts";
-import { RootStoreType } from "../../../redux/redux-store";
+import { StoreContext } from "../../../StoreContext";
 
-type MyPostsContainerProps = {
-  store: RootStoreType;
-};
-
-export const MyPostsContainer: React.FC<MyPostsContainerProps> = ({
-  store,
-}) => {
-  const state = store.getState();
-
-  const addPostCallback = () => {
-    if (state.profilePage.postValue.trim() !== "") store.dispatch(addPostAC());
-  };
-
-  const onValueChangeCallback = (value: string) =>
-    store.dispatch(setPostValueAC(value));
-
+export const MyPostsContainer: React.FC = () => {
   return (
-    <MyPosts
-      onValueChange={onValueChangeCallback}
-      addPost={addPostCallback}
-      posts={state.profilePage.posts}
-      postValue={state.profilePage.postValue}
-    />
+    <StoreContext.Consumer>
+      {(store) => {
+        const state = store.getState().profilePage;
+
+        const addPostCallback = () => {
+          if (state.postValue.trim() !== "") store.dispatch(addPostAC());
+        };
+
+        const onValueChangeCallback = (value: string) =>
+          store.dispatch(setPostValueAC(value));
+
+        return (
+          <MyPosts
+            onValueChange={onValueChangeCallback}
+            addPost={addPostCallback}
+            posts={state.posts}
+            postValue={state.postValue}
+          />
+        );
+      }}
+    </StoreContext.Consumer>
   );
 };

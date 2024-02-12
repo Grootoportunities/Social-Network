@@ -5,12 +5,15 @@ import App from "./App";
 import { GlobalStyle } from "./styles/Global.styled";
 import { HashRouter } from "react-router-dom";
 import { RootStoreType, store } from "./redux/redux-store";
+import { Provider } from "./StoreContext";
 
 const rerenderEntireTree = (store: RootStoreType) => {
   ReactDOM.render(
     <HashRouter>
-      <GlobalStyle />
-      <App store={store} />
+      <Provider store={store}>
+        <GlobalStyle />
+        <App />
+      </Provider>
     </HashRouter>,
     document.getElementById("root"),
   );
