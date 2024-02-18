@@ -32,15 +32,10 @@ export const profileReducer = (
         likes: 0,
       };
 
-      state.posts.push(newPost);
-      state.postValue = "";
-
-      return state;
+      return { ...state, posts: [newPost, ...state.posts], postValue: "" };
     }
-    case "SET-POST-VALUE": {
-      state.postValue = action.value;
-      return state;
-    }
+    case "SET-POST-VALUE":
+      return { ...state, postValue: action.value };
     default:
       return state;
   }

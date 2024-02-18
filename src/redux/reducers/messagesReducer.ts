@@ -32,16 +32,15 @@ export const messagesReducer = (
         message: state.messageValue,
       };
 
-      state.messages.push(newMessageElement);
-      state.messageValue = "";
-
-      return state;
+      return {
+        ...state,
+        messages: [...state.messages, newMessageElement],
+        messageValue: "",
+      };
     }
-    case "SET-MESSAGE-VALUE": {
-      state.messageValue = action.value;
+    case "SET-MESSAGE-VALUE":
+      return { ...state, messageValue: action.value };
 
-      return state;
-    }
     default:
       return state;
   }
