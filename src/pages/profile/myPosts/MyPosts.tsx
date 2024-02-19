@@ -18,10 +18,6 @@ export const MyPosts: React.FC<MyPostsProps> = ({
   addPost,
   posts,
   postValue,
-
-  // posts,
-  // postValue,
-  // dispatch,
 }) => {
   const mappedPosts = posts.map((p) => (
     <Post key={p.id} postMessage={p.postMessage} likesCount={p.likes} />

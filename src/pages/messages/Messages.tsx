@@ -29,8 +29,8 @@ export const Messages: React.FC<MessagesProps> = ({
   ));
 
   const mappedMessages = state.messages.map((m) => (
-    <FlexWrapper gap={"10px"} alignItems={"center"}>
-      <Message key={m.id} message={m.message} />
+    <FlexWrapper key={m.id} gap={"10px"} alignItems={"center"}>
+      <Message message={m.message} />
       <Route
         path={`/messages/${m.id}`}
         render={() => <S.ActiveMessage></S.ActiveMessage>}
