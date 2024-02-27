@@ -9,6 +9,8 @@ import { Settings } from "./pages/settings/Settings";
 import styled from "styled-components";
 import { MessagesContainer } from "./pages/messages/MessagesContainer";
 import { SidebarContainer } from "./layout/sidebar/SidebarContainer";
+import { UsersContainer } from "./pages/users/UsersContainer";
+import { Theme } from "./styles/Theme";
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
         <Content>
           <Route path={"/profile"} render={() => <Profile />} />
           <Route path={"/messages"} render={() => <MessagesContainer />} />
+          <Route path={"/users"} render={() => <UsersContainer />} />
           <Route path={"/news"} render={() => <News />} />
           <Route path={"/music"} render={() => <Music />} />
           <Route path={"/settings"} render={() => <Settings />} />
@@ -34,4 +37,5 @@ const Content = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  background-color: ${Theme.colors.content};
 `;

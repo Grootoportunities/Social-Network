@@ -5,5 +5,6 @@ export const Theme = {
     button: "#34b7f1",
     sidebarLinks: "#646464",
     sidebarLinksActiveAndHover: "#2d5be3",
+    content: "#e0e0e0",
   },
 };

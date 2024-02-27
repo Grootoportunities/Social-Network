@@ -23,7 +23,9 @@ export const MyPosts: React.FC<MyPostsProps> = ({
     <Post key={p.id} postMessage={p.postMessage} likesCount={p.likes} />
   ));
 
-  const onClickAddPost = () => addPost();
+  const onClickAddPost = () => {
+    if (postValue.trim() !== "") addPost();
+  };
 
   const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) =>
     onValueChange(e.currentTarget.value);
@@ -34,7 +36,7 @@ export const MyPosts: React.FC<MyPostsProps> = ({
 
       <FlexWrapper alignItems={"center"} gap={"20px;"}>
         <textarea onChange={onChangeHandler} value={postValue} />
-        <Button name={"Add Post"} onClick={onClickAddPost} />
+        <Button onClick={onClickAddPost}>Add Post</Button>
       </FlexWrapper>
 
       {mappedPosts}

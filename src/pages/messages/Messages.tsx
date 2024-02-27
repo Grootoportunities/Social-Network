@@ -53,7 +53,7 @@ export const Messages: React.FC<MessagesProps> = ({
       </Container>
       <FlexWrapper alignItems={"center"} justifyContent={"space-evenly"}>
         <S.MessageArea value={state.messageValue} onChange={onChangeHandler} />
-        <Button name={"Send"} onClick={onSendMessage} />
+        <Button onClick={onSendMessage}>Send</Button>
       </FlexWrapper>
     </S.Messages>
   );
