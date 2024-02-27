@@ -1,12 +1,12 @@
 import {
   addMessageAC,
+  MessagesPageType,
   setMessageValueAC,
 } from "../../redux/reducers/messagesReducer";
 import { Messages } from "./Messages";
 import { connect } from "react-redux";
 import { RootStateType } from "../../redux/redux-store";
 import { Dispatch } from "redux";
-import { MessagesPageType } from "../../redux/Store";
 
 type MapStateToPropsType = { state: MessagesPageType };
 type MapDispatchToPropsType = {

@@ -1,12 +1,12 @@
 import {
   addPostAC,
+  PostType,
   setPostValueAC,
 } from "../../../redux/reducers/profileReducer";
 import { MyPosts } from "./MyPosts";
 import { connect } from "react-redux";
 import { RootStateType } from "../../../redux/redux-store";
 import { Dispatch } from "redux";
-import { PostType } from "../../../redux/Store";
 
 type MapStateToPropsType = { posts: PostType[]; postValue: string };
 type MapDispatchToPropsType = {

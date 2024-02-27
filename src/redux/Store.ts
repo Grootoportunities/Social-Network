@@ -1,31 +1,15 @@
 import { v1 } from "uuid";
 import {
   AddPostAT,
-  profileReducer,
+  ProfilePageType,
   SetPostValueAT,
 } from "./reducers/profileReducer";
 import {
   AddMessageAT,
-  messagesReducer,
+  MessagesPageType,
   SetMessageValueAT,
 } from "./reducers/messagesReducer";
-import { sidebarReducer } from "./reducers/sidebarReducer";
-
-export type DialogType = { id: number; name: string };
-export type MessageType = { id: number; message: string };
-export type PostType = { id: string; postMessage: string; likes: number };
-export type SidebarElementType = { id: string; title: string; link: string };
-export type FriendOnlineType = { id: string; name: string };
-export type ProfilePageType = { posts: PostType[]; postValue: string };
-export type SidebarType = {
-  elements: SidebarElementType[];
-  friendsOnline: FriendOnlineType[];
-};
-export type MessagesPageType = {
-  dialogs: DialogType[];
-  messages: MessageType[];
-  messageValue: string;
-};
+import { SidebarType } from "./reducers/sidebarReducer";
 
 export type StateType = {
   profilePage: ProfilePageType;
@@ -113,9 +97,9 @@ export const store: StoreType = {
   },
 
   dispatch(action: ActionsType) {
-    profileReducer(this._state.profilePage, action);
-    messagesReducer(this._state.messagesPage, action);
-    sidebarReducer(this._state.sidebar, action);
+    // profileReducer(this._state.profilePage, action);
+    // messagesReducer(this._state.messagesPage, action);
+    // sidebarReducer(this._state.sidebar, action);
 
     this._callSubscriber(store);
   },

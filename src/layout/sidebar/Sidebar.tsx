@@ -3,7 +3,7 @@ import { S } from "./Sidebar_Styles";
 import { NavLink } from "react-router-dom";
 import onlineAva from "../../assets/png-transparent-computer-icons-online-chat-thought-avatar-emoticon-svg-miscellaneous-computer-wallpaper-smiley.png";
 import { FlexWrapper } from "../../components/FlexWrapper";
-import { SidebarType } from "../../redux/Store";
+import { SidebarType } from "../../redux/reducers/sidebarReducer";
 
 type SidebarProps = {
   state: SidebarType;

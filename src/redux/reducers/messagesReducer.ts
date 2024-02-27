@@ -1,5 +1,12 @@
-import { ActionsType, MessagesPageType, MessageType } from "../Store";
+type MessageType = { id: number; message: string };
+type DialogType = { id: number; name: string };
+export type MessagesPageType = {
+  dialogs: DialogType[];
+  messages: MessageType[];
+  messageValue: string;
+};
 
+type ActionsType = AddMessageAT | SetMessageValueAT;
 export type AddMessageAT = { type: "ADD-MESSAGE" };
 export type SetMessageValueAT = { type: "SET-MESSAGE-VALUE"; value: string };
 

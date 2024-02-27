@@ -1,5 +1,11 @@
-import { SidebarType } from "../Store";
 import { v1 } from "uuid";
+
+type FriendOnlineType = { id: string; name: string };
+type SidebarElementType = { id: string; title: string; link: string };
+export type SidebarType = {
+  elements: SidebarElementType[];
+  friendsOnline: FriendOnlineType[];
+};
 
 type ActionsType = any;
 

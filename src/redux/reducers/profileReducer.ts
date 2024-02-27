@@ -1,6 +1,9 @@
-import { ActionsType, PostType, ProfilePageType } from "../Store";
 import { v1 } from "uuid";
 
+export type PostType = { id: string; postMessage: string; likes: number };
+export type ProfilePageType = { posts: PostType[]; postValue: string };
+
+type ActionsType = AddPostAT | SetPostValueAT;
 export type AddPostAT = { type: "ADD-POST" };
 export type SetPostValueAT = { type: "SET-POST-VALUE"; value: string };
 
