@@ -4,17 +4,25 @@ import {
 } from "../../redux/reducers/messagesReducer";
 import { Messages } from "./Messages";
 import { connect } from "react-redux";
-import { RootDispatchType, RootStateType } from "../../redux/redux-store";
+import { RootStateType } from "../../redux/redux-store";
+import { Dispatch } from "redux";
+import { MessagesPageType } from "../../redux/Store";
 
-const messagesPageState = (state: RootStateType) => ({
+type MapStateToPropsType = { state: MessagesPageType };
+type MapDispatchToPropsType = {
+  sendMessage: () => void;
+  setValue: (value: string) => void;
+};
+
+const mapStateToProps = (state: RootStateType): MapStateToPropsType => ({
   state: state.messagesPage,
 });
-const messagesDispatch = (dispatch: RootDispatchType) => ({
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => ({
   sendMessage: () => dispatch(addMessageAC()),
   setValue: (value: string) => dispatch(setMessageValueAC(value)),
 });
 
 export const MessagesContainer = connect(
-  messagesPageState,
-  messagesDispatch,
+  mapStateToProps,
+  mapDispatchToProps,
 )(Messages);

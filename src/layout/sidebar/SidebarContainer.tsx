@@ -1,7 +1,12 @@
 import { connect } from "react-redux";
 import { Sidebar } from "./Sidebar";
 import { RootStateType } from "../../redux/redux-store";
+import { SidebarType } from "../../redux/Store";
 
-const sidebarState = (state: RootStateType) => ({ state: state.sidebar });
+type MapStateToPropsType = { state: SidebarType };
 
-export const SidebarContainer = connect(sidebarState)(Sidebar);
+const mapStateToProps = (state: RootStateType): MapStateToPropsType => ({
+  state: state.sidebar,
+});
+
+export const SidebarContainer = connect(mapStateToProps)(Sidebar);

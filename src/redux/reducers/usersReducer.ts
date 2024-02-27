@@ -1,4 +1,4 @@
-type UsersType = { users: UserType[] };
+export type UsersType = { users: UserType[] };
 export type LocationType = { country: string; city: string };
 export type UserType = {
   id: string;
