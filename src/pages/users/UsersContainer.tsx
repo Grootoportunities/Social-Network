@@ -1,5 +1,4 @@
 import { connect } from "react-redux";
-import { Users } from "./Users";
 import { RootStateType } from "../../redux/redux-store";
 import {
   setUsersAC,
@@ -8,6 +7,7 @@ import {
   UserType,
 } from "../../redux/reducers/usersReducer";
 import { Dispatch } from "redux";
+import { Users } from "./UsersС";
 
 type MapDispatchToPropsType = {
   un_follow: (id: string) => void;
