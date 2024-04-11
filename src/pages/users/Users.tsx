@@ -1,10 +1,9 @@
-import React, { FC } from "react";
-import { UserType } from "../../redux/reducers/usersReducer";
-import defaultAva from "../../assets/3906412.png";
-import { User } from "./user/User";
+import React, { Component } from "react";
 import { Container } from "../../components/Container";
+import { User } from "./user/User";
+import defaultAva from "../../assets/3906412.png";
 import axios from "axios";
-import { Button } from "../../components/Button";
+import { UserType } from "../../redux/reducers/usersReducer";
 
 type UsersProps = {
   users: UserType[];
@@ -13,17 +12,18 @@ type UsersProps = {
   setUsers: (users: UserType[]) => void;
 };
 
-export const Users: FC<UsersProps> = ({ users, un_follow, setUsers }) => {
-  const getUsers = () => {
-    if (users.length === 0) {
-      axios
-        .get("https://social-network.samuraijs.com/api/1.0/users")
-        .then((res) => setUsers(res.data.items));
-    }
-  };
+export class Users extends Component<UsersProps> {
+  constructor(props: UsersProps) {
+    super(props);
 
-  const mappedUsers = users.map((u) => {
-    const onChangeSubscribeHandler = (userID: string) => un_follow(userID);
+    axios
+      .get("https://social-network.samuraijs.com/api/1.0/users")
+      .then((res) => this.props.setUsers(res.data.items));
+  }
+
+  mappedUsers = this.props.users.map((u) => {
+    const onChangeSubscribeHandler = (userID: string) =>
+      this.props.un_follow(userID);
 
     return (
       <User
@@ -40,12 +40,13 @@ export const Users: FC<UsersProps> = ({ users, un_follow, setUsers }) => {
     );
   });
 
-  return (
-    <section>
-      <Container>
-        <Button onClick={getUsers}>Get Users</Button>
-        <ul>{mappedUsers}</ul>
-      </Container>
-    </section>
-  );
-};
+  render() {
+    return (
+      <section>
+        <Container>
+          <ul>{this.mappedUsers}</ul>
+        </Container>
+      </section>
+    );
+  }
+}

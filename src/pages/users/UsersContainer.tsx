@@ -7,7 +7,7 @@ import {
   UserType,
 } from "../../redux/reducers/usersReducer";
 import { Dispatch } from "redux";
-import { Users } from "./UsersС";
+import { Users } from "./Users";
 
 type MapDispatchToPropsType = {
   un_follow: (id: string) => void;
