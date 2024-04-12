@@ -36,7 +36,7 @@ type UserDomainType = {
   photos: PhotosType;
   status: string | null;
   followed: boolean;
-};
+} & UserType;
 
 type ResponseType = {
   items: UserDomainType[];
@@ -49,7 +49,7 @@ export class UsersAPIComponent extends Component<UsersAPIComponentProps> {
     this.props.setPage(page);
 
     axios
-      .get(
+      .get<ResponseType>(
         `https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${this.props.count}`,
       )
       .then((res) => this.props.setUsers(res.data.items));
