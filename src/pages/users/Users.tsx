@@ -1,30 +1,44 @@
-import React, { Component } from "react";
-import { Container } from "../../components/Container";
+import React, { FC } from "react";
 import { User } from "./user/User";
 import defaultAva from "../../assets/3906412.png";
-import axios from "axios";
+import { Container } from "../../components/Container";
+import { FlexWrapper } from "../../components/FlexWrapper";
 import { UserType } from "../../redux/reducers/usersReducer";
+import { S } from "./_styles";
 
 type UsersProps = {
   users: UserType[];
-
-  un_follow: (id: string) => void;
-  setUsers: (users: UserType[]) => void;
+  totalUsersCount: number;
+  count: number;
+  page: number;
+  onChangePageHandler: (page: number) => void;
+  onChangeSubscribeHandler: (userID: string) => void;
 };
+export const Users: FC<UsersProps> = ({
+  users,
+  totalUsersCount,
+  count,
+  page,
+  onChangePageHandler,
+  onChangeSubscribeHandler,
+}) => {
+  let pages = [];
 
-export class Users extends Component<UsersProps> {
-  constructor(props: UsersProps) {
-    super(props);
+  const pageCount = Math.ceil(totalUsersCount / count);
 
-    axios
-      .get("https://social-network.samuraijs.com/api/1.0/users")
-      .then((res) => this.props.setUsers(res.data.items));
-  }
+  for (let i = 1; i <= pageCount; i++) pages.push(i);
 
-  mappedUsers = this.props.users.map((u) => {
-    const onChangeSubscribeHandler = (userID: string) =>
-      this.props.un_follow(userID);
+  const mappedPages = pages.map((p) => {
+    return (
+      <li>
+        <S.Page currentPage={page} p={p} onClick={() => onChangePageHandler(p)}>
+          {p}
+        </S.Page>
+      </li>
+    );
+  });
 
+  const mappedUsers = users.map((u) => {
     return (
       <User
         key={u.id}
@@ -40,13 +54,14 @@ export class Users extends Component<UsersProps> {
     );
   });
 
-  render() {
-    return (
-      <section>
-        <Container>
-          <ul>{this.mappedUsers}</ul>
-        </Container>
-      </section>
-    );
-  }
-}
+  return (
+    <section>
+      <Container>
+        <FlexWrapper direction={"column"} alignItems={"center"} gap={"10px"}>
+          <S.PagesList>{mappedPages}</S.PagesList>
+          <ul>{mappedUsers}</ul>
+        </FlexWrapper>
+      </Container>
+    </section>
+  );
+};
