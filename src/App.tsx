@@ -1,7 +1,6 @@
 import React from "react";
-import { FlexWrapper } from "./components/FlexWrapper";
+import { FlexWrapper } from "./components/FlexWrapper/FlexWrapper";
 import { Header } from "./layout/header/Header";
-import { Profile } from "./pages/profile/Profile";
 import { Route } from "react-router-dom";
 import { News } from "./pages/news/News";
 import { Music } from "./pages/music/Music";
@@ -11,6 +10,7 @@ import { MessagesContainer } from "./pages/messages/MessagesContainer";
 import { SidebarContainer } from "./layout/sidebar/SidebarContainer";
 import { UsersContainer } from "./pages/users/UsersContainer";
 import { Theme } from "./styles/Theme";
+import { ProfileContainer } from "./pages/profile/ProfileContainer";
 
 function App() {
   return (
@@ -19,7 +19,10 @@ function App() {
       <FlexWrapper>
         <SidebarContainer />
         <Content>
-          <Route path={"/profile"} render={() => <Profile />} />
+          <Route
+            path={"/profile/:userID?"}
+            render={() => <ProfileContainer />}
+          />
           <Route path={"/messages"} render={() => <MessagesContainer />} />
           <Route path={"/users"} render={() => <UsersContainer />} />
           <Route path={"/news"} render={() => <News />} />

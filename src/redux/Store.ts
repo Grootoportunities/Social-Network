@@ -49,6 +49,7 @@ export const store: StoreType = {
         },
       ],
       postValue: "",
+      profile: null,
     },
     messagesPage: {
       dialogs: [

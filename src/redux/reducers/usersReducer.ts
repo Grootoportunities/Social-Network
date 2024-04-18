@@ -3,6 +3,7 @@ const initialState: UsersType = {
   count: 3,
   totalUsersCount: 0,
   page: 1,
+  isPending: true,
 };
 
 export const usersReducer = (
@@ -25,6 +26,8 @@ export const usersReducer = (
       return { ...state, count: action.count };
     case "SET-TOTAL-USERS-COUNT":
       return { ...state, totalUsersCount: action.totalUsersCount };
+    case "SET-IS-PENDING":
+      return { ...state, isPending: action.isPending };
     default:
       return state;
   }
@@ -44,6 +47,8 @@ export const setTotalUsersCountAC = (totalUsersCount: number) =>
     type: "SET-TOTAL-USERS-COUNT",
     totalUsersCount,
   }) as const;
+export const setIsPendingAC = (isPending: boolean) =>
+  ({ type: "SET-IS-PENDING", isPending }) as const;
 
 //TYPES
 
@@ -53,6 +58,7 @@ export type UsersType = {
   count: number;
   totalUsersCount: number;
   page: number;
+  isPending: boolean;
 };
 export type UserType = {
   id: string;
@@ -68,4 +74,5 @@ type ActionsType =
   | ReturnType<typeof setUsersAC>
   | ReturnType<typeof setPageAC>
   | ReturnType<typeof setCountAC>
-  | ReturnType<typeof setTotalUsersCountAC>;
+  | ReturnType<typeof setTotalUsersCountAC>
+  | ReturnType<typeof setIsPendingAC>;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Theme } from "../styles/Theme";
+import { Theme } from "../../styles/Theme";
 import React, { ReactNode } from "react";
 
 type ButtonProps = { children: ReactNode; onClick?: () => void };

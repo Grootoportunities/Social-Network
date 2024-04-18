@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Theme } from "../../styles/Theme";
-import { Container } from "../../components/Container";
+import { Container } from "../../components/Container/Container";
 
 const Header = styled.header`
   background-color: ${Theme.colors.accent};

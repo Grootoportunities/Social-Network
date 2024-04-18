@@ -1,8 +1,7 @@
 import React, { FC } from "react";
 import { User } from "./user/User";
 import defaultAva from "../../assets/3906412.png";
-import { Container } from "../../components/Container";
-import { FlexWrapper } from "../../components/FlexWrapper";
+import { FlexWrapper } from "../../components/FlexWrapper/FlexWrapper";
 import { UserType } from "../../redux/reducers/usersReducer";
 import { S } from "./_styles";
 
@@ -56,12 +55,12 @@ export const Users: FC<UsersProps> = ({
 
   return (
     <section>
-      <Container>
-        <FlexWrapper direction={"column"} alignItems={"center"} gap={"10px"}>
-          <S.PagesList>{mappedPages}</S.PagesList>
-          <ul>{mappedUsers}</ul>
-        </FlexWrapper>
-      </Container>
+      {/*<Container>*/}
+      <FlexWrapper direction={"column"} alignItems={"center"} gap={"10px"}>
+        <S.PagesList>{mappedPages}</S.PagesList>
+        <ul>{mappedUsers}</ul>
+      </FlexWrapper>
+      {/*</Container>*/}
     </section>
   );
 };

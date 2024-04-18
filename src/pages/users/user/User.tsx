@@ -1,8 +1,9 @@
 import React, { FC } from "react";
-import { FlexWrapper } from "../../../components/FlexWrapper";
-import { Button } from "../../../components/Button";
+import { FlexWrapper } from "../../../components/FlexWrapper/FlexWrapper";
+import { Button } from "../../../components/Button/Button";
 import { LocationType } from "../../../redux/reducers/usersReducer";
 import { S } from "./_styles";
+import { Link } from "react-router-dom";
 
 type UserProps = {
   name: string;
@@ -28,7 +29,9 @@ export const User: FC<UserProps> = ({
 
   return (
     <S.User>
-      <S.UserAvatar src={ava} />
+      <Link to={`/profile/${userID}`}>
+        <S.UserAvatar src={ava} />
+      </Link>
       <FlexWrapper direction={"column"} gap={"15px"}>
         <S.NameSpan>{name}</S.NameSpan>
         <S.StatusSpan>{status}</S.StatusSpan>

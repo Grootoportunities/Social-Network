@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react";
 import { Post } from "./post/Post";
-import { Button } from "../../../components/Button";
-import { FlexWrapper } from "../../../components/FlexWrapper";
+import { Button } from "../../../components/Button/Button";
+import { FlexWrapper } from "../../../components/FlexWrapper/FlexWrapper";
 import { S } from "../Profile_Styles";
 import { PostType } from "../../../redux/reducers/profileReducer";
 

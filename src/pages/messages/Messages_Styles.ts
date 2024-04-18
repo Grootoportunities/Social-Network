@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { Container } from "../../components/Container";
-import { FlexWrapper } from "../../components/FlexWrapper";
+import { Container } from "../../components/Container/Container";
+import { FlexWrapper } from "../../components/FlexWrapper/FlexWrapper";
 
 const Messages = styled.section`
   display: flex;

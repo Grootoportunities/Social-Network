@@ -1,13 +1,18 @@
-import React from "react";
-import { Container } from "../../components/Container";
+import React, { FC } from "react";
+import { Container } from "../../components/Container/Container";
 import { ProfileInfo } from "./profileInfo/ProfileInfo";
 import { MyPostsContainer } from "./myPosts/MyPostsContainer";
+import { ProfilePageType } from "../../redux/reducers/profileReducer";
 
-export const Profile: React.FC = () => {
+type ProfileProps = {
+  profilePage: ProfilePageType;
+};
+
+export const Profile: FC<ProfileProps> = ({ profilePage }) => {
   return (
     <section>
       <Container>
-        <ProfileInfo />
+        <ProfileInfo profile={profilePage.profile} />
         <MyPostsContainer />
       </Container>
     </section>

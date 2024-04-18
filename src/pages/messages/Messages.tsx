@@ -1,12 +1,12 @@
 import React, { ChangeEvent } from "react";
-import { Container } from "../../components/Container";
+import { Container } from "../../components/Container/Container";
 import { Dialog } from "./dialog/Dialog";
 import { Message } from "./message/Message";
 import { S } from "./Messages_Styles";
 import dialogAva from "../../assets/3906412.png";
-import { FlexWrapper } from "../../components/FlexWrapper";
+import { FlexWrapper } from "../../components/FlexWrapper/FlexWrapper";
 import { Route } from "react-router-dom";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/Button/Button";
 import { MessagesPageType } from "../../redux/reducers/messagesReducer";
 
 type MessagesProps = {

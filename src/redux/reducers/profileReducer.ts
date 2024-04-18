@@ -1,12 +1,5 @@
 import { v1 } from "uuid";
 
-export type PostType = { id: string; postMessage: string; likes: number };
-export type ProfilePageType = { posts: PostType[]; postValue: string };
-
-type ActionsType = AddPostAT | SetPostValueAT;
-export type AddPostAT = { type: "ADD-POST" };
-export type SetPostValueAT = { type: "SET-POST-VALUE"; value: string };
-
 const initialState: ProfilePageType = {
   posts: [
     {
@@ -21,6 +14,7 @@ const initialState: ProfilePageType = {
     },
   ],
   postValue: "",
+  profile: null,
 };
 
 export const profileReducer = (
@@ -39,13 +33,60 @@ export const profileReducer = (
     }
     case "SET-POST-VALUE":
       return { ...state, postValue: action.value };
+    case "SET-USER-PROFILE":
+      return { ...state, profile: action.profile };
     default:
       return state;
   }
 };
 
-export const addPostAC = (): AddPostAT => ({ type: "ADD-POST" });
-export const setPostValueAC = (value: string): SetPostValueAT => ({
-  type: "SET-POST-VALUE",
-  value,
-});
+export const addPostAC = () => ({ type: "ADD-POST" }) as const;
+export const setPostValueAC = (value: string) =>
+  ({
+    type: "SET-POST-VALUE",
+    value,
+  }) as const;
+export const setUserProfilePageAC = (profile: ProfileType) =>
+  ({ type: "SET-USER-PROFILE", profile }) as const;
+
+// TYPES
+
+export type PostType = { id: string; postMessage: string; likes: number };
+
+export type ProfileType = {
+  userId: number;
+  lookingForAJob: boolean;
+  lookingForAJobDescription: string;
+  fullName: string;
+  contacts: {
+    github: string;
+    vk: string;
+    facebook: string;
+    instagram: string;
+    twitter: string;
+    website: string;
+    youtube: string;
+    mainLink: string;
+  };
+  photos: {
+    small: string | undefined;
+    large: string | undefined;
+  };
+};
+
+export type ProfilePageType = {
+  posts: PostType[];
+  postValue: string;
+  profile: ProfileType | null;
+};
+
+export type AddPostAT = {
+  type: "ADD-POST";
+};
+export type SetPostValueAT = { type: "SET-POST-VALUE"; value: string };
+
+type ActionsType =
+  | ReturnType<typeof addPostAC>
+  | ReturnType<typeof setPostValueAC>
+  | ReturnType<typeof setUserProfilePageAC>;
+//AddPostAT | SetPostValueAT
