@@ -1,6 +1,5 @@
 import React from "react";
 import { FlexWrapper } from "./components/FlexWrapper/FlexWrapper";
-import { Header } from "./layout/header/Header";
 import { Route } from "react-router-dom";
 import { News } from "./pages/news/News";
 import { Music } from "./pages/music/Music";
@@ -11,11 +10,12 @@ import { SidebarContainer } from "./layout/sidebar/SidebarContainer";
 import { UsersContainer } from "./pages/users/UsersContainer";
 import { Theme } from "./styles/Theme";
 import { ProfileContainer } from "./pages/profile/ProfileContainer";
+import { HeaderContainer } from "./layout/header/HeaderContainer";
 
 function App() {
   return (
     <>
-      <Header />
+      <HeaderContainer />
       <FlexWrapper>
         <SidebarContainer />
         <Content>
