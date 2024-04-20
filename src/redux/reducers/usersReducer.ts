@@ -15,7 +15,7 @@ export const usersReducer = (
       return {
         ...state,
         users: state.users.map((u) =>
-          u.id === action.id ? { ...u, isFriend: !u.isFriend } : u,
+          u.id === action.id ? { ...u, followed: !u.followed } : u,
         ),
       };
     case "SET-USERS":
@@ -35,7 +35,7 @@ export const usersReducer = (
 
 //ACTIONS
 
-export const un_followAC = (id: string) => ({ type: "UN-FOLLOW", id }) as const;
+export const un_followAC = (id: number) => ({ type: "UN-FOLLOW", id }) as const;
 export const setUsersAC = (users: UserType[]) =>
   ({ type: "SET-USERS", users }) as const;
 export const setPageAC = (page: number) =>
@@ -60,13 +60,18 @@ export type UsersType = {
   page: number;
   isPending: boolean;
 };
+
+type PhotosType = {
+  small: string | null;
+  large: string | null;
+};
+
 export type UserType = {
-  id: string;
+  id: number;
   name: string;
-  status: string;
-  location: LocationType;
-  ava: string;
-  isFriend: boolean;
+  status: string | null;
+  photos: PhotosType;
+  followed: boolean;
 };
 
 type ActionsType =

@@ -7,13 +7,13 @@ import { Link } from "react-router-dom";
 
 type UserProps = {
   name: string;
-  status: string;
+  status: string | null;
   location: LocationType;
   ava: string;
   isFriend: boolean;
-  userID: string;
+  userID: number;
 
-  onChangeSubscribe: (userID: string) => void;
+  onChangeSubscribe: (userID: number) => void;
 };
 export const User: FC<UserProps> = ({
   ava,

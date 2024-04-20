@@ -17,28 +17,15 @@ import { FlexWrapper } from "../../components/FlexWrapper/FlexWrapper";
 import { Preloader } from "../../components/Preloader/Preloader";
 
 type UsersAPIComponentProps = UsersType & {
-  un_follow: (id: string) => void;
+  un_follow: (id: number) => void;
   setUsers: (users: UserType[]) => void;
   setPage: (page: number) => void;
   setTotalUsersCount: (totalUsersCount: number) => void;
   setIsPending: (isPending: boolean) => void;
 };
 
-type PhotosType = {
-  small: string | null;
-  large: string | null;
-};
-
-type UserDomainType = {
-  name: string;
-  id: number;
-  photos: PhotosType;
-  status: string | null;
-  followed: boolean;
-} & UserType;
-
 type ResponseType = {
-  items: UserDomainType[];
+  items: UserType[];
   totalCount: number;
   error: string | null;
 };
@@ -59,7 +46,7 @@ export class UsersAPIComponent extends Component<UsersAPIComponentProps> {
       });
   };
 
-  onChangeSubscribeHandler = (userID: string) => this.props.un_follow(userID);
+  onChangeSubscribeHandler = (userID: number) => this.props.un_follow(userID);
 
   componentDidMount() {
     this.props.setIsPending(true);

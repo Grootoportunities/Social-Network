@@ -11,7 +11,7 @@ type UsersProps = {
   count: number;
   page: number;
   onChangePageHandler: (page: number) => void;
-  onChangeSubscribeHandler: (userID: string) => void;
+  onChangeSubscribeHandler: (userID: number) => void;
 };
 export const Users: FC<UsersProps> = ({
   users,
@@ -41,10 +41,10 @@ export const Users: FC<UsersProps> = ({
     return (
       <User
         key={u.id}
-        ava={u.ava ? u.ava : defaultAva}
+        ava={u.photos.large ? u.photos.large : defaultAva}
         name={u.name}
-        isFriend={u.isFriend}
-        status={u.status}
+        isFriend={u.followed}
+        status={u.status ? u.status : null}
         location={{ country: "Belarus", city: "Minsk" }}
         //location={u.location}
         userID={u.id}
