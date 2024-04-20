@@ -11,7 +11,7 @@ type UsersProps = {
   count: number;
   page: number;
   onChangePageHandler: (page: number) => void;
-  onChangeSubscribeHandler: (userID: number) => void;
+  onChangeSubscribeHandler: (userID: number, shouldSubscribe: boolean) => void;
 };
 export const Users: FC<UsersProps> = ({
   users,
@@ -55,12 +55,10 @@ export const Users: FC<UsersProps> = ({
 
   return (
     <section>
-      {/*<Container>*/}
       <FlexWrapper direction={"column"} alignItems={"center"} gap={"10px"}>
         <S.PagesList>{mappedPages}</S.PagesList>
         <ul>{mappedUsers}</ul>
       </FlexWrapper>
-      {/*</Container>*/}
     </section>
   );
 };

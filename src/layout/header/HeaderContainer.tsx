@@ -22,7 +22,7 @@ class HeaderAPI extends Component<HeaderAPIProps> {
       .then((res) => {
         if (res.data.resultCode === 0) {
           this.props.setUserAuthData(res.data.data);
-
+          //TODO: authAPI and refactor profile request with API
           axios
             .get(
               `https://social-network.samuraijs.com/api/1.0/profile/${res.data.data.id}`,

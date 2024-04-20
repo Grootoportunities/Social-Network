@@ -53,25 +53,29 @@ export const setUserProfilePageAC = (profile: ProfileType) =>
 
 export type PostType = { id: string; postMessage: string; likes: number };
 
+type ProfileContactsType = {
+  github: string;
+  vk: string;
+  facebook: string;
+  instagram: string;
+  twitter: string;
+  website: string;
+  youtube: string;
+  mainLink: string;
+};
+
+type ProfilePhotosType = {
+  small: string | undefined;
+  large: string | undefined;
+};
+
 export type ProfileType = {
   userId: number;
   lookingForAJob: boolean;
   lookingForAJobDescription: string;
   fullName: string;
-  contacts: {
-    github: string;
-    vk: string;
-    facebook: string;
-    instagram: string;
-    twitter: string;
-    website: string;
-    youtube: string;
-    mainLink: string;
-  };
-  photos: {
-    small: string | undefined;
-    large: string | undefined;
-  };
+  contacts: ProfileContactsType;
+  photos: ProfilePhotosType;
 };
 
 export type ProfilePageType = {

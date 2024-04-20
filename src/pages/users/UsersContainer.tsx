@@ -10,56 +10,42 @@ import {
   UserType,
 } from "../../redux/reducers/usersReducer";
 import React, { Component } from "react";
-import axios from "axios";
 import { Users } from "./Users";
 import { Container } from "../../components/Container/Container";
 import { FlexWrapper } from "../../components/FlexWrapper/FlexWrapper";
 import { Preloader } from "../../components/Preloader/Preloader";
+import { usersAPI } from "../../api/usersAPI";
 
 type UsersAPIComponentProps = UsersType & {
-  un_follow: (id: number) => void;
+  un_follow: (id: number, shouldSubscribe: boolean) => void;
   setUsers: (users: UserType[]) => void;
   setPage: (page: number) => void;
   setTotalUsersCount: (totalUsersCount: number) => void;
   setIsPending: (isPending: boolean) => void;
 };
 
-type ResponseType = {
-  items: UserType[];
-  totalCount: number;
-  error: string | null;
-};
-
 export class UsersAPIComponent extends Component<UsersAPIComponentProps> {
   onChangePageHandler = (page: number) => {
     this.props.setIsPending(true);
-
     this.props.setPage(page);
 
-    axios
-      .get<ResponseType>(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${this.props.count}`,
-      )
-      .then((res) => {
-        this.props.setUsers(res.data.items);
-        this.props.setIsPending(false);
-      });
+    usersAPI.getUsers(page, this.props.count).then((data) => {
+      this.props.setUsers(data.items);
+      this.props.setIsPending(false);
+    });
   };
 
-  onChangeSubscribeHandler = (userID: number) => this.props.un_follow(userID);
+  onChangeSubscribeHandler = (userID: number, shouldSubscribe: boolean) =>
+    this.props.un_follow(userID, shouldSubscribe);
 
   componentDidMount() {
     this.props.setIsPending(true);
 
-    axios
-      .get(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.page}&count=${this.props.count}`,
-      )
-      .then((res) => {
-        this.props.setUsers(res.data.items);
-        this.props.setTotalUsersCount(res.data.totalCount);
-        this.props.setIsPending(false);
-      });
+    usersAPI.getUsers(this.props.page, this.props.count).then((data) => {
+      this.props.setUsers(data.items);
+      this.props.setTotalUsersCount(data.totalCount);
+      this.props.setIsPending(false);
+    });
   }
 
   render() {

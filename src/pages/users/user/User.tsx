@@ -4,6 +4,7 @@ import { Button } from "../../../components/Button/Button";
 import { LocationType } from "../../../redux/reducers/usersReducer";
 import { S } from "./_styles";
 import { Link } from "react-router-dom";
+import { followAPI } from "../../../api/followAPI";
 
 type UserProps = {
   name: string;
@@ -13,7 +14,7 @@ type UserProps = {
   isFriend: boolean;
   userID: number;
 
-  onChangeSubscribe: (userID: number) => void;
+  onChangeSubscribe: (userID: number, shouldSubscribe: boolean) => void;
 };
 export const User: FC<UserProps> = ({
   ava,
@@ -25,7 +26,25 @@ export const User: FC<UserProps> = ({
 
   onChangeSubscribe,
 }) => {
-  const onUn_FollowClickHandler = () => onChangeSubscribe(userID);
+  const onUn_FollowClickHandler = () => {
+    followAPI.getFollow(userID).then((data) => {
+      if (data) {
+        followAPI
+          .deleteFollow(userID)
+          .then(
+            (data) => data.resultCode === 0 && onChangeSubscribe(userID, false),
+          );
+
+        return;
+      }
+
+      followAPI
+        .createFollow(userID)
+        .then(
+          (data) => data.resultCode === 0 && onChangeSubscribe(userID, true),
+        );
+    });
+  };
 
   return (
     <S.User>

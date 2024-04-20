@@ -15,7 +15,7 @@ export const usersReducer = (
       return {
         ...state,
         users: state.users.map((u) =>
-          u.id === action.id ? { ...u, followed: !u.followed } : u,
+          u.id === action.id ? { ...u, followed: action.shouldSubscribe } : u,
         ),
       };
     case "SET-USERS":
@@ -35,7 +35,8 @@ export const usersReducer = (
 
 //ACTIONS
 
-export const un_followAC = (id: number) => ({ type: "UN-FOLLOW", id }) as const;
+export const un_followAC = (id: number, shouldSubscribe: boolean) =>
+  ({ type: "UN-FOLLOW", id, shouldSubscribe }) as const;
 export const setUsersAC = (users: UserType[]) =>
   ({ type: "SET-USERS", users }) as const;
 export const setPageAC = (page: number) =>
