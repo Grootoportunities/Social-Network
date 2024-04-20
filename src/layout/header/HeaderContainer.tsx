@@ -6,6 +6,7 @@ import {
   AuthDomainType,
   AuthType,
   setAuthUserDataAC,
+  setAuthUserProfilePictureAC,
 } from "../../redux/reducers/authReducer";
 import { RootStateType } from "../../redux/redux-store";
 
@@ -21,6 +22,14 @@ class HeaderAPI extends Component<HeaderAPIProps> {
       .then((res) => {
         if (res.data.resultCode === 0) {
           this.props.setUserAuthData(res.data.data);
+
+          axios
+            .get(
+              `https://social-network.samuraijs.com/api/1.0/profile/${res.data.data.id}`,
+            )
+            .then((res) =>
+              this.props.setAuthUserProfilePicture(res.data.photos.small),
+            );
         }
       });
   }
@@ -30,6 +39,7 @@ class HeaderAPI extends Component<HeaderAPIProps> {
       <Header
         isAuth={this.props.userAuthData.isAuth}
         login={this.props.userAuthData.login}
+        headerAva={this.props.userAuthData.authUserProfilePicture}
       />
     );
   }
@@ -41,6 +51,7 @@ const mapStateToProps = (state: RootStateType): MapStateToPropsType => ({
 
 export const HeaderContainer = connect(mapStateToProps, {
   setUserAuthData: setAuthUserDataAC,
+  setAuthUserProfilePicture: setAuthUserProfilePictureAC,
 })(HeaderAPI);
 
 //TYPES
@@ -52,7 +63,8 @@ type MapStateToPropsType = {
 };
 
 type MapDispatchToPropsType = {
-  setUserAuthData: (data: AuthType) => {};
+  setUserAuthData: (data: AuthType) => void;
+  setAuthUserProfilePicture: (picture: string) => void;
 };
 
 type GetResponseType = {

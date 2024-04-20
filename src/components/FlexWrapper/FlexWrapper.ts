@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 type FlexWrapperPropsType = {
   direction?: string;
-  justifyContent?: string;
+  justifyContent?: "center" | "space-between" | "space-around" | "space-evenly";
   alignItems?: string;
   alignContent?: string;
   alignSelf?: string;

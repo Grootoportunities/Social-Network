@@ -3,6 +3,7 @@ const initialState: AuthDomainType = {
   email: null,
   login: null,
   isAuth: false,
+  authUserProfilePicture: "",
 };
 
 export const authReducer = (
@@ -12,6 +13,8 @@ export const authReducer = (
   switch (action.type) {
     case "SET-USER-AUTH-DATA":
       return { ...state, ...action.data, isAuth: true };
+    case "SET-USER-PROFILE-PICTURE":
+      return { ...state, authUserProfilePicture: action.picture };
     default:
       return state;
   }
@@ -23,6 +26,12 @@ export const setAuthUserDataAC = (data: AuthType) =>
     data,
   }) as const;
 
+export const setAuthUserProfilePictureAC = (picture: string) =>
+  ({
+    type: "SET-USER-PROFILE-PICTURE",
+    picture,
+  }) as const;
+
 //TYPES
 
 export type AuthType = {
@@ -31,6 +40,11 @@ export type AuthType = {
   login: string | null;
 };
 
-export type AuthDomainType = AuthType & { isAuth: boolean };
+export type AuthDomainType = AuthType & {
+  isAuth: boolean;
+  authUserProfilePicture: string;
+};
 
-type AuthActionsType = ReturnType<typeof setAuthUserDataAC>;
+type AuthActionsType =
+  | ReturnType<typeof setAuthUserDataAC>
+  | ReturnType<typeof setAuthUserProfilePictureAC>;
