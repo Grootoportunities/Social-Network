@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Header } from "./Header";
-import axios from "axios";
 import {
   AuthDomainType,
   AuthType,
@@ -9,29 +8,21 @@ import {
   setAuthUserProfilePictureAC,
 } from "../../redux/reducers/authReducer";
 import { RootStateType } from "../../redux/redux-store";
+import { profileAPI } from "../../api/profileAPI";
+import { authAPI } from "../../api/authAPI";
 
 class HeaderAPI extends Component<HeaderAPIProps> {
   componentDidMount() {
-    axios
-      .get<GetResponseType>(
-        "https://social-network.samuraijs.com/api/1.0/auth/me",
-        {
-          withCredentials: true,
-        },
-      )
-      .then((res) => {
-        if (res.data.resultCode === 0) {
-          this.props.setUserAuthData(res.data.data);
-          //TODO: authAPI and refactor profile request with API
-          axios
-            .get(
-              `https://social-network.samuraijs.com/api/1.0/profile/${res.data.data.id}`,
-            )
-            .then((res) =>
-              this.props.setAuthUserProfilePicture(res.data.photos.small),
-            );
-        }
-      });
+    authAPI.me().then((data) => {
+      if (data.resultCode === 0) {
+        this.props.setUserAuthData(data.data);
+
+        profileAPI.getProfile(data.data.id.toString()).then((data) => {
+          if (data.photos.small)
+            this.props.setAuthUserProfilePicture(data.photos.small);
+        });
+      }
+    });
   }
 
   render() {
@@ -65,14 +56,4 @@ type MapStateToPropsType = {
 type MapDispatchToPropsType = {
   setUserAuthData: (data: AuthType) => void;
   setAuthUserProfilePicture: (picture: string) => void;
-};
-
-type GetResponseType = {
-  data: {
-    id: number;
-    email: string;
-    login: string;
-  };
-  resultCode: number;
-  messages: string[];
 };
