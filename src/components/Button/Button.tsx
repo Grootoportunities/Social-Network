@@ -7,19 +7,26 @@ type ButtonProps = {
 
   onClick?: () => void;
   style?: "default" | "transparent";
+  disabled?: boolean;
 };
 
 export const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
   style = "default",
+  disabled = false,
 }) => (
-  <StyledButton $style={style} onClick={onClick}>
+  <StyledButton $disabled={disabled} $style={style} onClick={onClick}>
     {children}
   </StyledButton>
 );
 
-const StyledButton = styled.button<{ $style: "default" | "transparent" }>`
+type StyledButtonType = {
+  $style: "default" | "transparent";
+  $disabled: boolean;
+};
+
+const StyledButton = styled.button<StyledButtonType>`
   background-color: ${(props) =>
     props.$style === "transparent" ? "transparent" : Theme.colors.button};
 
@@ -33,4 +40,6 @@ const StyledButton = styled.button<{ $style: "default" | "transparent" }>`
 
   color: ${(props) =>
     props.$style === "transparent" ? Theme.colors.content : "black"};
+
+  opacity: ${(props) => props.$disabled && 0.5};
 `;

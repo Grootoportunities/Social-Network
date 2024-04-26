@@ -8,7 +8,7 @@ const initialState: UsersType = {
 
 export const usersReducer = (
   state: UsersType = initialState,
-  action: ActionsType,
+  action: UsersActionsType,
 ): UsersType => {
   switch (action.type) {
     case "UN-FOLLOW":
@@ -28,6 +28,15 @@ export const usersReducer = (
       return { ...state, totalUsersCount: action.totalUsersCount };
     case "SET-IS-PENDING":
       return { ...state, isPending: action.isPending };
+    case "USERS/SET-USER-ENTITY-STATUS":
+      return {
+        ...state,
+        users: state.users.map((user) =>
+          user.id === action.id
+            ? { ...user, userEntityStatus: action.entityStatus }
+            : user,
+        ),
+      };
     default:
       return state;
   }
@@ -50,6 +59,8 @@ export const setTotalUsersCountAC = (totalUsersCount: number) =>
   }) as const;
 export const setIsPendingAC = (isPending: boolean) =>
   ({ type: "SET-IS-PENDING", isPending }) as const;
+export const setUserEntityStatusAC = (entityStatus: boolean, id: number) =>
+  ({ type: "USERS/SET-USER-ENTITY-STATUS", entityStatus, id }) as const;
 
 //TYPES
 
@@ -73,12 +84,14 @@ export type UserType = {
   status: string | null;
   photos: PhotosType;
   followed: boolean;
+  userEntityStatus: boolean;
 };
 
-type ActionsType =
+type UsersActionsType =
   | ReturnType<typeof un_followAC>
   | ReturnType<typeof setUsersAC>
   | ReturnType<typeof setPageAC>
   | ReturnType<typeof setCountAC>
   | ReturnType<typeof setTotalUsersCountAC>
-  | ReturnType<typeof setIsPendingAC>;
+  | ReturnType<typeof setIsPendingAC>
+  | ReturnType<typeof setUserEntityStatusAC>;

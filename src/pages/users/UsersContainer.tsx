@@ -4,6 +4,7 @@ import {
   setIsPendingAC,
   setPageAC,
   setTotalUsersCountAC,
+  setUserEntityStatusAC,
   setUsersAC,
   un_followAC,
   UsersType,
@@ -22,6 +23,7 @@ type UsersAPIComponentProps = UsersType & {
   setPage: (page: number) => void;
   setTotalUsersCount: (totalUsersCount: number) => void;
   setIsPending: (isPending: boolean) => void;
+  setUserEntityStatus: (entityStatus: boolean, id: number) => void;
 };
 
 export class UsersAPIComponent extends Component<UsersAPIComponentProps> {
@@ -63,6 +65,7 @@ export class UsersAPIComponent extends Component<UsersAPIComponentProps> {
             totalUsersCount={this.props.totalUsersCount}
             onChangePageHandler={this.onChangePageHandler}
             onChangeSubscribeHandler={this.onChangeSubscribeHandler}
+            setUserEntityStatus={this.props.setUserEntityStatus}
           />
         )}
       </Container>
@@ -84,4 +87,5 @@ export const UsersContainer = connect(mapStateToProps, {
   setPage: setPageAC,
   setTotalUsersCount: setTotalUsersCountAC,
   setIsPending: setIsPendingAC,
+  setUserEntityStatus: setUserEntityStatusAC,
 })(UsersAPIComponent);

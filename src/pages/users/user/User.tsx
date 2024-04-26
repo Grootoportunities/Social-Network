@@ -13,8 +13,10 @@ type UserProps = {
   ava: string;
   isFriend: boolean;
   userID: number;
+  entityStatus: boolean;
 
   onChangeSubscribe: (userID: number, shouldSubscribe: boolean) => void;
+  setUserEntityStatus: (entityStatus: boolean, id: number) => void;
 };
 export const User: FC<UserProps> = ({
   ava,
@@ -23,26 +25,27 @@ export const User: FC<UserProps> = ({
   location,
   isFriend,
   userID,
+  entityStatus,
 
   onChangeSubscribe,
+  setUserEntityStatus,
 }) => {
   const onUn_FollowClickHandler = () => {
+    setUserEntityStatus(true, userID);
     followAPI.getFollow(userID).then((data) => {
       if (data) {
-        followAPI
-          .deleteFollow(userID)
-          .then(
-            (data) => data.resultCode === 0 && onChangeSubscribe(userID, false),
-          );
+        followAPI.deleteFollow(userID).then((data) => {
+          data.resultCode === 0 && onChangeSubscribe(userID, false);
+          setUserEntityStatus(false, userID);
+        });
 
         return;
       }
 
-      followAPI
-        .createFollow(userID)
-        .then(
-          (data) => data.resultCode === 0 && onChangeSubscribe(userID, true),
-        );
+      followAPI.createFollow(userID).then((data) => {
+        data.resultCode === 0 && onChangeSubscribe(userID, true);
+        setUserEntityStatus(false, userID);
+      });
     });
   };
 
@@ -59,7 +62,7 @@ export const User: FC<UserProps> = ({
         <S.CitySpan>{location.city}</S.CitySpan>
         <S.CountrySpan>{location.country}</S.CountrySpan>
       </FlexWrapper>
-      <Button onClick={onUn_FollowClickHandler}>
+      <Button onClick={onUn_FollowClickHandler} disabled={entityStatus}>
         {isFriend ? "Unfollow" : "Follow"}
       </Button>
     </S.User>

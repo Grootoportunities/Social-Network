@@ -12,6 +12,7 @@ type UsersProps = {
   page: number;
   onChangePageHandler: (page: number) => void;
   onChangeSubscribeHandler: (userID: number, shouldSubscribe: boolean) => void;
+  setUserEntityStatus: (entityStatus: boolean, id: number) => void;
 };
 export const Users: FC<UsersProps> = ({
   users,
@@ -20,6 +21,7 @@ export const Users: FC<UsersProps> = ({
   page,
   onChangePageHandler,
   onChangeSubscribeHandler,
+  setUserEntityStatus,
 }) => {
   let pages = [];
 
@@ -48,7 +50,9 @@ export const Users: FC<UsersProps> = ({
         location={{ country: "Belarus", city: "Minsk" }}
         //location={u.location}
         userID={u.id}
+        entityStatus={u.userEntityStatus}
         onChangeSubscribe={onChangeSubscribeHandler}
+        setUserEntityStatus={setUserEntityStatus}
       />
     );
   });
