@@ -1,28 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Header } from "./Header";
-import {
-  AuthDomainType,
-  AuthType,
-  setAuthUserDataAC,
-  setAuthUserProfilePictureAC,
-} from "../../redux/reducers/authReducer";
+import { AuthDomainType, authUserTC } from "../../redux/reducers/authReducer";
 import { RootStateType } from "../../redux/redux-store";
-import { profileAPI } from "../../api/profileAPI";
-import { authAPI } from "../../api/authAPI";
 
 class HeaderAPI extends Component<HeaderAPIProps> {
   componentDidMount() {
-    authAPI.me().then((data) => {
-      if (data.resultCode === 0) {
-        this.props.setUserAuthData(data.data);
-
-        profileAPI.getProfile(data.data.id.toString()).then((data) => {
-          if (data.photos.small)
-            this.props.setAuthUserProfilePicture(data.photos.small);
-        });
-      }
-    });
+    this.props.authUser();
   }
 
   render() {
@@ -41,8 +25,7 @@ const mapStateToProps = (state: RootStateType): MapStateToPropsType => ({
 });
 
 export const HeaderContainer = connect(mapStateToProps, {
-  setUserAuthData: setAuthUserDataAC,
-  setAuthUserProfilePicture: setAuthUserProfilePictureAC,
+  authUser: authUserTC,
 })(HeaderAPI);
 
 //TYPES
@@ -54,6 +37,5 @@ type MapStateToPropsType = {
 };
 
 type MapDispatchToPropsType = {
-  setUserAuthData: (data: AuthType) => void;
-  setAuthUserProfilePicture: (picture: string) => void;
+  authUser: () => void;
 };

@@ -4,7 +4,6 @@ import { Button } from "../../../components/Button/Button";
 import { LocationType } from "../../../redux/reducers/usersReducer";
 import { S } from "./_styles";
 import { Link } from "react-router-dom";
-import { followAPI } from "../../../api/followAPI";
 
 type UserProps = {
   name: string;
@@ -15,8 +14,7 @@ type UserProps = {
   userID: number;
   entityStatus: boolean;
 
-  onChangeSubscribe: (userID: number, shouldSubscribe: boolean) => void;
-  setUserEntityStatus: (entityStatus: boolean, id: number) => void;
+  setUn_Follow: (userID: number) => void;
 };
 export const User: FC<UserProps> = ({
   ava,
@@ -27,27 +25,9 @@ export const User: FC<UserProps> = ({
   userID,
   entityStatus,
 
-  onChangeSubscribe,
-  setUserEntityStatus,
+  setUn_Follow,
 }) => {
-  const onUn_FollowClickHandler = () => {
-    setUserEntityStatus(true, userID);
-    followAPI.getFollow(userID).then((data) => {
-      if (data) {
-        followAPI.deleteFollow(userID).then((data) => {
-          data.resultCode === 0 && onChangeSubscribe(userID, false);
-          setUserEntityStatus(false, userID);
-        });
-
-        return;
-      }
-
-      followAPI.createFollow(userID).then((data) => {
-        data.resultCode === 0 && onChangeSubscribe(userID, true);
-        setUserEntityStatus(false, userID);
-      });
-    });
-  };
+  const onUn_FollowClickHandler = () => setUn_Follow(userID);
 
   return (
     <S.User>

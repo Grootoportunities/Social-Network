@@ -7,7 +7,7 @@ export type SidebarType = {
   friendsOnline: FriendOnlineType[];
 };
 
-type ActionsType = any;
+export type SidebarActionsType = any;
 
 const initialState: SidebarType = {
   elements: [
@@ -28,7 +28,7 @@ const initialState: SidebarType = {
 
 export const sidebarReducer = (
   state: SidebarType = initialState,
-  action: ActionsType,
+  action: SidebarActionsType,
 ): SidebarType => {
   switch (action.type) {
     default:

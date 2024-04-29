@@ -1,4 +1,6 @@
 import { v1 } from "uuid";
+import { profileAPI } from "../../api/profileAPI";
+import { AppThunksType } from "../redux-store";
 
 const initialState: ProfilePageType = {
   posts: [
@@ -19,7 +21,7 @@ const initialState: ProfilePageType = {
 
 export const profileReducer = (
   state: ProfilePageType = initialState,
-  action: ActionsType,
+  action: ProfileActionsType,
 ): ProfilePageType => {
   switch (action.type) {
     case "ADD-POST": {
@@ -48,6 +50,15 @@ export const setPostValueAC = (value: string) =>
   }) as const;
 export const setUserProfilePageAC = (profile: ProfileType) =>
   ({ type: "SET-USER-PROFILE", profile }) as const;
+
+//THUNKS
+
+export const fetchProfilePageTC =
+  (userID: string): AppThunksType =>
+  (dispatch) =>
+    profileAPI
+      .getProfile(userID)
+      .then((data) => dispatch(setUserProfilePageAC(data)));
 
 // TYPES
 
@@ -89,8 +100,7 @@ export type AddPostAT = {
 };
 export type SetPostValueAT = { type: "SET-POST-VALUE"; value: string };
 
-type ActionsType =
+export type ProfileActionsType =
   | ReturnType<typeof addPostAC>
   | ReturnType<typeof setPostValueAC>
   | ReturnType<typeof setUserProfilePageAC>;
-//AddPostAT | SetPostValueAT

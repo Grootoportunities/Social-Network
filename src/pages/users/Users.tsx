@@ -10,9 +10,9 @@ type UsersProps = {
   totalUsersCount: number;
   count: number;
   page: number;
+
   onChangePageHandler: (page: number) => void;
-  onChangeSubscribeHandler: (userID: number, shouldSubscribe: boolean) => void;
-  setUserEntityStatus: (entityStatus: boolean, id: number) => void;
+  setUn_Follow: (userID: number) => void;
 };
 export const Users: FC<UsersProps> = ({
   users,
@@ -20,8 +20,8 @@ export const Users: FC<UsersProps> = ({
   count,
   page,
   onChangePageHandler,
-  onChangeSubscribeHandler,
-  setUserEntityStatus,
+
+  setUn_Follow,
 }) => {
   let pages = [];
 
@@ -51,8 +51,7 @@ export const Users: FC<UsersProps> = ({
         //location={u.location}
         userID={u.id}
         entityStatus={u.userEntityStatus}
-        onChangeSubscribe={onChangeSubscribeHandler}
-        setUserEntityStatus={setUserEntityStatus}
+        setUn_Follow={setUn_Follow}
       />
     );
   });

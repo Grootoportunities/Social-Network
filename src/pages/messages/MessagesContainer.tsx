@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { RootStateType } from "../../redux/redux-store";
 import { Dispatch } from "redux";
 
-type MapStateToPropsType = { state: MessagesPageType };
+type MapStateToPropsType = { state: MessagesPageType; isAuth: boolean };
 type MapDispatchToPropsType = {
   sendMessage: () => void;
   setValue: (value: string) => void;
@@ -16,6 +16,7 @@ type MapDispatchToPropsType = {
 
 const mapStateToProps = (state: RootStateType): MapStateToPropsType => ({
   state: state.messagesPage,
+  isAuth: state.userAuth.isAuth,
 });
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => ({
   sendMessage: () => dispatch(addMessageAC()),

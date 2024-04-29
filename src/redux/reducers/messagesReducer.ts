@@ -6,7 +6,7 @@ export type MessagesPageType = {
   messageValue: string;
 };
 
-type ActionsType = AddMessageAT | SetMessageValueAT;
+export type MessagesActionsType = AddMessageAT | SetMessageValueAT;
 export type AddMessageAT = { type: "ADD-MESSAGE" };
 export type SetMessageValueAT = { type: "SET-MESSAGE-VALUE"; value: string };
 
@@ -30,7 +30,7 @@ const initialState: MessagesPageType = {
 
 export const messagesReducer = (
   state: MessagesPageType = initialState,
-  action: ActionsType,
+  action: MessagesActionsType,
 ): MessagesPageType => {
   switch (action.type) {
     case "ADD-MESSAGE": {
