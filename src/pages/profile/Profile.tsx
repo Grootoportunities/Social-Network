@@ -9,6 +9,8 @@ type ProfileProps = {
 };
 
 export const Profile: FC<ProfileProps> = ({ profilePage }) => {
+  debugger;
+
   return (
     <section>
       <Container>

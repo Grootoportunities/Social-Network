@@ -6,7 +6,8 @@ import {
   fetchProfilePageTC,
   ProfilePageType,
 } from "../../redux/reducers/profileReducer";
-import { Redirect, RouteComponentProps, withRouter } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router-dom";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 
 class ProfileAPI extends Component<ProfileAPIProps> {
   componentDidMount() {
@@ -18,22 +19,21 @@ class ProfileAPI extends Component<ProfileAPIProps> {
   }
 
   render() {
-    if (!this.props.isAuth) return <Redirect to={"login"} />;
-
     return <Profile profilePage={this.props.profilePage} />;
   }
 }
 
 const mapStateToProps = (state: RootStateType): MapStateToPropsType => ({
   profilePage: state.profilePage,
-  isAuth: state.userAuth.isAuth,
 });
 
 const ProfileAPIWithURL = withRouter(ProfileAPI);
 
-export const ProfileContainer = connect(mapStateToProps, {
-  setUserProfilePage: fetchProfilePageTC,
-})(ProfileAPIWithURL);
+export const ProfileContainer = withAuthRedirect(
+  connect(mapStateToProps, {
+    setUserProfilePage: fetchProfilePageTC,
+  })(ProfileAPIWithURL),
+);
 
 //TYPES
 
@@ -41,7 +41,6 @@ type OwnProfileAPIProps = MapStateToPropsType & MapDispatchToPropsType;
 
 type MapStateToPropsType = {
   profilePage: ProfilePageType;
-  isAuth: boolean;
 };
 
 type MapDispatchToPropsType = {

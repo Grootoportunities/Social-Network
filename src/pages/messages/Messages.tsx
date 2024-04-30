@@ -5,13 +5,12 @@ import { Message } from "./message/Message";
 import { S } from "./Messages_Styles";
 import dialogAva from "../../assets/3906412.png";
 import { FlexWrapper } from "../../components/FlexWrapper/FlexWrapper";
-import { Redirect, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import { MessagesPageType } from "../../redux/reducers/messagesReducer";
 
 type MessagesProps = {
   state: MessagesPageType;
-  isAuth: boolean;
 
   sendMessage: () => void;
   setValue: (value: string) => void;
@@ -19,7 +18,6 @@ type MessagesProps = {
 
 export const Messages: React.FC<MessagesProps> = ({
   state,
-  isAuth,
   sendMessage,
   setValue,
 }) => {
@@ -46,8 +44,6 @@ export const Messages: React.FC<MessagesProps> = ({
 
   const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) =>
     setValue(e.currentTarget.value);
-
-  if (!isAuth) return <Redirect to={"/login"} />;
 
   return (
     <S.Messages>
