@@ -6,11 +6,13 @@ import {
   setUn_FollowTC,
   UsersType,
 } from "../../redux/reducers/usersReducer";
-import React, { Component } from "react";
+import React, { Component, ComponentType } from "react";
 import { Users } from "./Users";
 import { Container } from "../../components/Container/Container";
 import { FlexWrapper } from "../../components/FlexWrapper/FlexWrapper";
 import { Preloader } from "../../components/Preloader/Preloader";
+import { compose } from "redux";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 
 type UsersAPIComponentProps = UsersType & {
   getUsers: (page: number, count: number) => void;
@@ -57,8 +59,11 @@ const mapStateToProps = (state: RootStateType): UsersType => ({
   isPending: state.usersPage.isPending,
 });
 
-export const UsersContainer = connect(mapStateToProps, {
-  getUsers: getUsersTC,
-  getUserOnPageChange: getUserOnPageChangeTC,
-  setUn_Follow: setUn_FollowTC,
-})(UsersAPIComponent);
+export const UsersContainer = compose<ComponentType>(
+  withAuthRedirect,
+  connect(mapStateToProps, {
+    getUsers: getUsersTC,
+    getUserOnPageChange: getUserOnPageChangeTC,
+    setUn_Follow: setUn_FollowTC,
+  }),
+)(UsersAPIComponent);

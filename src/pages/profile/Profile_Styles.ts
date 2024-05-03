@@ -16,7 +16,11 @@ const LikesCount = styled.span`
 `;
 
 const AvaDescription = styled.span`
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
   margin: 15px 0;
 `;
 

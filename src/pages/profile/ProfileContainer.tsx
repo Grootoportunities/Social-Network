@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { Profile } from "./Profile";
-import { Component } from "react";
+import { Component, ComponentType } from "react";
 import { RootStateType } from "../../redux/redux-store";
 import {
   fetchProfilePageTC,
@@ -8,6 +8,7 @@ import {
 } from "../../redux/reducers/profileReducer";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { compose } from "redux";
 
 class ProfileAPI extends Component<ProfileAPIProps> {
   componentDidMount() {
@@ -27,13 +28,13 @@ const mapStateToProps = (state: RootStateType): MapStateToPropsType => ({
   profilePage: state.profilePage,
 });
 
-const ProfileAPIWithURL = withRouter(ProfileAPI);
-
-export const ProfileContainer = withAuthRedirect(
+export const ProfileContainer = compose<ComponentType>(
+  withAuthRedirect,
   connect(mapStateToProps, {
     setUserProfilePage: fetchProfilePageTC,
-  })(ProfileAPIWithURL),
-);
+  }),
+  withRouter,
+)(ProfileAPI);
 
 //TYPES
 

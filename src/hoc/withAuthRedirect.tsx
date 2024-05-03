@@ -2,6 +2,7 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { RootStateType } from "../redux/redux-store";
 import { ComponentType } from "react";
+import { compose } from "redux";
 
 type MapStateToPropsType = {
   isAuth: boolean;
@@ -20,5 +21,5 @@ export const withAuthRedirect = <T,>(Component: ComponentType<T>) => {
     return <Component {...(rest as T)} />;
   };
 
-  return connect(mapStateToProps)(RedirectContainer);
+  return compose(connect(mapStateToProps))(RedirectContainer);
 };
