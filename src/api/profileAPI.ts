@@ -9,9 +9,19 @@ const instance = axios.create({
 
 export const profileAPI = {
   getProfile: (userID: string) =>
+    instance.get<ProfileType>(`${userID}`).then((res) => res.data),
+
+  getStatus: (userID: string) =>
+    instance.get<string>(`status/${userID}`).then((res) => res.data),
+
+  updateStatus: (status: string) =>
     instance
-      .get<ProfileType>(
-        `https://social-network.samuraijs.com/api/1.0/profile/${userID}`,
-      )
+      .put<UpdateStatusResponseType>("status", { status })
       .then((res) => res.data),
+};
+
+type UpdateStatusResponseType = {
+  resultCode: number;
+  messages: string[];
+  data: {};
 };

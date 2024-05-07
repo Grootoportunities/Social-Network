@@ -1,3 +1,24 @@
 import { FC } from "react";
+import { Container } from "../../components/Container/Container";
+import { FlexWrapper } from "../../components/FlexWrapper/FlexWrapper";
+import styled from "styled-components";
+import { FormDataType, ReduxLoginForm } from "./loginForm/LoginForm";
 
-export const Login: FC = () => <h2>LOGIN</h2>;
+export const Login: FC = () => {
+  const onSubmit = (formData: FormDataType) => console.log(formData);
+
+  return (
+    <section>
+      <Container>
+        <FlexWrapper justifyContent="center" direction="column" gap={"30px"}>
+          <LoginHeader>LOGIN</LoginHeader>
+          <ReduxLoginForm onSubmit={onSubmit} />
+        </FlexWrapper>
+      </Container>
+    </section>
+  );
+};
+
+const LoginHeader = styled.h2`
+  align-self: center;
+`;

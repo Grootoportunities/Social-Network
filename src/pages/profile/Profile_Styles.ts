@@ -34,6 +34,11 @@ const MyPosts = styled.div`
   }
 `;
 
+const ProfilePhoto = styled.img`
+  width: 200px;
+  border-radius: 50%;
+`;
+
 export const S = {
   Cover,
   AvaPost,
@@ -41,4 +46,5 @@ export const S = {
   AvaDescription,
   PostsHeader,
   MyPosts,
+  ProfilePhoto,
 };

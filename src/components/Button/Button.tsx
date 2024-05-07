@@ -8,6 +8,7 @@ type ButtonProps = {
   onClick?: () => void;
   style?: "default" | "transparent";
   disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 };
 
 export const Button: React.FC<ButtonProps> = ({
@@ -15,8 +16,14 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   style = "default",
   disabled = false,
+  type = "button",
 }) => (
-  <StyledButton $disabled={disabled} $style={style} onClick={onClick}>
+  <StyledButton
+    $disabled={disabled}
+    $style={style}
+    onClick={onClick}
+    type={type}
+  >
     {children}
   </StyledButton>
 );
