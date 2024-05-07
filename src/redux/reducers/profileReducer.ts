@@ -16,7 +16,7 @@ const initialState: ProfilePageType = {
     },
   ],
   postValue: "",
-  profile: null,
+  profile: {} as ProfileDomainType,
 };
 
 export const profileReducer = (
@@ -37,14 +37,11 @@ export const profileReducer = (
       return { ...state, postValue: action.value };
     case "SET-USER-PROFILE":
       return { ...state, profile: { ...action.profile, status: "" } };
-    case "PROFILE/SET-PROFILE-STATUS": {
+    case "PROFILE/SET-PROFILE-STATUS":
       return {
         ...state,
-        // @ts-ignore
-        //TODO: Разобраться с типом
         profile: { ...state.profile, status: action.status },
       };
-    }
     default:
       return state;
   }
@@ -117,7 +114,7 @@ export type ProfileDomainType = { status: string } & ProfileType;
 export type ProfilePageType = {
   posts: PostType[];
   postValue: string;
-  profile: ProfileDomainType | null;
+  profile: ProfileDomainType;
 };
 
 export type AddPostAT = {

@@ -6,7 +6,7 @@ import { Status } from "./status/Status";
 import defaultAva from "../../../assets/3906412.png";
 
 type ProfileInfoProps = {
-  profile: ProfileDomainType | null;
+  profile: ProfileDomainType;
   updateProfileStatus: (status: string) => void;
 };
 
@@ -14,7 +14,7 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
   profile,
   updateProfileStatus,
 }) => {
-  return !profile ? (
+  return !profile.userId ? (
     <h2>Такого пользователя не существует</h2>
   ) : (
     <FlexWrapper justifyContent="center">

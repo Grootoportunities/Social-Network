@@ -1,6 +1,7 @@
 import { v1 } from "uuid";
 import {
   AddPostAT,
+  ProfileDomainType,
   ProfilePageType,
   SetPostValueAT,
 } from "./reducers/profileReducer";
@@ -49,7 +50,7 @@ export const store: StoreType = {
         },
       ],
       postValue: "",
-      profile: null,
+      profile: {} as ProfileDomainType,
     },
     messagesPage: {
       dialogs: [
