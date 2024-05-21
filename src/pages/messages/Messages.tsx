@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import { Container } from "../../components/Container/Container";
 import { Dialog } from "./dialog/Dialog";
 import { Message } from "./message/Message";
@@ -6,21 +6,16 @@ import { S } from "./Messages_Styles";
 import dialogAva from "../../assets/3906412.png";
 import { FlexWrapper } from "../../components/FlexWrapper/FlexWrapper";
 import { Route } from "react-router-dom";
-import { Button } from "../../components/Button/Button";
 import { MessagesPageType } from "../../redux/reducers/messagesReducer";
+import { MessageFormData, ReduxMessageForm } from "./messageForm/MessageForm";
 
 type MessagesProps = {
   state: MessagesPageType;
 
-  sendMessage: () => void;
-  setValue: (value: string) => void;
+  sendMessage: (messageValue: string) => void;
 };
 
-export const Messages: React.FC<MessagesProps> = ({
-  state,
-  sendMessage,
-  setValue,
-}) => {
+export const Messages: React.FC<MessagesProps> = ({ state, sendMessage }) => {
   const mappedDialogs = state.dialogs.map((d) => (
     <FlexWrapper key={d.id} alignItems={"center"}>
       <S.DialogAva src={dialogAva} />
@@ -38,12 +33,9 @@ export const Messages: React.FC<MessagesProps> = ({
     </FlexWrapper>
   ));
 
-  const onSendMessage = () => {
-    if (state.messageValue.trim() !== "") sendMessage();
+  const onSendMessage = (formData: MessageFormData) => {
+    if (formData.message.trim() !== "") sendMessage(formData.message);
   };
-
-  const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) =>
-    setValue(e.currentTarget.value);
 
   return (
     <S.Messages>
@@ -51,10 +43,7 @@ export const Messages: React.FC<MessagesProps> = ({
         <S.Dialogs>{mappedDialogs}</S.Dialogs>
         <S.DialogsMessages>{mappedMessages}</S.DialogsMessages>
       </Container>
-      <FlexWrapper alignItems={"center"} justifyContent={"space-evenly"}>
-        <S.MessageArea value={state.messageValue} onChange={onChangeHandler} />
-        <Button onClick={onSendMessage}>Send</Button>
-      </FlexWrapper>
+      <ReduxMessageForm onSubmit={onSendMessage} />
     </S.Messages>
   );
 };

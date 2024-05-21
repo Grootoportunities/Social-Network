@@ -49,7 +49,6 @@ export const store: StoreType = {
           likes: 20,
         },
       ],
-      postValue: "",
       profile: {} as ProfileDomainType,
     },
     messagesPage: {
@@ -67,7 +66,6 @@ export const store: StoreType = {
         { id: 4, message: "I'm Semen" },
         { id: 5, message: "And i'm Max" },
       ],
-      messageValue: "",
     },
 
     sidebar: {

@@ -3,13 +3,13 @@ import { Button } from "../../../components/Button/Button";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { FC } from "react";
 
-export type FormDataType = {
+export type LoginFormData = {
   login: string;
   password: string;
   rememberMe: boolean;
 };
 
-const StyledLoginForm: FC<InjectedFormProps<FormDataType>> = (props) => (
+const StyledLoginForm: FC<InjectedFormProps<LoginFormData>> = (props) => (
   <LoginForm onSubmit={props.handleSubmit}>
     <Field placeholder={"Login"} name={"login"} component={"input"} />
     <Field placeholder={"Password"} name={"password"} component={"input"} />
@@ -21,7 +21,7 @@ const StyledLoginForm: FC<InjectedFormProps<FormDataType>> = (props) => (
   </LoginForm>
 );
 
-export const ReduxLoginForm = reduxForm<FormDataType>({ form: "login" })(
+export const ReduxLoginForm = reduxForm<LoginFormData>({ form: "login" })(
   StyledLoginForm,
 );
 

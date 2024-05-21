@@ -15,7 +15,6 @@ const initialState: ProfilePageType = {
       likes: 20,
     },
   ],
-  postValue: "",
   profile: {} as ProfileDomainType,
 };
 
@@ -27,14 +26,12 @@ export const profileReducer = (
     case "ADD-POST": {
       const newPost: PostType = {
         id: v1(),
-        postMessage: state.postValue,
+        postMessage: action.postValue,
         likes: 0,
       };
 
-      return { ...state, posts: [newPost, ...state.posts], postValue: "" };
+      return { ...state, posts: [newPost, ...state.posts] };
     }
-    case "SET-POST-VALUE":
-      return { ...state, postValue: action.value };
     case "SET-USER-PROFILE":
       return { ...state, profile: { ...action.profile, status: "" } };
     case "PROFILE/SET-PROFILE-STATUS":
@@ -47,12 +44,8 @@ export const profileReducer = (
   }
 };
 
-export const addPostAC = () => ({ type: "ADD-POST" }) as const;
-export const setPostValueAC = (value: string) =>
-  ({
-    type: "SET-POST-VALUE",
-    value,
-  }) as const;
+export const addPostAC = (postValue: string) =>
+  ({ type: "ADD-POST", postValue }) as const;
 export const setUserProfilePageAC = (profile: ProfileType) =>
   ({ type: "SET-USER-PROFILE", profile }) as const;
 export const setProfileStatusAC = (status: string) =>
@@ -113,7 +106,6 @@ export type ProfileDomainType = { status: string } & ProfileType;
 
 export type ProfilePageType = {
   posts: PostType[];
-  postValue: string;
   profile: ProfileDomainType;
 };
 
@@ -124,6 +116,5 @@ export type SetPostValueAT = { type: "SET-POST-VALUE"; value: string };
 
 export type ProfileActionsType =
   | ReturnType<typeof addPostAC>
-  | ReturnType<typeof setPostValueAC>
   | ReturnType<typeof setUserProfilePageAC>
   | ReturnType<typeof setProfileStatusAC>;

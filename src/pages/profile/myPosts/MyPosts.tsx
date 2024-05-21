@@ -1,44 +1,28 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import { Post } from "./post/Post";
-import { Button } from "../../../components/Button/Button";
-import { FlexWrapper } from "../../../components/FlexWrapper/FlexWrapper";
 import { S } from "../Profile_Styles";
 import { PostType } from "../../../redux/reducers/profileReducer";
+import { PostFormData, ReduxPostForm } from "./postForm/PostForm";
 
 type MyPostsProps = {
   posts: PostType[];
-  postValue: string;
 
-  onValueChange: (value: string) => void;
-  addPost: () => void;
+  addPost: (postValue: string) => void;
 };
 
-export const MyPosts: React.FC<MyPostsProps> = ({
-  onValueChange,
-  addPost,
-  posts,
-  postValue,
-}) => {
+export const MyPosts: React.FC<MyPostsProps> = ({ addPost, posts }) => {
   const mappedPosts = posts.map((p) => (
     <Post key={p.id} postMessage={p.postMessage} likesCount={p.likes} />
   ));
 
-  const onClickAddPost = () => {
-    if (postValue.trim() !== "") addPost();
+  const onClickAddPost = (formData: PostFormData) => {
+    if (formData.post.trim() !== "") addPost(formData.post);
   };
-
-  const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) =>
-    onValueChange(e.currentTarget.value);
 
   return (
     <S.MyPosts>
       <S.PostsHeader>My Posts</S.PostsHeader>
-
-      <FlexWrapper alignItems={"center"} gap={"20px;"}>
-        <textarea onChange={onChangeHandler} value={postValue} />
-        <Button onClick={onClickAddPost}>Add Post</Button>
-      </FlexWrapper>
-
+      <ReduxPostForm onSubmit={onClickAddPost} />
       {mappedPosts}
     </S.MyPosts>
   );

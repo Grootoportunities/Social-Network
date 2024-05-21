@@ -1,7 +1,6 @@
 import {
   addMessageAC,
   MessagesPageType,
-  setMessageValueAC,
 } from "../../redux/reducers/messagesReducer";
 import { Messages } from "./Messages";
 import { connect } from "react-redux";
@@ -12,16 +11,14 @@ import { ComponentType } from "react";
 
 type MapStateToPropsType = { state: MessagesPageType };
 type MapDispatchToPropsType = {
-  sendMessage: () => void;
-  setValue: (value: string) => void;
+  sendMessage: (messageValue: string) => void;
 };
 
 const mapStateToProps = (state: RootStateType): MapStateToPropsType => ({
   state: state.messagesPage,
 });
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => ({
-  sendMessage: () => dispatch(addMessageAC()),
-  setValue: (value: string) => dispatch(setMessageValueAC(value)),
+  sendMessage: (messageValue: string) => dispatch(addMessageAC(messageValue)),
 });
 
 export const MessagesContainer = compose<ComponentType>(

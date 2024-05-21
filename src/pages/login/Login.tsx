@@ -2,10 +2,10 @@ import { FC } from "react";
 import { Container } from "../../components/Container/Container";
 import { FlexWrapper } from "../../components/FlexWrapper/FlexWrapper";
 import styled from "styled-components";
-import { FormDataType, ReduxLoginForm } from "./loginForm/LoginForm";
+import { LoginFormData, ReduxLoginForm } from "./loginForm/LoginForm";
 
 export const Login: FC = () => {
-  const onSubmit = (formData: FormDataType) => console.log(formData);
+  const onSubmit = (formData: LoginFormData) => console.log(formData);
 
   return (
     <section>
