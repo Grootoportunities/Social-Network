@@ -33,9 +33,8 @@ export const Messages: React.FC<MessagesProps> = ({ state, sendMessage }) => {
     </FlexWrapper>
   ));
 
-  const onSendMessage = (formData: MessageFormData) => {
-    if (formData.message.trim() !== "") sendMessage(formData.message);
-  };
+  const onSendMessage = (formData: MessageFormData) =>
+    sendMessage(formData.message);
 
   return (
     <S.Messages>

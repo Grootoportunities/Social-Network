@@ -42,17 +42,10 @@ const ActiveMessage = styled.div`
   border-radius: 50%;
 `;
 
-const MessageArea = styled.textarea`
-  height: 80px;
-  resize: none;
-  padding: 10px;
-`;
-
 export const S = {
   Messages,
   Dialogs,
   DialogsMessages,
   DialogAva,
   ActiveMessage,
-  MessageArea,
 };
