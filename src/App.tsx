@@ -11,7 +11,7 @@ import { UsersContainer } from "./pages/users/UsersContainer";
 import { Theme } from "./styles/Theme";
 import { ProfileContainer } from "./pages/profile/ProfileContainer";
 import { HeaderContainer } from "./layout/header/HeaderContainer";
-import { Login } from "./pages/login/Login";
+import { LoginContainer } from "./pages/login/LoginContainer";
 
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
           <Route path={"/news"} render={() => <News />} />
           <Route path={"/music"} render={() => <Music />} />
           <Route path={"/settings"} render={() => <Settings />} />
-          <Route path={"/login"} render={() => <Login />} />
+          <Route path={"/login"} render={() => <LoginContainer />} />
         </Content>
       </FlexWrapper>
     </>

@@ -1,4 +1,4 @@
-import { authAPI } from "../../api/authAPI";
+import { authAPI, LoginData } from "../../api/authAPI";
 import { profileAPI } from "../../api/profileAPI";
 import { AppThunksType } from "../redux-store";
 
@@ -16,9 +16,11 @@ export const authReducer = (
 ): AuthDomainType => {
   switch (action.type) {
     case "SET-USER-AUTH-DATA":
-      return { ...state, ...action.data, isAuth: true };
+      return { ...state, ...action.data };
     case "SET-USER-PROFILE-PICTURE":
       return { ...state, authUserProfilePicture: action.picture };
+    case "LOGOUT-USER-AUTH":
+      return { ...state, isAuth: false };
     default:
       return state;
   }
@@ -36,17 +38,42 @@ export const setAuthUserProfilePictureAC = (picture: string) =>
     picture,
   }) as const;
 
+export const logoutAuthAC = () => ({ type: "LOGOUT-USER-AUTH" }) as const;
+
 //THUNKS
 
 export const authUserTC = (): AppThunksType => (dispatch) =>
   authAPI.me().then((data) => {
     if (data.resultCode === 0) {
-      dispatch(setAuthUserDataAC(data.data));
+      dispatch(setAuthUserDataAC({ ...data.data, isAuth: true }));
 
       profileAPI.getProfile(data.data.id.toString()).then((data) => {
         if (data.photos.small)
           dispatch(setAuthUserProfilePictureAC(data.photos.small));
       });
+    }
+  });
+
+export const loginTC =
+  (data: LoginData): AppThunksType =>
+  (dispatch) => {
+    authAPI.login(data).then((res) => {
+      if (res.resultCode === 0) dispatch(authUserTC());
+    });
+  };
+
+export const logoutTC = (): AppThunksType => (dispatch) =>
+  authAPI.logout().then((res) => {
+    if (res.resultCode === 0) {
+      dispatch(
+        setAuthUserDataAC({
+          isAuth: false,
+          id: null,
+          login: null,
+          email: null,
+        }),
+      );
+      dispatch(setAuthUserProfilePictureAC(""));
     }
   });
 
@@ -56,6 +83,7 @@ export type AuthType = {
   id: number | null;
   email: string | null;
   login: string | null;
+  isAuth: boolean;
 };
 
 export type AuthDomainType = AuthType & {
@@ -65,4 +93,5 @@ export type AuthDomainType = AuthType & {
 
 export type AuthActionsType =
   | ReturnType<typeof setAuthUserDataAC>
-  | ReturnType<typeof setAuthUserProfilePictureAC>;
+  | ReturnType<typeof setAuthUserProfilePictureAC>
+  | ReturnType<typeof logoutAuthAC>;

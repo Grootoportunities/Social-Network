@@ -11,9 +11,18 @@ type HeaderProps = {
   isAuth: boolean;
   login: string | null;
   headerAva: string;
+
+  logout: () => void;
 };
 
-export const Header: FC<HeaderProps> = ({ isAuth, login, headerAva }) => {
+export const Header: FC<HeaderProps> = ({
+  isAuth,
+  login,
+  headerAva,
+  logout,
+}) => {
+  const logoutHandler = () => logout();
+
   return (
     <S.Header>
       <Container>
@@ -23,6 +32,7 @@ export const Header: FC<HeaderProps> = ({ isAuth, login, headerAva }) => {
             <FlexWrapper alignItems={"center"}>
               <h2>{login}</h2>
               <HeaderAva src={headerAva ? headerAva : defaultAva} />
+              <Button onClick={logoutHandler}>Logout</Button>
             </FlexWrapper>
           ) : (
             <Link to={"/login"}>

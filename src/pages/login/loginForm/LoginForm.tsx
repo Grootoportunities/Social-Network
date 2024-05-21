@@ -6,7 +6,7 @@ import { required } from "../../../utils/validators/validators";
 import { LoginInput } from "../../../components/FormsControls/LoginInput/LoginInput";
 
 export type LoginFormData = {
-  login: string;
+  email: string;
   password: string;
   rememberMe: boolean;
 };
@@ -14,16 +14,18 @@ export type LoginFormData = {
 const StyledLoginForm: FC<InjectedFormProps<LoginFormData>> = (props) => (
   <LoginForm onSubmit={props.handleSubmit}>
     <Field
-      placeholder={"Login"}
-      name={"login"}
+      placeholder={"Email"}
+      name={"email"}
       component={LoginInput}
       validate={[required]}
+      type={"email"}
     />
     <Field
       placeholder={"Password"}
       name={"password"}
       component={LoginInput}
       validate={[required]}
+      type={"password"}
     />
     <div>
       <span>Remember me</span>
