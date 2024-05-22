@@ -12,6 +12,13 @@ import { Container } from "../../components/Container/Container";
 import { FlexWrapper } from "../../components/FlexWrapper/FlexWrapper";
 import { Preloader } from "../../components/Preloader/Preloader";
 import { compose } from "redux";
+import {
+  getCount,
+  getIsPending,
+  getPage,
+  getTotalUsersCount,
+  getUsers,
+} from "../../redux/selectors/usersSelector";
 
 type UsersAPIComponentProps = UsersType & {
   getUsers: (page: number, count: number) => void;
@@ -51,12 +58,20 @@ export class UsersAPIComponent extends Component<UsersAPIComponentProps> {
 }
 
 const mapStateToProps = (state: RootStateType): UsersType => ({
-  users: state.usersPage.users,
-  count: state.usersPage.count,
-  totalUsersCount: state.usersPage.totalUsersCount,
-  page: state.usersPage.page,
-  isPending: state.usersPage.isPending,
+  users: getUsers(state),
+  count: getCount(state),
+  totalUsersCount: getTotalUsersCount(state),
+  page: getPage(state),
+  isPending: getIsPending(state),
 });
+
+// const mapStateToProps = (state: RootStateType): UsersType => ({
+//   users: state.usersPage.users,
+//   count: state.usersPage.count,
+//   totalUsersCount: state.usersPage.totalUsersCount,
+//   page: state.usersPage.page,
+//   isPending: state.usersPage.isPending,
+// });
 
 export const UsersContainer = compose<ComponentType>(
   connect(mapStateToProps, {
