@@ -32,6 +32,7 @@ const StyledLoginForm: FC<InjectedFormProps<LoginFormData>> = (props) => (
       <Field type={"checkbox"} component={"input"} name={"rememberMe"} />
     </div>
     <Button type={"submit"}>Login</Button>
+    <FormError>{props.error}</FormError>
   </LoginForm>
 );
 
@@ -43,4 +44,8 @@ export const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 20px;
+`;
+
+const FormError = styled.span`
+  color: red;
 `;

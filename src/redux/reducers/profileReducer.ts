@@ -57,7 +57,7 @@ export const setProfileStatusAC = (status: string) =>
 //THUNKS
 
 export const fetchProfilePageTC =
-  (userID: string): AppThunksType =>
+  (userID: number): AppThunksType =>
   (dispatch) =>
     profileAPI.getProfile(userID).then((data) => {
       dispatch(setUserProfilePageAC(data));

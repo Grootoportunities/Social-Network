@@ -1,6 +1,7 @@
 import { authAPI, LoginData } from "../../api/authAPI";
 import { profileAPI } from "../../api/profileAPI";
 import { AppThunksType } from "../redux-store";
+import { stopSubmit } from "redux-form";
 
 const initialState: AuthDomainType = {
   id: null,
@@ -47,7 +48,7 @@ export const authUserTC = (): AppThunksType => (dispatch) =>
     if (data.resultCode === 0) {
       dispatch(setAuthUserDataAC({ ...data.data, isAuth: true }));
 
-      profileAPI.getProfile(data.data.id.toString()).then((data) => {
+      profileAPI.getProfile(data.data.id).then((data) => {
         if (data.photos.small)
           dispatch(setAuthUserProfilePictureAC(data.photos.small));
       });
@@ -58,7 +59,14 @@ export const loginTC =
   (data: LoginData): AppThunksType =>
   (dispatch) => {
     authAPI.login(data).then((res) => {
-      if (res.resultCode === 0) dispatch(authUserTC());
+      if (res.resultCode === 0) {
+        dispatch(authUserTC());
+        return;
+      }
+
+      const message = res.messages.length ? res.messages[0] : "Some error";
+
+      dispatch(stopSubmit("login", { _error: message }));
     });
   };
 

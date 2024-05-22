@@ -13,9 +13,12 @@ import { compose } from "redux";
 
 class ProfileAPI extends Component<ProfileAPIProps> {
   componentDidMount() {
-    let userID = this.props.match.params.userID;
+    let userID = +this.props.match.params.userID;
 
-    if (!userID) userID = "30713";
+    if (!userID)
+      userID = this.props.authorizedUserID
+        ? this.props.authorizedUserID
+        : 30713;
 
     this.props.setUserProfilePage(userID);
   }
@@ -32,6 +35,8 @@ class ProfileAPI extends Component<ProfileAPIProps> {
 
 const mapStateToProps = (state: RootStateType): MapStateToPropsType => ({
   profilePage: state.profilePage,
+  authorizedUserID: state.userAuth.id,
+  isAuth: state.userAuth.isAuth,
 });
 
 export const ProfileContainer = compose<ComponentType>(
@@ -49,10 +54,12 @@ type OwnProfileAPIProps = MapStateToPropsType & MapDispatchToPropsType;
 
 type MapStateToPropsType = {
   profilePage: ProfilePageType;
+  authorizedUserID: number | null;
+  isAuth: boolean;
 };
 
 type MapDispatchToPropsType = {
-  setUserProfilePage: (userID: string) => void;
+  setUserProfilePage: (userID: number) => void;
   updateProfileStatus: (status: string) => void;
 };
 
