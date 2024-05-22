@@ -15,10 +15,14 @@ class ProfileAPI extends Component<ProfileAPIProps> {
   componentDidMount() {
     let userID = +this.props.match.params.userID;
 
-    if (!userID)
-      userID = this.props.authorizedUserID
-        ? this.props.authorizedUserID
-        : 30713;
+    if (!userID) {
+      if (!this.props.authorizedUserID) {
+        userID = 0;
+        this.props.history.push("/login");
+      } else {
+        userID = this.props.authorizedUserID;
+      }
+    }
 
     this.props.setUserProfilePage(userID);
   }

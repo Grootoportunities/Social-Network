@@ -1,6 +1,6 @@
-import React from "react";
+import React, { Component, ComponentType } from "react";
 import { FlexWrapper } from "./components/FlexWrapper/FlexWrapper";
-import { Route } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 import { News } from "./pages/news/News";
 import { Music } from "./pages/music/Music";
 import { Settings } from "./pages/settings/Settings";
@@ -12,31 +12,68 @@ import { Theme } from "./styles/Theme";
 import { ProfileContainer } from "./pages/profile/ProfileContainer";
 import { HeaderContainer } from "./layout/header/HeaderContainer";
 import { LoginContainer } from "./pages/login/LoginContainer";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { initializeApp } from "./redux/reducers/appReducer";
+import { RootStateType } from "./redux/redux-store";
+import { Preloader } from "./components/Preloader/Preloader";
 
-function App() {
-  return (
-    <>
-      <HeaderContainer />
-      <FlexWrapper>
-        <SidebarContainer />
-        <Content>
-          <Route
-            path={"/profile/:userID?"}
-            render={() => <ProfileContainer />}
-          />
-          <Route path={"/messages"} render={() => <MessagesContainer />} />
-          <Route path={"/users"} render={() => <UsersContainer />} />
-          <Route path={"/news"} render={() => <News />} />
-          <Route path={"/music"} render={() => <Music />} />
-          <Route path={"/settings"} render={() => <Settings />} />
-          <Route path={"/login"} render={() => <LoginContainer />} />
-        </Content>
-      </FlexWrapper>
-    </>
-  );
+class App extends Component<AppAPIProps> {
+  componentDidMount() {
+    this.props.initializeApp();
+  }
+
+  render() {
+    if (!this.props.appIsInit)
+      return (
+        <FlexWrapper justifyContent={"center"} alignItems={"center"}>
+          <Preloader />
+        </FlexWrapper>
+      );
+
+    return (
+      <>
+        <HeaderContainer />
+        <FlexWrapper>
+          <SidebarContainer />
+          <Content>
+            <Route
+              path={"/profile/:userID?"}
+              render={() => <ProfileContainer />}
+            />
+            <Route path={"/messages"} render={() => <MessagesContainer />} />
+            <Route path={"/users"} render={() => <UsersContainer />} />
+            <Route path={"/news"} render={() => <News />} />
+            <Route path={"/music"} render={() => <Music />} />
+            <Route path={"/settings"} render={() => <Settings />} />
+            <Route path={"/login"} render={() => <LoginContainer />} />
+          </Content>
+        </FlexWrapper>
+      </>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state: RootStateType) => ({
+  appIsInit: state.app.isInitialized,
+});
+
+export default compose<ComponentType>(
+  withRouter,
+  connect(mapStateToProps, {
+    initializeApp,
+  }),
+)(App);
+
+type MapStateToProps = {
+  appIsInit: boolean;
+};
+
+type MapDispatchToProps = {
+  initializeApp: () => void;
+};
+
+type AppAPIProps = MapStateToProps & MapDispatchToProps;
 
 const Content = styled.div`
   width: 100%;

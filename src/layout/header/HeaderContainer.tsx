@@ -1,19 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Header } from "./Header";
-import {
-  AuthDomainType,
-  authUserTC,
-  logoutTC,
-} from "../../redux/reducers/authReducer";
+import { AuthDomainType, logoutTC } from "../../redux/reducers/authReducer";
 import { RootStateType } from "../../redux/redux-store";
 
 class HeaderAPI extends Component<HeaderAPIProps> {
   logoutHandler = () => this.props.logout();
-
-  componentDidMount() {
-    this.props.authUser();
-  }
 
   render() {
     return (
@@ -32,7 +24,6 @@ const mapStateToProps = (state: RootStateType): MapStateToPropsType => ({
 });
 
 export const HeaderContainer = connect(mapStateToProps, {
-  authUser: authUserTC,
   logout: logoutTC,
 })(HeaderAPI);
 
@@ -45,6 +36,5 @@ type MapStateToPropsType = {
 };
 
 type MapDispatchToPropsType = {
-  authUser: () => void;
   logout: () => void;
 };

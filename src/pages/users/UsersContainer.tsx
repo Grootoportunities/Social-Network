@@ -12,7 +12,6 @@ import { Container } from "../../components/Container/Container";
 import { FlexWrapper } from "../../components/FlexWrapper/FlexWrapper";
 import { Preloader } from "../../components/Preloader/Preloader";
 import { compose } from "redux";
-import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 
 type UsersAPIComponentProps = UsersType & {
   getUsers: (page: number, count: number) => void;
@@ -60,7 +59,6 @@ const mapStateToProps = (state: RootStateType): UsersType => ({
 });
 
 export const UsersContainer = compose<ComponentType>(
-  withAuthRedirect,
   connect(mapStateToProps, {
     getUsers: getUsersTC,
     getUserOnPageChange: getUserOnPageChangeTC,

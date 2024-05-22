@@ -2,6 +2,7 @@ import { authAPI, LoginData } from "../../api/authAPI";
 import { profileAPI } from "../../api/profileAPI";
 import { AppThunksType } from "../redux-store";
 import { stopSubmit } from "redux-form";
+import { Dispatch } from "redux";
 
 const initialState: AuthDomainType = {
   id: null,
@@ -43,7 +44,7 @@ export const logoutAuthAC = () => ({ type: "LOGOUT-USER-AUTH" }) as const;
 
 //THUNKS
 
-export const authUserTC = (): AppThunksType => (dispatch) =>
+export const authUserTC = () => (dispatch: Dispatch) =>
   authAPI.me().then((data) => {
     if (data.resultCode === 0) {
       dispatch(setAuthUserDataAC({ ...data.data, isAuth: true }));
