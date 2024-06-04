@@ -2,8 +2,8 @@ import { S } from "../Profile_Styles";
 import React, { FC } from "react";
 import { ProfileDomainType } from "../../../redux/reducers/profileReducer";
 import { FlexWrapper } from "../../../components/FlexWrapper/FlexWrapper";
-import { Status } from "./status/Status";
 import defaultAva from "../../../assets/3906412.png";
+import { Status } from "./status/Status";
 
 type ProfileInfoProps = {
   profile: ProfileDomainType;
