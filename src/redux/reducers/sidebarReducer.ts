@@ -1,14 +1,5 @@
 import { v1 } from "uuid";
 
-type FriendOnlineType = { id: string; name: string };
-type SidebarElementType = { id: string; title: string; link: string };
-export type SidebarType = {
-  elements: SidebarElementType[];
-  friendsOnline: FriendOnlineType[];
-};
-
-export type SidebarActionsType = any;
-
 const initialState: SidebarType = {
   elements: [
     { id: v1(), title: "Profile", link: "/profile" },
@@ -34,4 +25,14 @@ export const sidebarReducer = (
     default:
       return state;
   }
+};
+
+//TYPES
+
+type FriendOnlineType = { id: string; name: string };
+type SidebarElementType = { id: string; title: string; link: string };
+export type SidebarActionsType = any;
+export type SidebarType = {
+  elements: SidebarElementType[];
+  friendsOnline: FriendOnlineType[];
 };

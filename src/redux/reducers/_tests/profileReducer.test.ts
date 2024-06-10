@@ -4,6 +4,8 @@ import {
   ProfileDomainType,
   ProfilePageType,
   profileReducer,
+  setProfileStatusAC,
+  setUserProfilePageAC,
 } from "../profileReducer";
 import { v1 } from "uuid";
 
@@ -46,4 +48,39 @@ it("Post should be deleted correctly", () => {
     "Hello, i'm developing this social network right now",
   );
   expect(endState.posts[0].likes).toBe(20);
+});
+
+it("User profile should be setted", () => {
+  const endState = profileReducer(
+    startState,
+    setUserProfilePageAC({
+      userId: 1,
+      lookingForAJob: true,
+      lookingForAJobDescription: "I'm looking for a job",
+      fullName: "Daniil",
+      contacts: {
+        github: "",
+        vk: "",
+        facebook: "",
+        instagram: "",
+        twitter: "",
+        website: "",
+        youtube: "",
+        mainLink: "",
+      },
+      photos: {
+        small: undefined,
+        large: undefined,
+      },
+    }),
+  );
+
+  expect(endState.profile.fullName).toBe("Daniil");
+  expect(endState.profile.userId).toBe(1);
+});
+
+it("Profile status should be setted", () => {
+  const endState = profileReducer(startState, setProfileStatusAC("New status"));
+
+  expect(endState.profile.status).toBe("New status");
 });

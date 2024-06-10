@@ -1,14 +1,3 @@
-type MessageType = { id: number; message: string };
-type DialogType = { id: number; name: string };
-export type MessagesPageType = {
-  dialogs: DialogType[];
-  messages: MessageType[];
-};
-
-export type MessagesActionsType = AddMessageAT | SetMessageValueAT;
-export type AddMessageAT = { type: "ADD-MESSAGE"; messageValue: string };
-export type SetMessageValueAT = { type: "SET-MESSAGE-VALUE"; value: string };
-
 const initialState: MessagesPageType = {
   dialogs: [
     { id: 1, name: "Daniil" },
@@ -31,7 +20,7 @@ export const messagesReducer = (
   action: MessagesActionsType,
 ): MessagesPageType => {
   switch (action.type) {
-    case "ADD-MESSAGE": {
+    case "messages/ADD-MESSAGE": {
       const newMessageElement: MessageType = {
         id: 6,
         message: action.messageValue,
@@ -49,6 +38,24 @@ export const messagesReducer = (
 };
 
 export const addMessageAC = (messageValue: string): AddMessageAT => ({
-  type: "ADD-MESSAGE",
+  type: "messages/ADD-MESSAGE",
   messageValue,
 });
+
+//TYPES
+
+type DialogType = { id: number; name: string };
+type MessageType = { id: number; message: string };
+export type MessagesActionsType = AddMessageAT | SetMessageValueAT;
+export type AddMessageAT = {
+  type: "messages/ADD-MESSAGE";
+  messageValue: string;
+};
+export type SetMessageValueAT = {
+  type: "messages/SET-MESSAGE-VALUE";
+  value: string;
+};
+export type MessagesPageType = {
+  dialogs: DialogType[];
+  messages: MessageType[];
+};

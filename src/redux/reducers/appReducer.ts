@@ -10,7 +10,7 @@ export const appReducer = (
   action: AppActions,
 ): AppInitialize => {
   switch (action.type) {
-    case "APP/SET-INITIALIZED":
+    case "app/SET-INITIALIZED":
       return { ...state, isInitialized: action.isInit };
     default:
       return state;
@@ -21,7 +21,7 @@ export const appReducer = (
 
 export const setInitialize = (isInit: boolean) =>
   ({
-    type: "APP/SET-INITIALIZED",
+    type: "app/SET-INITIALIZED",
     isInit,
   }) as const;
 
@@ -34,7 +34,7 @@ export const initializeApp = (): AppThunksType => (dispatch) =>
 
 //TYPES
 
-type AppInitialize = {
+export type AppInitialize = {
   isInitialized: boolean;
 };
 

@@ -15,24 +15,24 @@ export const usersReducer = (
   action: UsersActionsType,
 ): UsersType => {
   switch (action.type) {
-    case "UN-FOLLOW":
+    case "users/UN-FOLLOW":
       return {
         ...state,
         users: state.users.map((u) =>
           u.id === action.id ? { ...u, followed: action.shouldSubscribe } : u,
         ),
       };
-    case "SET-USERS":
+    case "users/SET-USERS":
       return { ...state, users: [...action.users] };
-    case "SET-PAGE":
+    case "users/SET-PAGE":
       return { ...state, page: action.page };
-    case "SET-COUNT":
+    case "users/SET-COUNT":
       return { ...state, count: action.count };
-    case "SET-TOTAL-USERS-COUNT":
+    case "users/SET-TOTAL-USERS-COUNT":
       return { ...state, totalUsersCount: action.totalUsersCount };
-    case "SET-IS-PENDING":
+    case "users/SET-IS-PENDING":
       return { ...state, isPending: action.isPending };
-    case "USERS/SET-USER-ENTITY-STATUS":
+    case "users/SET-USER-ENTITY-STATUS":
       return {
         ...state,
         users: state.users.map((user) =>
@@ -49,68 +49,57 @@ export const usersReducer = (
 //ACTIONS
 
 export const un_followAC = (id: number, shouldSubscribe: boolean) =>
-  ({ type: "UN-FOLLOW", id, shouldSubscribe }) as const;
+  ({ type: "users/UN-FOLLOW", id, shouldSubscribe }) as const;
 export const setUsersAC = (users: UserType[]) =>
-  ({ type: "SET-USERS", users }) as const;
+  ({ type: "users/SET-USERS", users }) as const;
 export const setPageAC = (page: number) =>
-  ({ type: "SET-PAGE", page }) as const;
+  ({ type: "users/SET-PAGE", page }) as const;
 export const setCountAC = (count: number) =>
-  ({ type: "SET-COUNT", count }) as const;
+  ({ type: "users/SET-COUNT", count }) as const;
 export const setTotalUsersCountAC = (totalUsersCount: number) =>
   ({
-    type: "SET-TOTAL-USERS-COUNT",
+    type: "users/SET-TOTAL-USERS-COUNT",
     totalUsersCount,
   }) as const;
 export const setIsPendingAC = (isPending: boolean) =>
-  ({ type: "SET-IS-PENDING", isPending }) as const;
+  ({ type: "users/SET-IS-PENDING", isPending }) as const;
 export const setUserEntityStatusAC = (entityStatus: boolean, id: number) =>
-  ({ type: "USERS/SET-USER-ENTITY-STATUS", entityStatus, id }) as const;
+  ({ type: "users/SET-USER-ENTITY-STATUS", entityStatus, id }) as const;
 
 //THUNKS
 
 export const getUsersTC =
   (page: number, count: number): AppThunksType =>
-  (dispatch) => {
+  async (dispatch) => {
     dispatch(setIsPendingAC(true));
 
-    usersAPI.getUsers(page, count).then((data) => {
-      dispatch(setUsersAC(data.items));
-      dispatch(setTotalUsersCountAC(data.totalCount));
-      dispatch(setIsPendingAC(false));
-    });
+    const data = await usersAPI.getUsers(page, count);
+    dispatch(setUsersAC(data.items));
+    dispatch(setTotalUsersCountAC(data.totalCount));
+    dispatch(setIsPendingAC(false));
   };
 
 export const getUserOnPageChangeTC =
   (page: number, count: number): AppThunksType =>
-  (dispatch) => {
+  async (dispatch) => {
     dispatch(setIsPendingAC(true));
     dispatch(setPageAC(page));
 
-    usersAPI.getUsers(page, count).then((data) => {
-      dispatch(setUsersAC(data.items));
-      dispatch(setIsPendingAC(false));
-    });
+    const data = await usersAPI.getUsers(page, count);
+    dispatch(setUsersAC(data.items));
+    dispatch(setIsPendingAC(false));
   };
 
 export const setUn_FollowTC =
   (userID: number): AppThunksType =>
-  (dispatch) => {
+  async (dispatch) => {
     dispatch(setUserEntityStatusAC(true, userID));
-    followAPI.getFollow(userID).then((data) => {
-      if (data) {
-        followAPI.deleteFollow(userID).then((data) => {
-          data.resultCode === 0 && dispatch(un_followAC(userID, false));
-          dispatch(setUserEntityStatusAC(false, userID));
-        });
-
-        return;
-      }
-
-      followAPI.createFollow(userID).then((data) => {
-        data.resultCode === 0 && dispatch(un_followAC(userID, true));
-        dispatch(setUserEntityStatusAC(false, userID));
-      });
-    });
+    const data = await followAPI.getFollow(userID);
+    const res = data
+      ? await followAPI.deleteFollow(userID)
+      : await followAPI.createFollow(userID);
+    res.resultCode === 0 && dispatch(un_followAC(userID, !data));
+    dispatch(setUserEntityStatusAC(false, userID));
   };
 
 //TYPES

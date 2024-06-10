@@ -11,8 +11,11 @@ export type LoginFormData = {
   rememberMe: boolean;
 };
 
-const StyledLoginForm: FC<InjectedFormProps<LoginFormData>> = (props) => (
-  <LoginForm onSubmit={props.handleSubmit}>
+const StyledLoginForm: FC<InjectedFormProps<LoginFormData>> = ({
+  handleSubmit,
+  error,
+}) => (
+  <LoginForm onSubmit={handleSubmit}>
     <Field
       placeholder={"Email"}
       name={"email"}
@@ -32,7 +35,7 @@ const StyledLoginForm: FC<InjectedFormProps<LoginFormData>> = (props) => (
       <Field type={"checkbox"} component={"input"} name={"rememberMe"} />
     </div>
     <Button type={"submit"}>Login</Button>
-    <FormError>{props.error}</FormError>
+    <FormError>{error}</FormError>
   </LoginForm>
 );
 

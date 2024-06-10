@@ -23,7 +23,7 @@ export const profileReducer = (
   action: ProfileActionsType,
 ): ProfilePageType => {
   switch (action.type) {
-    case "ADD-POST": {
+    case "profile/ADD-POST": {
       const newPost: PostType = {
         id: v1(),
         postMessage: action.postValue,
@@ -32,14 +32,14 @@ export const profileReducer = (
 
       return { ...state, posts: [newPost, ...state.posts] };
     }
-    case "SET-USER-PROFILE":
+    case "profile/SET-USER-PROFILE":
       return { ...state, profile: { ...action.profile, status: "" } };
-    case "PROFILE/SET-PROFILE-STATUS":
+    case "profile/SET-PROFILE-STATUS":
       return {
         ...state,
         profile: { ...state.profile, status: action.status },
       };
-    case "PROFILE/DELETE-POST":
+    case "profile/DELETE-POST":
       return {
         ...state,
         posts: state.posts.filter((post) => post.id !== action.postID),
@@ -50,17 +50,17 @@ export const profileReducer = (
 };
 
 export const addPostAC = (postValue: string) =>
-  ({ type: "ADD-POST", postValue }) as const;
+  ({ type: "profile/ADD-POST", postValue }) as const;
 export const setUserProfilePageAC = (profile: ProfileType) =>
-  ({ type: "SET-USER-PROFILE", profile }) as const;
+  ({ type: "profile/SET-USER-PROFILE", profile }) as const;
 export const setProfileStatusAC = (status: string) =>
   ({
-    type: "PROFILE/SET-PROFILE-STATUS",
+    type: "profile/SET-PROFILE-STATUS",
     status,
   }) as const;
 export const deletePostAC = (postID: string) =>
   ({
-    type: "PROFILE/DELETE-POST",
+    type: "profile/DELETE-POST",
     postID,
   }) as const;
 
@@ -68,20 +68,18 @@ export const deletePostAC = (postID: string) =>
 
 export const fetchProfilePageTC =
   (userID: number): AppThunksType =>
-  (dispatch) =>
-    profileAPI.getProfile(userID).then((data) => {
-      dispatch(setUserProfilePageAC(data));
-      profileAPI
-        .getStatus(userID)
-        .then((data) => dispatch(setProfileStatusAC(data)));
-    });
+  async (dispatch) => {
+    const data = await profileAPI.getProfile(userID);
+    dispatch(setUserProfilePageAC(data));
+    const res = await profileAPI.getStatus(userID);
+    dispatch(setProfileStatusAC(res));
+  };
 
 export const updateProfileStatusTC =
   (status: string): AppThunksType =>
-  (dispatch) => {
-    profileAPI.updateStatus(status).then((data) => {
-      if (data.resultCode === 0) dispatch(setProfileStatusAC(status));
-    });
+  async (dispatch) => {
+    const data = await profileAPI.updateStatus(status);
+    if (data.resultCode === 0) dispatch(setProfileStatusAC(status));
   };
 
 // TYPES

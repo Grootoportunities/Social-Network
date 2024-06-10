@@ -15,12 +15,15 @@ type Props = {
 };
 
 const Login: FC<Props> = ({ isAuth, login }) => {
-  const onSubmit = (formData: LoginFormData) =>
+  const onSubmit = (formData: LoginFormData) => {
+    const { email, password, rememberMe } = formData;
+
     login({
-      email: formData.email,
-      password: formData.password,
-      rememberMe: formData.rememberMe,
+      email,
+      password,
+      rememberMe,
     });
+  };
 
   if (isAuth) return <Redirect to={"/profile"} />;
 

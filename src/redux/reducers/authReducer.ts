@@ -17,11 +17,11 @@ export const authReducer = (
   action: AuthActionsType,
 ): AuthDomainType => {
   switch (action.type) {
-    case "SET-USER-AUTH-DATA":
+    case "auth/SET-USER-AUTH-DATA":
       return { ...state, ...action.data };
-    case "SET-USER-PROFILE-PICTURE":
+    case "auth/SET-USER-PROFILE-PICTURE":
       return { ...state, authUserProfilePicture: action.picture };
-    case "LOGOUT-USER-AUTH":
+    case "auth/LOGOUT-USER-AUTH":
       return { ...state, isAuth: false };
     default:
       return state;
@@ -30,61 +30,59 @@ export const authReducer = (
 
 export const setAuthUserDataAC = (data: AuthType) =>
   ({
-    type: "SET-USER-AUTH-DATA",
+    type: "auth/SET-USER-AUTH-DATA",
     data,
   }) as const;
 
 export const setAuthUserProfilePictureAC = (picture: string) =>
   ({
-    type: "SET-USER-PROFILE-PICTURE",
+    type: "auth/SET-USER-PROFILE-PICTURE",
     picture,
   }) as const;
 
-export const logoutAuthAC = () => ({ type: "LOGOUT-USER-AUTH" }) as const;
+export const logoutAuthAC = () => ({ type: "auth/LOGOUT-USER-AUTH" }) as const;
 
 //THUNKS
 
-export const authUserTC = () => (dispatch: Dispatch) =>
-  authAPI.me().then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(setAuthUserDataAC({ ...data.data, isAuth: true }));
+export const authUserTC = () => async (dispatch: Dispatch) => {
+  const data = await authAPI.me();
+  if (data.resultCode === 0) {
+    dispatch(setAuthUserDataAC({ ...data.data, isAuth: true }));
 
-      profileAPI.getProfile(data.data.id).then((data) => {
-        if (data.photos.small)
-          dispatch(setAuthUserProfilePictureAC(data.photos.small));
-      });
-    }
-  });
+    const res = await profileAPI.getProfile(data.data.id);
+    if (res.photos.small)
+      dispatch(setAuthUserProfilePictureAC(res.photos.small));
+  }
+};
 
 export const loginTC =
   (data: LoginData): AppThunksType =>
-  (dispatch) => {
-    authAPI.login(data).then((res) => {
-      if (res.resultCode === 0) {
-        dispatch(authUserTC());
-        return;
-      }
+  async (dispatch) => {
+    const res = await authAPI.login(data);
+    if (res.resultCode === 0) {
+      dispatch(authUserTC());
+      return;
+    }
 
-      const message = res.messages.length ? res.messages[0] : "Some error";
+    const message = res.messages.length ? res.messages[0] : "Some error";
 
-      dispatch(stopSubmit("login", { _error: message }));
-    });
+    dispatch(stopSubmit("login", { _error: message }));
   };
 
-export const logoutTC = (): AppThunksType => (dispatch) =>
-  authAPI.logout().then((res) => {
-    if (res.resultCode === 0) {
-      dispatch(
-        setAuthUserDataAC({
-          isAuth: false,
-          id: null,
-          login: null,
-          email: null,
-        }),
-      );
-      dispatch(setAuthUserProfilePictureAC(""));
-    }
-  });
+export const logoutTC = (): AppThunksType => async (dispatch) => {
+  const res = await authAPI.logout();
+  if (res.resultCode === 0) {
+    dispatch(
+      setAuthUserDataAC({
+        isAuth: false,
+        id: null,
+        login: null,
+        email: null,
+      }),
+    );
+    dispatch(setAuthUserProfilePictureAC(""));
+  }
+};
 
 //TYPES
 

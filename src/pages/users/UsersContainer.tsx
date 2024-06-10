@@ -28,28 +28,35 @@ type UsersAPIComponentProps = UsersType & {
 
 export class UsersAPIComponent extends Component<UsersAPIComponentProps> {
   onChangePageHandler = (page: number) => {
-    this.props.getUserOnPageChange(page, this.props.count);
+    const { getUserOnPageChange, count } = this.props;
+
+    getUserOnPageChange(page, count);
   };
 
   componentDidMount() {
-    this.props.getUsers(this.props.page, this.props.count);
+    const { getUsers, page, count } = this.props;
+
+    getUsers(page, count);
   }
 
   render() {
+    const { isPending, page, users, count, totalUsersCount, setUn_Follow } =
+      this.props;
+
     return (
       <Container>
-        {this.props.isPending ? (
+        {isPending ? (
           <FlexWrapper justifyContent={"center"}>
             <Preloader />
           </FlexWrapper>
         ) : (
           <Users
-            page={this.props.page}
-            users={this.props.users}
-            count={this.props.count}
-            totalUsersCount={this.props.totalUsersCount}
+            page={page}
+            users={users}
+            count={count}
+            totalUsersCount={totalUsersCount}
             onChangePageHandler={this.onChangePageHandler}
-            setUn_Follow={this.props.setUn_Follow}
+            setUn_Follow={setUn_Follow}
           />
         )}
       </Container>
@@ -64,14 +71,6 @@ const mapStateToProps = (state: RootStateType): UsersType => ({
   page: getPage(state),
   isPending: getIsPending(state),
 });
-
-// const mapStateToProps = (state: RootStateType): UsersType => ({
-//   users: state.usersPage.users,
-//   count: state.usersPage.count,
-//   totalUsersCount: state.usersPage.totalUsersCount,
-//   page: state.usersPage.page,
-//   isPending: state.usersPage.isPending,
-// });
 
 export const UsersContainer = compose<ComponentType>(
   connect(mapStateToProps, {
