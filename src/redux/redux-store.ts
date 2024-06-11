@@ -1,4 +1,4 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
+import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import { ProfileActionsType, profileReducer } from "./reducers/profileReducer";
 import {
   MessagesActionsType,
@@ -21,7 +21,13 @@ const rootReducer = combineReducers({
   form: formReducer,
 });
 
-export const store = createStore(rootReducer, applyMiddleware(thunk));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+export const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk)),
+);
+
+//TYPES
 
 export type RootStateType = ReturnType<typeof rootReducer>; //для типизации state
 
@@ -39,5 +45,11 @@ export type AppThunksType<ReturnType = void> = ThunkAction<
   RootActionsType
 >;
 
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
+
 // @ts-ignore
-window.store = store;
+window.__store__ = store;

@@ -1,6 +1,6 @@
 import React, { Component, ComponentType } from "react";
 import { FlexWrapper } from "./components/FlexWrapper/FlexWrapper";
-import { Route, withRouter } from "react-router-dom";
+import { HashRouter, Route, withRouter } from "react-router-dom";
 import { News } from "./pages/news/News";
 import { Music } from "./pages/music/Music";
 import { Settings } from "./pages/settings/Settings";
@@ -12,11 +12,12 @@ import { Theme } from "./styles/Theme";
 import { ProfileContainer } from "./pages/profile/ProfileContainer";
 import { HeaderContainer } from "./layout/header/HeaderContainer";
 import { LoginContainer } from "./pages/login/LoginContainer";
-import { connect } from "react-redux";
+import { connect, Provider } from "react-redux";
 import { compose } from "redux";
 import { initializeApp } from "./redux/reducers/appReducer";
-import { RootStateType } from "./redux/redux-store";
+import { RootStateType, store } from "./redux/redux-store";
 import { Preloader } from "./components/Preloader/Preloader";
+import { GlobalStyle } from "./styles/Global.styled";
 
 class App extends Component<AppAPIProps> {
   componentDidMount() {
@@ -58,12 +59,23 @@ const mapStateToProps = (state: RootStateType) => ({
   appIsInit: state.app.isInitialized,
 });
 
-export default compose<ComponentType>(
+const AppContainer = compose<ComponentType>(
   withRouter,
   connect(mapStateToProps, {
     initializeApp,
   }),
 )(App);
+
+export const SocialNetwork = () => (
+  <HashRouter>
+    <Provider store={store}>
+      <GlobalStyle />
+      <AppContainer />
+    </Provider>
+  </HashRouter>
+);
+
+//TYPES
 
 type MapStateToProps = {
   appIsInit: boolean;
