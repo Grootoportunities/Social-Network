@@ -10,17 +10,21 @@ type UsersProps = {
   totalUsersCount: number;
   count: number;
   page: number;
+  currentPortionNumber: number;
 
   onChangePageHandler: (page: number) => void;
   setUn_Follow: (userID: number) => void;
+  changeCurrentPortionNumberHandler: (CurrentPortionNumber: number) => void;
 };
 export const Users: FC<UsersProps> = ({
   users,
   totalUsersCount,
   count,
   page,
-  onChangePageHandler,
+  currentPortionNumber,
 
+  onChangePageHandler,
+  changeCurrentPortionNumberHandler,
   setUn_Follow,
 }) => {
   const mappedUsers = users.map((u) => {
@@ -41,12 +45,15 @@ export const Users: FC<UsersProps> = ({
 
   return (
     <section>
-      <FlexWrapper direction={"column"} alignItems={"center"} gap={"10px"}>
+      <FlexWrapper direction={"column"} alignItems={"center"} gap={"30px"}>
         <Paginator
           totalItemsCount={totalUsersCount}
           page={page}
           count={count}
           onChangePageHandler={onChangePageHandler}
+          portion={10}
+          changeCurrentPortionNumberHandler={changeCurrentPortionNumberHandler}
+          currentPortionNumber={currentPortionNumber}
         />
         <ul>{mappedUsers}</ul>
       </FlexWrapper>

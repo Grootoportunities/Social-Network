@@ -6,3 +6,5 @@ export const getCount = (state: RootStateType) => state.usersPage.count;
 export const getIsPending = (state: RootStateType) => state.usersPage.isPending;
 export const getTotalUsersCount = (state: RootStateType) =>
   state.usersPage.totalUsersCount;
+export const getCurrentPortionNumber = (state: RootStateType) =>
+  state.usersPage.currentPortionNumber;

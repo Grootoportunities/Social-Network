@@ -31,6 +31,7 @@ beforeEach(() => {
     totalUsersCount: 0,
     page: 1,
     isPending: true,
+    currentPortionNumber: 1,
   };
 });
 

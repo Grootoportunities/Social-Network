@@ -3,6 +3,7 @@ import { RootStateType } from "../../redux/redux-store";
 import {
   getUserOnPageChangeTC,
   getUsersTC,
+  setCurrentPortionNumber,
   setUn_FollowTC,
   UsersType,
 } from "../../redux/reducers/usersReducer";
@@ -14,6 +15,7 @@ import { Preloader } from "../../components/Preloader/Preloader";
 import { compose } from "redux";
 import {
   getCount,
+  getCurrentPortionNumber,
   getIsPending,
   getPage,
   getTotalUsersCount,
@@ -24,6 +26,7 @@ type UsersAPIComponentProps = UsersType & {
   getUsers: (page: number, count: number) => void;
   getUserOnPageChange: (page: number, count: number) => void;
   setUn_Follow: (userID: number) => void;
+  setCurrentPortionNumber: (CurrentPortionNumber: number) => void;
 };
 
 export class UsersAPIComponent extends Component<UsersAPIComponentProps> {
@@ -33,6 +36,9 @@ export class UsersAPIComponent extends Component<UsersAPIComponentProps> {
     getUserOnPageChange(page, count);
   };
 
+  changeCurrentPortionNumberHandler = (currentPortionNumber: number) =>
+    this.props.setCurrentPortionNumber(currentPortionNumber);
+
   componentDidMount() {
     const { getUsers, page, count } = this.props;
 
@@ -40,8 +46,15 @@ export class UsersAPIComponent extends Component<UsersAPIComponentProps> {
   }
 
   render() {
-    const { isPending, page, users, count, totalUsersCount, setUn_Follow } =
-      this.props;
+    const {
+      isPending,
+      page,
+      users,
+      count,
+      totalUsersCount,
+      setUn_Follow,
+      currentPortionNumber,
+    } = this.props;
 
     return (
       <Container>
@@ -57,6 +70,10 @@ export class UsersAPIComponent extends Component<UsersAPIComponentProps> {
             totalUsersCount={totalUsersCount}
             onChangePageHandler={this.onChangePageHandler}
             setUn_Follow={setUn_Follow}
+            changeCurrentPortionNumberHandler={
+              this.changeCurrentPortionNumberHandler
+            }
+            currentPortionNumber={currentPortionNumber}
           />
         )}
       </Container>
@@ -70,6 +87,7 @@ const mapStateToProps = (state: RootStateType): UsersType => ({
   totalUsersCount: getTotalUsersCount(state),
   page: getPage(state),
   isPending: getIsPending(state),
+  currentPortionNumber: getCurrentPortionNumber(state),
 });
 
 export const UsersContainer = compose<ComponentType>(
@@ -77,5 +95,6 @@ export const UsersContainer = compose<ComponentType>(
     getUsers: getUsersTC,
     getUserOnPageChange: getUserOnPageChangeTC,
     setUn_Follow: setUn_FollowTC,
+    setCurrentPortionNumber,
   }),
 )(UsersAPIComponent);

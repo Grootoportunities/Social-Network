@@ -8,6 +8,7 @@ const initialState: UsersType = {
   totalUsersCount: 0,
   page: 1,
   isPending: true,
+  currentPortionNumber: 1,
 };
 
 export const usersReducer = (
@@ -41,6 +42,8 @@ export const usersReducer = (
             : user,
         ),
       };
+    case "users/SET-CURRENT-PORTION-NUMBER":
+      return { ...state, currentPortionNumber: action.currentPortionNumber };
     default:
       return state;
   }
@@ -65,6 +68,11 @@ export const setIsPendingAC = (isPending: boolean) =>
   ({ type: "users/SET-IS-PENDING", isPending }) as const;
 export const setUserEntityStatusAC = (entityStatus: boolean, id: number) =>
   ({ type: "users/SET-USER-ENTITY-STATUS", entityStatus, id }) as const;
+export const setCurrentPortionNumber = (currentPortionNumber: number) =>
+  ({
+    type: "users/SET-CURRENT-PORTION-NUMBER",
+    currentPortionNumber,
+  }) as const;
 
 //THUNKS
 
@@ -111,6 +119,7 @@ export type UsersType = {
   totalUsersCount: number;
   page: number;
   isPending: boolean;
+  currentPortionNumber: number;
 };
 
 type PhotosType = {
@@ -134,4 +143,5 @@ export type UsersActionsType =
   | ReturnType<typeof setCountAC>
   | ReturnType<typeof setTotalUsersCountAC>
   | ReturnType<typeof setIsPendingAC>
-  | ReturnType<typeof setUserEntityStatusAC>;
+  | ReturnType<typeof setUserEntityStatusAC>
+  | ReturnType<typeof setCurrentPortionNumber>;
