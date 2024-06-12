@@ -15,8 +15,7 @@ export const Status: FC<StatusPropsType> = ({
   const onActivateEditMode = () => setEditMode(true);
 
   const onDisableEditMode = () => {
-    if (value.trim() !== "") updateProfileStatus(value);
-
+    updateProfileStatus(value);
     setEditMode(false);
   };
 
