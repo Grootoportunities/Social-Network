@@ -1,23 +1,26 @@
-import React, { Component, ComponentType } from "react";
+import React, { Component, ComponentType, lazy } from "react";
 import { FlexWrapper } from "./components/FlexWrapper/FlexWrapper";
 import { HashRouter, Route, withRouter } from "react-router-dom";
-import { News } from "./pages/news/News";
-import { Music } from "./pages/music/Music";
-import { Settings } from "./pages/settings/Settings";
 import styled from "styled-components";
-import { MessagesContainer } from "./pages/messages/MessagesContainer";
 import { SidebarContainer } from "./layout/sidebar/SidebarContainer";
-import { UsersContainer } from "./pages/users/UsersContainer";
 import { Theme } from "./styles/Theme";
 import { ProfileContainer } from "./pages/profile/ProfileContainer";
 import { HeaderContainer } from "./layout/header/HeaderContainer";
-import { LoginContainer } from "./pages/login/LoginContainer";
 import { connect, Provider } from "react-redux";
 import { compose } from "redux";
 import { initializeApp } from "./redux/reducers/appReducer";
 import { RootStateType, store } from "./redux/redux-store";
 import { Preloader } from "./components/Preloader/Preloader";
 import { GlobalStyle } from "./styles/Global.styled";
+import { withSuspense } from "./hoc/withSuspense";
+const News = lazy(() => import("./pages/news/News"));
+const Music = lazy(() => import("./pages/music/Music"));
+const Settings = lazy(() => import("./pages/settings/Settings"));
+const UsersContainer = lazy(() => import("./pages/users/UsersContainer"));
+const LoginContainer = lazy(() => import("./pages/login/LoginContainer"));
+const MessagesContainer = lazy(
+  () => import("./pages/messages/MessagesContainer"),
+);
 
 class App extends Component<AppAPIProps> {
   componentDidMount() {
@@ -42,12 +45,15 @@ class App extends Component<AppAPIProps> {
               path={"/profile/:userID?"}
               render={() => <ProfileContainer />}
             />
-            <Route path={"/messages"} render={() => <MessagesContainer />} />
-            <Route path={"/users"} render={() => <UsersContainer />} />
-            <Route path={"/news"} render={() => <News />} />
-            <Route path={"/music"} render={() => <Music />} />
-            <Route path={"/settings"} render={() => <Settings />} />
-            <Route path={"/login"} render={() => <LoginContainer />} />
+            <Route
+              path={"/messages"}
+              render={withSuspense(MessagesContainer)}
+            />
+            <Route path={"/users"} render={withSuspense(UsersContainer)} />
+            <Route path={"/news"} render={withSuspense(News)} />
+            <Route path={"/music"} render={withSuspense(Music)} />
+            <Route path={"/settings"} render={withSuspense(Settings)} />
+            <Route path={"/login"} render={withSuspense(LoginContainer)} />
           </Content>
         </FlexWrapper>
       </>

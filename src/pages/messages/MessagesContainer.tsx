@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => ({
   sendMessage: (messageValue: string) => dispatch(addMessageAC(messageValue)),
 });
 
-export const MessagesContainer = compose<ComponentType>(
+export default compose<ComponentType>(
   withAuthRedirect,
   connect(mapStateToProps, mapDispatchToProps),
 )(Messages);

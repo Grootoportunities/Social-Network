@@ -1,5 +1,5 @@
 import React from "react";
 
-export const Settings = () => {
+export default () => {
   return <section>Settings</section>;
 };

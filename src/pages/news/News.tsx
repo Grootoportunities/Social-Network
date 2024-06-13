@@ -1,5 +1,5 @@
 import React from "react";
 
-export const News = () => {
+export default () => {
   return <section>News</section>;
 };

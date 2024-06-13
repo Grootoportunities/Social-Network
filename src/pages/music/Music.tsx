@@ -1,5 +1,5 @@
 import React from "react";
 
-export const Music = () => {
+export default () => {
   return <section>Music</section>;
 };

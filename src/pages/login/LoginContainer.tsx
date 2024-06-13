@@ -43,7 +43,7 @@ const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   isAuth: state.userAuth.isAuth,
 });
 
-export const LoginContainer = connect(mapStateToProps, {
+export default connect(mapStateToProps, {
   login: loginTC,
 })(Login);
 

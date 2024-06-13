@@ -90,7 +90,7 @@ const mapStateToProps = (state: RootStateType): UsersType => ({
   currentPortionNumber: getCurrentPortionNumber(state),
 });
 
-export const UsersContainer = compose<ComponentType>(
+export default compose<ComponentType>(
   connect(mapStateToProps, {
     getUsers: getUsersTC,
     getUserOnPageChange: getUserOnPageChangeTC,
