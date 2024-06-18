@@ -6,12 +6,18 @@ import { ProfilePageType } from "../../redux/reducers/profileReducer";
 
 type ProfileProps = {
   profilePage: ProfilePageType;
+  isOwner: boolean;
+
   updateProfileStatus: (status: string) => void;
+  updateProfilePhoto: (photo: File) => void;
 };
 
 export const Profile: FC<ProfileProps> = ({
   profilePage,
+  isOwner,
+
   updateProfileStatus,
+  updateProfilePhoto,
 }) => {
   return (
     <section>
@@ -19,6 +25,8 @@ export const Profile: FC<ProfileProps> = ({
         <ProfileInfo
           profile={profilePage.profile}
           updateProfileStatus={updateProfileStatus}
+          isOwner={isOwner}
+          updateProfilePhoto={updateProfilePhoto}
         />
         <MyPostsContainer />
       </Container>

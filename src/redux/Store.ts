@@ -1,10 +1,5 @@
 import { v1 } from "uuid";
-import {
-  AddPostAT,
-  ProfileDomainType,
-  ProfilePageType,
-  SetPostValueAT,
-} from "./reducers/profileReducer";
+import { ProfileDomainType, ProfilePageType } from "./reducers/profileReducer";
 import {
   AddMessageAT,
   MessagesPageType,
@@ -18,11 +13,7 @@ export type StateType = {
   sidebar: SidebarType;
 };
 
-export type ActionsType =
-  | AddPostAT
-  | AddMessageAT
-  | SetPostValueAT
-  | SetMessageValueAT;
+export type ActionsType = AddMessageAT | SetMessageValueAT;
 
 export type StoreType = {
   _state: StateType;

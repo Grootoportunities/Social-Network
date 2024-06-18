@@ -71,6 +71,7 @@ it("User profile should be setted", () => {
       photos: {
         small: undefined,
         large: undefined,
+        entityStatus: false,
       },
     }),
   );

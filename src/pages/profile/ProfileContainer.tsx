@@ -5,6 +5,7 @@ import { RootStateType } from "../../redux/redux-store";
 import {
   fetchProfilePageTC,
   ProfilePageType,
+  updateProfilePhoto,
   updateProfileStatusTC,
 } from "../../redux/reducers/profileReducer";
 import { RouteComponentProps, withRouter } from "react-router-dom";
@@ -12,7 +13,7 @@ import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { compose } from "redux";
 
 class ProfileAPI extends Component<ProfileAPIProps> {
-  componentDidMount() {
+  refreshProfile() {
     let userID = +this.props.match.params.userID;
 
     if (!userID) {
@@ -27,11 +28,24 @@ class ProfileAPI extends Component<ProfileAPIProps> {
     this.props.setUserProfilePage(userID);
   }
 
+  componentDidMount() {
+    this.refreshProfile();
+  }
+
+  componentDidUpdate(prevProps: Readonly<ProfileAPIProps>) {
+    if (prevProps.match.params.userID !== this.props.match.params.userID) {
+      debugger;
+      this.refreshProfile();
+    }
+  }
+
   render() {
     return (
       <Profile
         updateProfileStatus={this.props.updateProfileStatus}
         profilePage={this.props.profilePage}
+        isOwner={Boolean(this.props.match.params.userID)}
+        updateProfilePhoto={this.props.updateProfilePhoto}
       />
     );
   }
@@ -48,6 +62,7 @@ export const ProfileContainer = compose<ComponentType>(
   connect(mapStateToProps, {
     setUserProfilePage: fetchProfilePageTC,
     updateProfileStatus: updateProfileStatusTC,
+    updateProfilePhoto,
   }),
   withRouter,
 )(ProfileAPI);
@@ -65,6 +80,7 @@ type MapStateToPropsType = {
 type MapDispatchToPropsType = {
   setUserProfilePage: (userID: number) => void;
   updateProfileStatus: (status: string) => void;
+  updateProfilePhoto: (photo: File) => void;
 };
 
 type PathParamsType = {

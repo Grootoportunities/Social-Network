@@ -1,5 +1,8 @@
 import axios from "axios";
-import { ProfileType } from "../redux/reducers/profileReducer";
+import {
+  ProfilePhotosType,
+  ProfileType,
+} from "../redux/reducers/profileReducer";
 
 const instance = axios.create({
   baseURL: "https://social-network.samuraijs.com/api/1.0/profile/",
@@ -15,13 +18,23 @@ export const profileAPI = {
     instance.get<string>(`status/${userID}`).then((res) => res.data),
 
   updateStatus: (status: string) =>
-    instance
-      .put<UpdateStatusResponseType>("status", { status })
-      .then((res) => res.data),
+    instance.put<ResponseType>("status", { status }).then((res) => res.data),
+
+  updateProfilePhoto: (photo: File) => {
+    const formData = new FormData();
+    formData.append("image", photo);
+    return instance
+      .put<ResponseType<ProfilePhotosType>>("photo", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => res.data);
+  },
 };
 
-type UpdateStatusResponseType = {
+type ResponseType<T = {}> = {
   resultCode: number;
   messages: string[];
-  data: {};
+  data: T;
 };

@@ -44,6 +44,16 @@ export const profileReducer = (
         ...state,
         posts: state.posts.filter((post) => post.id !== action.postID),
       };
+    case "profile/UPDATE_PROFILE_PHOTO":
+      return { ...state, profile: { ...state.profile, photos: action.photos } };
+    case "profile/SET_PROFILE_PHOTO_ENTITY_STATUS":
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          photos: { ...state.profile.photos, entityStatus: action.isLoading },
+        },
+      };
     default:
       return state;
   }
@@ -62,6 +72,16 @@ export const deletePostAC = (postID: string) =>
   ({
     type: "profile/DELETE-POST",
     postID,
+  }) as const;
+export const updateProfilePhotoAC = (photos: ProfilePhotosType) =>
+  ({
+    type: "profile/UPDATE_PROFILE_PHOTO",
+    photos,
+  }) as const;
+export const setProfilePhotoEntityStatus = (isLoading: boolean) =>
+  ({
+    type: "profile/SET_PROFILE_PHOTO_ENTITY_STATUS",
+    isLoading,
   }) as const;
 
 //THUNKS
@@ -82,6 +102,18 @@ export const updateProfileStatusTC =
     if (data.resultCode === 0) dispatch(setProfileStatusAC(status));
   };
 
+export const updateProfilePhoto =
+  (photo: File): AppThunksType =>
+  async (dispatch) => {
+    dispatch(setProfilePhotoEntityStatus(true));
+    try {
+      const data = await profileAPI.updateProfilePhoto(photo);
+      if (data.resultCode === 0) dispatch(updateProfilePhotoAC(data.data));
+    } finally {
+      dispatch(setProfilePhotoEntityStatus(false));
+    }
+  };
+
 // TYPES
 
 export type PostType = { id: string; postMessage: string; likes: number };
@@ -97,9 +129,10 @@ type ProfileContactsType = {
   mainLink: string;
 };
 
-type ProfilePhotosType = {
+export type ProfilePhotosType = {
   small: string | undefined;
   large: string | undefined;
+  entityStatus: boolean;
 };
 export type ProfileType = {
   userId: number;
@@ -117,13 +150,10 @@ export type ProfilePageType = {
   profile: ProfileDomainType;
 };
 
-export type AddPostAT = {
-  type: "ADD-POST";
-};
-export type SetPostValueAT = { type: "SET-POST-VALUE"; value: string };
-
 export type ProfileActionsType =
   | ReturnType<typeof addPostAC>
   | ReturnType<typeof setUserProfilePageAC>
   | ReturnType<typeof setProfileStatusAC>
-  | ReturnType<typeof deletePostAC>;
+  | ReturnType<typeof deletePostAC>
+  | ReturnType<typeof updateProfilePhotoAC>
+  | ReturnType<typeof setProfilePhotoEntityStatus>;
