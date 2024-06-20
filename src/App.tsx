@@ -1,6 +1,6 @@
 import React, { Component, ComponentType, lazy } from "react";
 import { FlexWrapper } from "./components/FlexWrapper/FlexWrapper";
-import { HashRouter, Route, withRouter } from "react-router-dom";
+import { HashRouter, Redirect, Route, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { SidebarContainer } from "./layout/sidebar/SidebarContainer";
 import { Theme } from "./styles/Theme";
@@ -13,6 +13,7 @@ import { RootStateType, store } from "./redux/redux-store";
 import { Preloader } from "./components/Preloader/Preloader";
 import { GlobalStyle } from "./styles/Global.styled";
 import { withSuspense } from "./hoc/withSuspense";
+
 const News = lazy(() => import("./pages/news/News"));
 const Music = lazy(() => import("./pages/music/Music"));
 const Settings = lazy(() => import("./pages/settings/Settings"));
@@ -23,8 +24,21 @@ const MessagesContainer = lazy(
 );
 
 class App extends Component<AppAPIProps> {
+  catchAllUnhandledErrors = (promiseRejectEvent: PromiseRejectionEvent) => {
+    debugger;
+    alert("Error occured");
+  };
+
   componentDidMount() {
     this.props.initializeApp();
+    window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener(
+      "unhandledrejection",
+      this.catchAllUnhandledErrors,
+    );
   }
 
   render() {
@@ -41,6 +55,7 @@ class App extends Component<AppAPIProps> {
         <FlexWrapper>
           <SidebarContainer />
           <Content>
+            <Route path={"/"} render={() => <Redirect to={"/profile"} />} />
             <Route
               path={"/profile/:userID?"}
               render={() => <ProfileContainer />}
@@ -54,6 +69,7 @@ class App extends Component<AppAPIProps> {
             <Route path={"/music"} render={withSuspense(Music)} />
             <Route path={"/settings"} render={withSuspense(Settings)} />
             <Route path={"/login"} render={withSuspense(LoginContainer)} />
+            {/*<Route path={"*"} render={() => <div>404</div>} />*/}
           </Content>
         </FlexWrapper>
       </>

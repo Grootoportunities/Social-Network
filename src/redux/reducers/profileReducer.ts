@@ -92,8 +92,10 @@ export const fetchProfilePageTC =
 export const updateProfileStatusTC =
   (status: string): AppThunksType =>
   async (dispatch) => {
-    const data = await profileAPI.updateStatus(status);
-    if (data.resultCode === 0) dispatch(setProfileStatusAC(status));
+    try {
+      const data = await profileAPI.updateStatus(status);
+      if (data.resultCode === 0) dispatch(setProfileStatusAC(status));
+    } catch (e) {}
   };
 
 export const updateProfilePhoto =
