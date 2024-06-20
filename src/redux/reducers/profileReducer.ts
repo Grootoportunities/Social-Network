@@ -1,6 +1,7 @@
 import { v1 } from "uuid";
 import { profileAPI } from "../../api/profileAPI";
 import { AppThunksType } from "../redux-store";
+import { stopSubmit } from "redux-form";
 
 const initialState: ProfilePageType = {
   posts: [
@@ -15,7 +16,7 @@ const initialState: ProfilePageType = {
       likes: 20,
     },
   ],
-  profile: {} as ProfileDomainType,
+  profile: {} as ProfileType,
 };
 
 export const profileReducer = (
@@ -33,19 +34,17 @@ export const profileReducer = (
       return { ...state, posts: [newPost, ...state.posts] };
     }
     case "profile/SET-USER-PROFILE":
-      return { ...state, profile: { ...action.profile, status: "" } };
+      return { ...state, profile: { ...action.profile, aboutMe: "" } };
     case "profile/SET-PROFILE-STATUS":
       return {
         ...state,
-        profile: { ...state.profile, status: action.status },
+        profile: { ...state.profile, aboutMe: action.status },
       };
     case "profile/DELETE-POST":
       return {
         ...state,
         posts: state.posts.filter((post) => post.id !== action.postID),
       };
-    case "profile/UPDATE_PROFILE_PHOTO":
-      return { ...state, profile: { ...state.profile, photos: action.photos } };
     case "profile/SET_PROFILE_PHOTO_ENTITY_STATUS":
       return {
         ...state,
@@ -73,11 +72,6 @@ export const deletePostAC = (postID: string) =>
     type: "profile/DELETE-POST",
     postID,
   }) as const;
-export const updateProfilePhotoAC = (photos: ProfilePhotosType) =>
-  ({
-    type: "profile/UPDATE_PROFILE_PHOTO",
-    photos,
-  }) as const;
 export const setProfilePhotoEntityStatus = (isLoading: boolean) =>
   ({
     type: "profile/SET_PROFILE_PHOTO_ENTITY_STATUS",
@@ -104,13 +98,32 @@ export const updateProfileStatusTC =
 
 export const updateProfilePhoto =
   (photo: File): AppThunksType =>
-  async (dispatch) => {
+  async (dispatch, getState) => {
+    const userID = getState().userAuth.id;
     dispatch(setProfilePhotoEntityStatus(true));
     try {
       const data = await profileAPI.updateProfilePhoto(photo);
-      if (data.resultCode === 0) dispatch(updateProfilePhotoAC(data.data));
+      if (data.resultCode === 0 && userID) dispatch(fetchProfilePageTC(userID));
     } finally {
       dispatch(setProfilePhotoEntityStatus(false));
+    }
+  };
+
+export const updateProfile =
+  (profile: ProfileType): AppThunksType =>
+  async (dispatch, getState) => {
+    const userID = getState().userAuth.id;
+    const data = await profileAPI.updateProfile(profile);
+    if (data.resultCode === 0 && userID) {
+      dispatch(fetchProfilePageTC(userID));
+
+      return Promise.resolve();
+    } else {
+      const message = data.messages.length ? data.messages[0] : "Some error";
+
+      dispatch(stopSubmit("editProfileData", { _error: message }));
+
+      return Promise.reject(message);
     }
   };
 
@@ -118,7 +131,7 @@ export const updateProfilePhoto =
 
 export type PostType = { id: string; postMessage: string; likes: number };
 
-type ProfileContactsType = {
+export type ProfileContactsType = {
   github: string;
   vk: string;
   facebook: string;
@@ -141,13 +154,12 @@ export type ProfileType = {
   fullName: string;
   contacts: ProfileContactsType;
   photos: ProfilePhotosType;
+  aboutMe: string;
 };
-
-export type ProfileDomainType = { status: string } & ProfileType;
 
 export type ProfilePageType = {
   posts: PostType[];
-  profile: ProfileDomainType;
+  profile: ProfileType;
 };
 
 export type ProfileActionsType =
@@ -155,5 +167,4 @@ export type ProfileActionsType =
   | ReturnType<typeof setUserProfilePageAC>
   | ReturnType<typeof setProfileStatusAC>
   | ReturnType<typeof deletePostAC>
-  | ReturnType<typeof updateProfilePhotoAC>
   | ReturnType<typeof setProfilePhotoEntityStatus>;

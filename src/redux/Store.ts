@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { ProfileDomainType, ProfilePageType } from "./reducers/profileReducer";
+import { ProfilePageType, ProfileType } from "./reducers/profileReducer";
 import {
   AddMessageAT,
   MessagesPageType,
@@ -40,7 +40,7 @@ export const store: StoreType = {
           likes: 20,
         },
       ],
-      profile: {} as ProfileDomainType,
+      profile: {} as ProfileType,
     },
     messagesPage: {
       dialogs: [

@@ -31,6 +31,9 @@ export const profileAPI = {
       })
       .then((res) => res.data);
   },
+
+  updateProfile: (profile: ProfileType) =>
+    instance.put<ResponseType>("", profile).then((res) => res.data),
 };
 
 type ResponseType<T = {}> = {

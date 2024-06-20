@@ -5,6 +5,8 @@ import { RootStateType } from "../../redux/redux-store";
 import {
   fetchProfilePageTC,
   ProfilePageType,
+  ProfileType,
+  updateProfile,
   updateProfilePhoto,
   updateProfileStatusTC,
 } from "../../redux/reducers/profileReducer";
@@ -46,6 +48,7 @@ class ProfileAPI extends Component<ProfileAPIProps> {
         profilePage={this.props.profilePage}
         isOwner={Boolean(this.props.match.params.userID)}
         updateProfilePhoto={this.props.updateProfilePhoto}
+        updateProfile={this.props.updateProfile}
       />
     );
   }
@@ -63,6 +66,7 @@ export const ProfileContainer = compose<ComponentType>(
     setUserProfilePage: fetchProfilePageTC,
     updateProfileStatus: updateProfileStatusTC,
     updateProfilePhoto,
+    updateProfile,
   }),
   withRouter,
 )(ProfileAPI);
@@ -81,6 +85,7 @@ type MapDispatchToPropsType = {
   setUserProfilePage: (userID: number) => void;
   updateProfileStatus: (status: string) => void;
   updateProfilePhoto: (photo: File) => void;
+  updateProfile: (profile: ProfileType) => Promise<any>;
 };
 
 type PathParamsType = {

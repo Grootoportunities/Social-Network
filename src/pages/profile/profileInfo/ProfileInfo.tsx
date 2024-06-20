@@ -1,17 +1,22 @@
 import { S } from "../Profile_Styles";
-import React, { ChangeEvent, FC } from "react";
-import { ProfileDomainType } from "../../../redux/reducers/profileReducer";
+import React, { FC, useState } from "react";
+import { ProfileType } from "../../../redux/reducers/profileReducer";
 import { FlexWrapper } from "../../../components/FlexWrapper/FlexWrapper";
-import defaultAva from "../../../assets/3906412.png";
-import { Status } from "./status/Status";
-import { Preloader } from "../../../components/Preloader/Preloader";
+import { ProfilePhoto } from "./profilePhoto/ProfilePhoto";
+import { Button } from "../../../components/Button/Button";
+import { ProfileData } from "./profileData/ProfileData";
+import {
+  EditProfileData,
+  ProfileFormData,
+} from "./profileDataEditMode/ProfileDataEditMode";
 
 type ProfileInfoProps = {
-  profile: ProfileDomainType;
+  profile: ProfileType;
   isOwner: boolean;
 
   updateProfileStatus: (status: string) => void;
   updateProfilePhoto: (photo: File) => void;
+  updateProfile: (profile: ProfileType) => Promise<any>;
 };
 
 export const ProfileInfo: FC<ProfileInfoProps> = ({
@@ -20,32 +25,55 @@ export const ProfileInfo: FC<ProfileInfoProps> = ({
 
   updateProfileStatus,
   updateProfilePhoto,
+  updateProfile,
 }) => {
-  const setUserPhotoHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.currentTarget.files?.length)
-      updateProfilePhoto(event.currentTarget.files[0]);
+  const {
+    userId,
+    photos,
+    fullName,
+    lookingForAJobDescription,
+    lookingForAJob,
+    contacts,
+    aboutMe,
+  } = profile;
+
+  const [editMode, setEditMode] = useState(false);
+
+  const onSubmitHandler = (formData: ProfileFormData) => {
+    updateProfile({ ...formData, userId, photos, aboutMe }).then(() => {
+      setEditMode(false);
+    });
   };
-  debugger;
-  return !profile.userId ? (
+
+  return !userId ? (
     <h2>Такого пользователя не существует</h2>
   ) : (
     <FlexWrapper justifyContent="center">
       <S.AvaDescription>
-        {profile.photos.entityStatus ? (
-          <Preloader />
+        <ProfilePhoto
+          photos={photos}
+          isOwner={isOwner}
+          updateProfilePhoto={updateProfilePhoto}
+        />
+        {editMode ? (
+          <EditProfileData
+            onSubmit={onSubmitHandler}
+            initialValues={profile}
+            contacts={profile.contacts}
+          />
         ) : (
-          <S.ProfilePhoto
-            alt={"Profile picture"}
-            src={profile.photos.large || defaultAva}
+          <ProfileData
+            fullName={fullName}
+            lookingForAJob={lookingForAJob}
+            lookingForAJobDescription={lookingForAJobDescription}
+            contacts={contacts}
+            updateProfileStatus={updateProfileStatus}
+            status={aboutMe}
           />
         )}
-        {!isOwner && <input type={"file"} onChange={setUserPhotoHandler} />}
-        <h2>{profile.fullName}</h2>
-        <span>{profile.lookingForAJobDescription}</span>
-        <Status
-          statusValue={profile.status}
-          updateProfileStatus={updateProfileStatus}
-        />
+        {!isOwner && !editMode && (
+          <Button onClick={() => setEditMode(true)}>Edit mode</Button>
+        )}
       </S.AvaDescription>
     </FlexWrapper>
   );

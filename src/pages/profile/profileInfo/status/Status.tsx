@@ -2,12 +2,12 @@ import { ChangeEvent, FC, useEffect, useState } from "react";
 
 type StatusPropsType = {
   statusValue: string;
-  updateProfileStatus: (status: string) => void;
+  updateProfileStatus?: (status: string) => void;
 };
 
 export const Status: FC<StatusPropsType> = ({
   statusValue,
-  updateProfileStatus,
+  updateProfileStatus = () => {},
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [value, setValue] = useState(statusValue);
@@ -27,7 +27,7 @@ export const Status: FC<StatusPropsType> = ({
   return (
     <>
       {!editMode && !!statusValue ? (
-        <span onDoubleClick={onActivateEditMode}>{statusValue}</span>
+        <h3 onDoubleClick={onActivateEditMode}>{statusValue}</h3>
       ) : (
         <input
           value={value}

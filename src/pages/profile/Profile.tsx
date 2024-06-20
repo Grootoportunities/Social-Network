@@ -2,7 +2,10 @@ import React, { FC } from "react";
 import { Container } from "../../components/Container/Container";
 import { ProfileInfo } from "./profileInfo/ProfileInfo";
 import { MyPostsContainer } from "./myPosts/MyPostsContainer";
-import { ProfilePageType } from "../../redux/reducers/profileReducer";
+import {
+  ProfilePageType,
+  ProfileType,
+} from "../../redux/reducers/profileReducer";
 
 type ProfileProps = {
   profilePage: ProfilePageType;
@@ -10,6 +13,7 @@ type ProfileProps = {
 
   updateProfileStatus: (status: string) => void;
   updateProfilePhoto: (photo: File) => void;
+  updateProfile: (profile: ProfileType) => Promise<any>;
 };
 
 export const Profile: FC<ProfileProps> = ({
@@ -18,6 +22,7 @@ export const Profile: FC<ProfileProps> = ({
 
   updateProfileStatus,
   updateProfilePhoto,
+  updateProfile,
 }) => {
   return (
     <section>
@@ -27,6 +32,7 @@ export const Profile: FC<ProfileProps> = ({
           updateProfileStatus={updateProfileStatus}
           isOwner={isOwner}
           updateProfilePhoto={updateProfilePhoto}
+          updateProfile={updateProfile}
         />
         <MyPostsContainer />
       </Container>

@@ -1,9 +1,10 @@
 import {
   addPostAC,
   deletePostAC,
-  ProfileDomainType,
+  // ProfileDomainType,
   ProfilePageType,
   profileReducer,
+  ProfileType,
   setProfileStatusAC,
   setUserProfilePageAC,
 } from "../profileReducer";
@@ -25,7 +26,8 @@ beforeEach(() => {
         likes: 20,
       },
     ],
-    profile: {} as ProfileDomainType,
+    profile: {} as ProfileType,
+    // profile: {} as ProfileDomainType,
   };
 });
 
@@ -58,6 +60,7 @@ it("User profile should be setted", () => {
       lookingForAJob: true,
       lookingForAJobDescription: "I'm looking for a job",
       fullName: "Daniil",
+      aboutMe: "Status",
       contacts: {
         github: "",
         vk: "",
@@ -83,5 +86,6 @@ it("User profile should be setted", () => {
 it("Profile status should be setted", () => {
   const endState = profileReducer(startState, setProfileStatusAC("New status"));
 
-  expect(endState.profile.status).toBe("New status");
+  expect(endState.profile.aboutMe).toBe("New status");
+  // expect(endState.profile.status).toBe("New status");
 });

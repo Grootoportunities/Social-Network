@@ -49,6 +49,6 @@ export const LoginForm = styled.form`
   gap: 20px;
 `;
 
-const FormError = styled.span`
+export const FormError = styled.span`
   color: red;
 `;
