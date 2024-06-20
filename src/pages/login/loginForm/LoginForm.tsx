@@ -9,11 +9,17 @@ export type LoginFormData = {
   email: string;
   password: string;
   rememberMe: boolean;
+  captcha: string;
 };
 
-const StyledLoginForm: FC<InjectedFormProps<LoginFormData>> = ({
+type Props = {
+  captcha: string | undefined;
+};
+
+const StyledLoginForm: FC<Props & InjectedFormProps<LoginFormData, Props>> = ({
   handleSubmit,
   error,
+  captcha,
 }) => (
   <LoginForm onSubmit={handleSubmit}>
     <Field
@@ -34,14 +40,23 @@ const StyledLoginForm: FC<InjectedFormProps<LoginFormData>> = ({
       <span>Remember me</span>
       <Field type={"checkbox"} component={"input"} name={"rememberMe"} />
     </div>
+    {captcha && <img alt={"Captcha"} src={captcha} />}
+    {captcha && (
+      <Field
+        placeholder={"Captcha"}
+        name={"captcha"}
+        component={LoginInput}
+        validate={[required]}
+      />
+    )}
     <Button type={"submit"}>Login</Button>
     <FormError>{error}</FormError>
   </LoginForm>
 );
 
-export const ReduxLoginForm = reduxForm<LoginFormData>({ form: "login" })(
-  StyledLoginForm,
-);
+export const ReduxLoginForm = reduxForm<LoginFormData, Props>({
+  form: "login",
+})(StyledLoginForm);
 
 export const LoginForm = styled.form`
   display: flex;

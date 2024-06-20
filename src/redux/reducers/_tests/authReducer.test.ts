@@ -15,6 +15,7 @@ beforeEach(() => {
     login: null,
     isAuth: false,
     authUserProfilePicture: "",
+    captcha: undefined,
   };
 });
 

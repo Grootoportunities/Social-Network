@@ -7,21 +7,24 @@ import { connect } from "react-redux";
 import { loginTC } from "../../redux/reducers/authReducer";
 import { RootStateType } from "../../redux/redux-store";
 import { Redirect } from "react-router-dom";
+import { LoginData } from "../../api/authAPI";
 
 type Props = {
   isAuth: boolean;
+  captcha: string | undefined;
 
-  login: (data: LoginFormData) => void;
+  login: (data: LoginData) => void;
 };
 
-const Login: FC<Props> = ({ isAuth, login }) => {
+const Login: FC<Props> = ({ isAuth, login, captcha }) => {
   const onSubmit = (formData: LoginFormData) => {
-    const { email, password, rememberMe } = formData;
+    const { email, password, rememberMe, captcha } = formData;
 
     login({
       email,
       password,
       rememberMe,
+      captcha,
     });
   };
 
@@ -32,7 +35,7 @@ const Login: FC<Props> = ({ isAuth, login }) => {
       <Container>
         <FlexWrapper justifyContent="center" direction="column" gap={"30px"}>
           <LoginHeader>LOGIN</LoginHeader>
-          <ReduxLoginForm onSubmit={onSubmit} />
+          <ReduxLoginForm onSubmit={onSubmit} captcha={captcha} />
         </FlexWrapper>
       </Container>
     </section>
@@ -41,6 +44,7 @@ const Login: FC<Props> = ({ isAuth, login }) => {
 
 const mapStateToProps = (state: RootStateType): MapStateToProps => ({
   isAuth: state.userAuth.isAuth,
+  captcha: state.userAuth.captcha,
 });
 
 export default connect(mapStateToProps, {
@@ -49,6 +53,7 @@ export default connect(mapStateToProps, {
 
 type MapStateToProps = {
   isAuth: boolean;
+  captcha: string | undefined;
 };
 
 const LoginHeader = styled.h2`

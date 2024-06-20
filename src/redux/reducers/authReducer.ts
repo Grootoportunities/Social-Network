@@ -3,6 +3,7 @@ import { profileAPI } from "../../api/profileAPI";
 import { AppThunksType } from "../redux-store";
 import { stopSubmit } from "redux-form";
 import { Dispatch } from "redux";
+import { securityAPI } from "../../api/securityAPI";
 
 const initialState: AuthDomainType = {
   id: null,
@@ -10,6 +11,7 @@ const initialState: AuthDomainType = {
   login: null,
   isAuth: false,
   authUserProfilePicture: "",
+  captcha: undefined,
 };
 
 export const authReducer = (
@@ -17,6 +19,8 @@ export const authReducer = (
   action: AuthActionsType,
 ): AuthDomainType => {
   switch (action.type) {
+    case "auth/SET-CAPTCHA":
+      return { ...state, captcha: action.captcha };
     case "auth/SET-USER-AUTH-DATA":
       return { ...state, ...action.data };
     case "auth/SET-USER-PROFILE-PICTURE":
@@ -42,6 +46,12 @@ export const setAuthUserProfilePictureAC = (picture: string) =>
 
 export const logoutAuthAC = () => ({ type: "auth/LOGOUT-USER-AUTH" }) as const;
 
+export const setCaptcha = (captcha: string | undefined) =>
+  ({
+    type: "auth/SET-CAPTCHA",
+    captcha,
+  }) as const;
+
 //THUNKS
 
 export const authUserTC = () => async (dispatch: Dispatch) => {
@@ -61,11 +71,13 @@ export const loginTC =
     const res = await authAPI.login(data);
     if (res.resultCode === 0) {
       dispatch(authUserTC());
+      dispatch(setCaptcha(undefined));
       return;
     }
 
-    const message = res.messages.length ? res.messages[0] : "Some error";
+    if (res.resultCode === 10) dispatch(getCaptcha());
 
+    const message = res.messages.length ? res.messages[0] : "Some error";
     dispatch(stopSubmit("login", { _error: message }));
   };
 
@@ -84,6 +96,11 @@ export const logoutTC = (): AppThunksType => async (dispatch) => {
   }
 };
 
+export const getCaptcha = (): AppThunksType => async (dispatch) => {
+  const data = await securityAPI.getCaptcha();
+  dispatch(setCaptcha(data.url));
+};
+
 //TYPES
 
 export type AuthType = {
@@ -96,9 +113,11 @@ export type AuthType = {
 export type AuthDomainType = AuthType & {
   isAuth: boolean;
   authUserProfilePicture: string;
+  captcha: string | undefined;
 };
 
 export type AuthActionsType =
   | ReturnType<typeof setAuthUserDataAC>
   | ReturnType<typeof setAuthUserProfilePictureAC>
-  | ReturnType<typeof logoutAuthAC>;
+  | ReturnType<typeof logoutAuthAC>
+  | ReturnType<typeof setCaptcha>;
